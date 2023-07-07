@@ -18,6 +18,11 @@
         </ignoreFiles>
     </projectFiles>
     <issueHandlers>
+        <UnusedClass errorLevel="error">
+            <errorLevel type="suppress">
+                <directory name="tests" />
+            </errorLevel>
+        </UnusedClass>
         <PropertyNotSetInConstructor errorLevel="error">
             <errorLevel type="suppress">
                 <directory name="tests" />

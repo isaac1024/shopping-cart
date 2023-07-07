@@ -2,6 +2,8 @@
 
 namespace ShoppingCart\Product\Infrastructure\Controller;
 
+use ShoppingCart\Product\Application\ProductsFinderQuery;
+use ShoppingCart\Product\Application\ProductsFinderQueryResponse;
 use ShoppingCart\Shared\Infrastructure\ApiController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;

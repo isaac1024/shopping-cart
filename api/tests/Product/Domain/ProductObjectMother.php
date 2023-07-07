@@ -1,0 +1,30 @@
+<?php
+
+namespace ShoppingCart\Tests\Product\Domain;
+
+use Faker\Factory;
+use ShoppingCart\Product\Domain\Product;
+
+class ProductObjectMother
+{
+    /**
+     * @psalm-suppress PossiblyInvalidArgument
+     * @psalm-suppress PossiblyInvalidCast
+     */
+    public static function make(
+        ?string $id = null,
+        ?string $title = null,
+        ?string $description = null,
+        ?string $photo = null,
+        ?int $price = null
+    ): Product {
+        $faker = Factory::create();
+        return new Product(
+            $id ?? $faker->uuid(),
+            $title ?? $faker->words(5, true),
+            $description ?? $faker->paragraph(),
+            $photo ?? $faker->url(),
+            $price ?? $faker->numberBetween(100, 1000),
+        );
+    }
+}

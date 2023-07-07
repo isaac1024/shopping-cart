@@ -16,6 +16,10 @@ services:
             tags:
                 - { name: messenger.message_handler, bus: command.bus, from_transport: sync, method: dispatch }
 
+        ShoppingCart\Shared\Domain\Bus\QueryHandler:
+            tags:
+                - { name: messenger.message_handler, bus: query.bus, from_transport: sync, method: ask }
+
         ShoppingCart\Shared\Infrastructure\ApiController:
             tags: [ 'controller.service_arguments' ]
 
