@@ -4,6 +4,7 @@ namespace ShoppingCart\Tests\Product\Domain;
 
 use Faker\Factory;
 use ShoppingCart\Product\Domain\Product;
+use ShoppingCart\Shared\Domain\Models\UuidUtils;
 
 class ProductObjectMother
 {
@@ -20,7 +21,7 @@ class ProductObjectMother
     ): Product {
         $faker = Factory::create();
         return new Product(
-            $id ?? $faker->uuid(),
+            $id ?? UuidUtils::random(),
             $title ?? $faker->words(5, true),
             $description ?? $faker->paragraph(),
             $photo ?? $faker->url(),

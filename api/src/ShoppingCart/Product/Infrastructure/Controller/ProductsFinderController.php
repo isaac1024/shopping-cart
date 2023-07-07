@@ -12,7 +12,9 @@ final readonly class ProductsFinderController extends ApiController
 {
     public function __invoke(): JsonResponse
     {
-        return  new JsonResponse([], Response::HTTP_OK);
+        /** @var ProductsFinderQueryResponse $productsResponse */
+        $productsResponse = $this->queryBus->ask(new ProductsFinderQuery());
+        return  new JsonResponse($productsResponse->products, Response::HTTP_OK);
     }
 
     protected function mapExceptions(): array

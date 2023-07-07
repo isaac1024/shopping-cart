@@ -6,12 +6,13 @@ use Countable;
 use IteratorAggregate;
 use ShoppingCart\Product\Domain\Product;
 use ShoppingCart\Product\Domain\ProductCollection;
+use ShoppingCart\Shared\Domain\Bus\QueryResponse;
 use Traversable;
 
 /**
  * @template-implements IteratorAggregate<int, ProductResponse>
  */
-final readonly class ProductsFinderQueryResponse implements Countable, IteratorAggregate
+final readonly class ProductsFinderQueryResponse implements Countable, IteratorAggregate, QueryResponse
 {
     public array $products;
 

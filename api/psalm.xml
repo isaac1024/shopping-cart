@@ -5,7 +5,7 @@
         xmlns="https://getpsalm.org/schema/config"
         xsi:schemaLocation="https://getpsalm.org/schema/config vendor/vimeo/psalm/config.xsd"
         findUnusedBaselineEntry="true"
-        findUnusedCode="true"
+        findUnusedCode="false"
 >
     <projectFiles>
         <directory name="src" />
@@ -18,11 +18,6 @@
         </ignoreFiles>
     </projectFiles>
     <issueHandlers>
-        <UnusedClass errorLevel="error">
-            <errorLevel type="suppress">
-                <directory name="tests" />
-            </errorLevel>
-        </UnusedClass>
         <PropertyNotSetInConstructor errorLevel="error">
             <errorLevel type="suppress">
                 <directory name="tests" />

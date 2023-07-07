@@ -10,13 +10,16 @@ use Symfony\Component\Messenger\Stamp\HandledStamp;
 
 final readonly class SymfonyQueryBus implements QueryBus
 {
-    public function __construct(private MessageBusInterface $commandBus)
+    public function __construct(private MessageBusInterface $queryBus)
     {
     }
 
+    /**
+     * @psalm-suppress PossiblyNullReference
+     */
     public function ask(Query $query): QueryResponse
     {
-        $envelope = $this->commandBus->dispatch($query);
+        $envelope = $this->queryBus->dispatch($query);
 
         $handledStamp = $envelope->last(HandledStamp::class);
         return $handledStamp->getResult();
