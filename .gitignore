@@ -1,0 +1,8 @@
+/.idea/
+/.env
+
+/api/.env
+/api/supervisord.log
+/api/supervisord.pid
+/api/var/
+/api/vendor/

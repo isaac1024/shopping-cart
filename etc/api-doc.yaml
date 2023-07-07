@@ -1,0 +1,250 @@
+openapi: 3.0.3
+info:
+  title: Shopping cart
+  description: Shopping cart technical test
+  version: 1.0.0
+  license:
+    name: GPLv3
+    url: https://www.gnu.org/licenses/gpl-3.0.html
+servers:
+  - url: 'http://localhost:8000'
+paths:
+  /products:
+    get:
+      summary: Get all store products
+      operationId: ProductsFinder
+      tags:
+        - product
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ProductResponse'
+  /cart:
+    post:
+      summary: Create a cart
+      operationId: cartCreator
+      tags:
+        - cart
+      responses:
+        201:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IdResponse'
+  /cart/{cartId}:
+    get:
+      summary: Get a cart
+      operationId: cartFinder
+      tags:
+        - cart
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CartResponse'
+        404:
+          description: cart not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /cart/{cartId}/product_quantity:
+    post:
+      summary: Set a product to the cart
+      operationId: cartProductSetter
+      tags:
+        - cart
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CartItemRequest'
+      responses:
+        204:
+          description: successful operation
+        400:
+          description: invalid request content
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        404:
+          description: cart not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /cart/{cartId}/product_delete:
+    post:
+      summary: Deleta a product to the cart
+      operationId: cartProductRemover
+      tags:
+        - cart
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CartProductIdRequest'
+      responses:
+        204:
+          description: successful operation
+        400:
+          description: invalid request content
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        404:
+          description: cart not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /cart/{cartId}/pay:
+    post:
+      summary: Pay a cart
+      operationId: cartPay
+      tags:
+        - cart
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CartPayRequest'
+      responses:
+        204:
+          description: successful operation
+        400:
+          description: invalid request content
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        404:
+          description: Cart not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+components:
+  schemas:
+    IdResponse:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          example: aa2a0972-8345-44a7-9a2a-9956ec8cf378
+    ProductResponse:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          example: fe7df7d0-084c-4358-8c13-1f2393b1fab2
+        title:
+          type: string
+          example: Summer socks
+        description:
+          type: string
+          example: Wonderful socks for summer
+        photo:
+          type: string
+          format: url
+        price:
+          type: integer
+    CartResponse:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          example: 81d82b61-cb5c-4e2d-8f6a-2acca3c40d63
+        numberItems:
+          type: integer
+          example: 2
+        totalAmount:
+          type: integer
+          example: 1400
+        productItems:
+          type: array
+          items:
+            $ref: '#/components/schemas/CartItemResponse'
+    CartItemResponse:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          example: db7b6fd5-4994-4852-be3f-3c8ff78c7292
+        title:
+          type: string
+          example: Hawaiian shirt
+        unitPrice:
+          type: integer
+          example: 700
+        quantity:
+          type: integer
+          example: 2
+        totalPrice:
+          type: integer
+          example: 1400
+    ErrorResponse:
+      type: object
+      properties:
+        code:
+          type: string
+          example: negative_cart_item_quantity
+        message:
+          type: string
+          example: Product quantity can't be negative
+    CartItemRequest:
+      type: object
+      properties:
+        productId:
+          type: string
+          format: uuid
+          example: f2b846a9-893c-469e-82f4-c66f35a5915f
+        quantity:
+          type: integer
+          minimum: 1
+          example: 1
+    CartProductIdRequest:
+      type: object
+      properties:
+        productId:
+          type: string
+          format: uuid
+          example: 49026749-320d-44d5-bb0f-fab562f94e44
+    CartPayRequest:
+      type: object
+      properties:
+        name:
+          type: string
+          description: User name
+          example: Isaac Abreu
+        address:
+          type: string
+          description: Delivery address
+          example: c/ Falsa 123
+        card:
+          type: object
+          properties:
+            number:
+              type: string
+              description: Card number
+              example: 4024007177312757
+            validDate:
+              type: string
+              example: 01/32
+            cvv:
+              type: string
+              example: 123

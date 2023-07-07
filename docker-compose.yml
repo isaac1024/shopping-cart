@@ -1,0 +1,22 @@
+version: '3'
+services:
+  db:
+    image: mariadb:10
+    restart: always
+    environment:
+      MARIADB_ROOT_PASSWORD: ${DB_PASSWORD}
+      MARIADB_DATABASE: ${DB_NAME}
+      MARIADB_USER: ${DB_USER}
+      MARIADB_PASSWORD: ${DB_PASSWORD}
+    ports:
+      - ${DB_PORT}:3306
+  api:
+    build:
+      context: .
+      dockerfile: etc/Dockerfile
+    ports:
+      - ${PORT}:8000
+    volumes:
+      - ./api:/app
+    depends_on:
+      - db
