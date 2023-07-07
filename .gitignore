@@ -9,3 +9,4 @@
 /api/.php-cs-fixer.cache
 /api/var/
 /api/vendor/
+/api/tests/.phpunit.cache/

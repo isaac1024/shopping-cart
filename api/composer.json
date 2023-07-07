@@ -83,7 +83,8 @@
             "@phpcs",
             "@phpmd",
             "@psalm"
-        ]
+        ],
+        "test": "vendor/bin/phpunit"
     },
     "conflict": {
         "symfony/symfony": "*"

@@ -1,0 +1,4 @@
+product_finder:
+  path: /products
+  controller: ShoppingCart\Product\Infrastructure\Controller\ProductsFinderController
+  methods: GET
