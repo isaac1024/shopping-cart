@@ -1,20 +1,39 @@
 {
     "type": "project",
-    "license": "proprietary",
+    "license": "GPL-3.0-or-later",
     "minimum-stability": "stable",
     "prefer-stable": true,
     "require": {
-        "php": ">=8.1",
+        "php": ">=8.2",
         "ext-ctype": "*",
         "ext-iconv": "*",
+        "doctrine/doctrine-bundle": "^2.10",
+        "doctrine/doctrine-migrations-bundle": "^3.2",
+        "doctrine/orm": "^2.15",
+        "phpdocumentor/reflection-docblock": "^5.3",
+        "phpstan/phpdoc-parser": "^1.22",
         "symfony/console": "6.3.*",
         "symfony/dotenv": "6.3.*",
         "symfony/flex": "^2",
         "symfony/framework-bundle": "6.3.*",
+        "symfony/messenger": "6.3.*",
+        "symfony/property-access": "6.3.*",
+        "symfony/property-info": "6.3.*",
         "symfony/runtime": "6.3.*",
+        "symfony/serializer": "6.3.*",
+        "symfony/uid": "6.3.*",
+        "symfony/validator": "6.3.*",
         "symfony/yaml": "6.3.*"
     },
     "require-dev": {
+        "dama/doctrine-test-bundle": "^7.2",
+        "fakerphp/faker": "^1.23",
+        "friendsofphp/php-cs-fixer": "^3.21",
+        "phpmd/phpmd": "^2.13",
+        "phpunit/phpunit": "^10.2",
+        "squizlabs/php_codesniffer": "^3.7",
+        "symfony/browser-kit": "6.3.*",
+        "vimeo/psalm": "^5.13"
     },
     "config": {
         "allow-plugins": {
@@ -26,12 +45,13 @@
     },
     "autoload": {
         "psr-4": {
-            "App\\": "src/"
+            "ShoppingCart\\": "src/ShoppingCart/",
+            "App\\": "src/Symfony/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "App\\Tests\\": "tests/"
+            "ShoppingCart\\Tests\\": "tests/"
         }
     },
     "replace": {
@@ -53,6 +73,16 @@
         ],
         "post-update-cmd": [
             "@auto-scripts"
+        ],
+        "php-cs-fixer": "vendor/bin/php-cs-fixer fix --allow-risky=yes --using-cache=no",
+        "phpcs": "vendor/bin/phpcs",
+        "phpmd": "vendor/bin/phpmd ./src ansi rulesets.xml",
+        "psalm": "vendor/bin/psalm --no-cache",
+        "lint": [
+            "@php-cs-fixer",
+            "@phpcs",
+            "@phpmd",
+            "@psalm"
         ]
     },
     "conflict": {

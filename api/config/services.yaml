@@ -11,14 +11,31 @@ services:
         autowire: true      # Automatically injects dependencies in your services.
         autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
 
+    _instanceof:
+        ShoppingCart\Shared\Domain\Bus\CommandHandler:
+            tags:
+                - { name: messenger.message_handler, bus: command.bus, from_transport: sync, method: dispatch }
+
+        ShoppingCart\Shared\Infrastructure\ApiController:
+            tags: [ 'controller.service_arguments' ]
+
     # makes classes in src/ available to be used as services
     # this creates a service per class whose id is the fully-qualified class name
     App\:
-        resource: '../src/'
+        resource: '../src/Symfony'
         exclude:
-            - '../src/DependencyInjection/'
-            - '../src/Entity/'
-            - '../src/Kernel.php'
+            - '../src/Symfony/Kernel.php'
+
+    ShoppingCart\:
+        resource: '../src/ShoppingCart'
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
+
+    App\Service\RequestValueResolver:
+        tags:
+            - { name: controller.argument_value_resolver, priority: 50 }
+
+    App\Service\ApiExceptionListener:
+        tags:
+            - { name: kernel.event_listener, event: kernel.exception }

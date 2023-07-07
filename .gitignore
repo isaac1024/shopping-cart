@@ -2,7 +2,10 @@
 /.env
 
 /api/.env
+/api/.env.test
 /api/supervisord.log
 /api/supervisord.pid
+/api/.phpcs-cache
+/api/.php-cs-fixer.cache
 /api/var/
 /api/vendor/
