@@ -9,3 +9,10 @@ cart_finder:
   methods: GET
   requirements:
     cartId: !php/const Symfony\Component\Routing\Requirement\Requirement::UUID_V4
+
+cart_product_quantity:
+  path: /carts/{cartId}/product_quantity
+  controller: ShoppingCart\Cart\Infrastructure\Controller\CartProductSetterController
+  methods: POST
+  requirements:
+    cartId: !php/const Symfony\Component\Routing\Requirement\Requirement::UUID_V4
