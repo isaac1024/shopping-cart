@@ -23,19 +23,6 @@ abstract class AcceptanceTestCase extends WebTestCase
         $this->client->jsonRequest($method, $uri, $parameters);
     }
 
-    protected function asserStatusCode(int $statusCode): void
-    {
-        $response = $this->client->getResponse();
-        self::assertSame($statusCode, $response->getStatusCode());
-    }
-
-    protected function asserResponseContent($expected): void
-    {
-        $response = $this->client->getResponse();
-        $content = $response->getContent() ? json_decode($response->getContent(), true) : $response->getContent();
-        self::assertEqualsCanonicalizing($expected, $content);
-    }
-
     protected function getRepository(string $repositoryName)
     {
         return $this->client->getContainer()->get($repositoryName);
