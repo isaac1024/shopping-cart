@@ -22,3 +22,6 @@ lint: ## Run linters
 
 test: ## Run tests
 	@docker-compose exec api composer test
+
+mutant: ## Run mutant testing
+	@docker-compose exec api infection

@@ -10,7 +10,7 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
 
 RUN curl -sS https://get.symfony.com/cli/installer | bash && mv /root/.symfony5/bin/symfony /usr/local/bin/symfony
 
-RUN wget https://github.com/infection/infection/releases/download/0.26.19/infection.phar && \
+RUN wget https://github.com/infection/infection/releases/download/0.27.0/infection.phar && \
     chmod +x infection.phar && \
     mv infection.phar /usr/local/bin/infection
 

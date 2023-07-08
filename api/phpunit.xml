@@ -6,6 +6,7 @@
          colors="true"
          bootstrap="tests/bootstrap.php"
          cacheDirectory="tests/.phpunit.cache"
+         executionOrder="random"
 >
   <php>
     <server name="APP_ENV" value="test" force="true"/>
@@ -19,9 +20,4 @@
   <extensions>
     <bootstrap class="DAMA\DoctrineTestBundle\PHPUnit\PHPUnitExtension"/>
   </extensions>
-  <source>
-    <include>
-      <directory suffix=".php">src</directory>
-    </include>
-  </source>
 </phpunit>
