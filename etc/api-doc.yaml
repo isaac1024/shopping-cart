@@ -24,7 +24,7 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/ProductResponse'
-  /cart:
+  /carts:
     post:
       summary: Create a cart
       operationId: cartCreator
@@ -37,7 +37,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/IdResponse'
-  /cart/{cartId}:
+  /carts/{cartId}:
     get:
       summary: Get a cart
       operationId: cartFinder
@@ -56,7 +56,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-  /cart/{cartId}/product_quantity:
+  /carts/{cartId}/product_quantity:
     post:
       summary: Set a product to the cart
       operationId: cartProductSetter
@@ -82,7 +82,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-  /cart/{cartId}/product_delete:
+  /carts/{cartId}/product_delete:
     post:
       summary: Deleta a product to the cart
       operationId: cartProductRemover
@@ -108,7 +108,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-  /cart/{cartId}/pay:
+  /carts/{cartId}/pay:
     post:
       summary: Pay a cart
       operationId: cartPay
