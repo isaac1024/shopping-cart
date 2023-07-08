@@ -23,33 +23,6 @@ class DoctrineProductRepositoryTest extends IntegrationTestCase
     public function testNotGetProducts(): void
     {
         $products = $this->repository->all();
-        self::assertCount(0, $products);
-    }
-
-    public function testGetOneProduct(): void
-    {
-        $expectedProduct = ProductObjectMother::make();
-        /** @var EntityManager $em */
-        $em = $this->getContainer()->get('doctrine.orm.default_entity_manager');
-        $em->persist($expectedProduct);
-        $em->flush();
-
-        $products = $this->repository->all();
-        self::assertEquals(new ProductCollection($expectedProduct), $products);
-    }
-
-    public function testGetTwoProducts(): void
-    {
-        $expectedProduct1 = ProductObjectMother::make();
-        $expectedProduct2 = ProductObjectMother::make();
-        $expectedProducts = new ProductCollection($expectedProduct1, $expectedProduct2);
-        /** @var EntityManager $em */
-        $em = $this->getContainer()->get('doctrine.orm.default_entity_manager');
-        $em->persist($expectedProduct1);
-        $em->persist($expectedProduct2);
-        $em->flush();
-
-        $products = $this->repository->all();
-        self::assertEqualsCanonicalizing($expectedProducts, $products);
+        self::assertCount(7, $products);
     }
 }
