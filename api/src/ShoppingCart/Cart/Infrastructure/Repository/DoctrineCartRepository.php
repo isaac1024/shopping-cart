@@ -21,7 +21,6 @@ final readonly class DoctrineCartRepository implements CartRepository
 
     public function find(CartId $cartId): ?Cart
     {
-        // TODO
-        return null;
+        return $this->entityManager->getRepository(Cart::class)->find($cartId->value);
     }
 }
