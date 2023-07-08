@@ -1,3 +1,6 @@
 ### Get all products
-GET http://localhost:8000/products
+GET {{url}}/products
 Accept: application/json
+
+### Create a cart
+POST {{url}}/carts
