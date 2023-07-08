@@ -30,3 +30,18 @@ Content-Type: application/json
   "productId": "824ee66a-42c2-48d2-99af-0be1653c51ef",
   "quantity": {{$random.integer(1, 10)}}
 }
+
+### Remove product
+# 824ee66a-42c2-48d2-99af-0be1653c51ef: The software craftsman
+# 307028d4-8a2f-4441-a3ac-0c904c12bf86: Domain-Driven Design
+# b473ca32-d86a-4ec6-83cb-1747a372a300: Implementing Domain-Driven Design
+# 46295305-bd8d-42ce-a807-83a35c0ca44f: Domain-Driven Design in PHP
+# d2d7d6d8-b056-492f-b703-99884085c862: Clean Architecture
+# dea6cb68-bc48-4b58-8ddf-ac8d9b7f2c31: Clean Code
+# 0dc19bc6-2520-430b-9ed6-b1dc6bcfe01e: Clean Agile
+POST {{url}}/carts/{{cart_uuid}}/product_delete
+Content-Type: application/json
+
+{
+  "productId": "824ee66a-42c2-48d2-99af-0be1653c51ef"
+}
