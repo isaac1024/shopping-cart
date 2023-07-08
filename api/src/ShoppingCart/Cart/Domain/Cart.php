@@ -52,6 +52,15 @@ final class Cart
         $this->totalAmount = new TotalAmount($this->productItems->totalAmount());
     }
 
+    public function removeProduct(string $productId): Cart
+    {
+        $this->productItems = $this->productItems->remove($productId);
+        $this->updateNumberItems();
+        $this->updateTotalAmount();
+
+        return $this;
+    }
+
     public function getCartId(): string
     {
         return $this->cartId->value;

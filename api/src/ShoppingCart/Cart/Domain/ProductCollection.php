@@ -81,4 +81,11 @@ final readonly class ProductCollection implements Countable, IteratorAggregate
     {
         return array_reduce($this->products, fn (int $amount, Product $product) => $amount + $product->totalPrice, 0);
     }
+
+    public function remove(string $productId): ProductCollection
+    {
+        return new ProductCollection(
+            ...array_filter($this->products, fn (Product $product) => $product->productId !== $productId)
+        );
+    }
 }
