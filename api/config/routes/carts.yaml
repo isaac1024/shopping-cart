@@ -1,0 +1,4 @@
+cart_creator:
+  path: /carts
+  controller: ShoppingCart\Cart\Infrastructure\Controller\CartCreatorController
+  methods: POST
