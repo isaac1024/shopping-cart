@@ -6,23 +6,20 @@ use ShoppingCart\Cart\Application\CartCreatorCommand;
 use ShoppingCart\Cart\Application\CartFinderQuery;
 use ShoppingCart\Cart\Domain\Cart;
 use ShoppingCart\Cart\Domain\CartId;
-use ShoppingCart\Cart\Domain\NumberItems;
 use ShoppingCart\Cart\Domain\ProductCollection;
-use ShoppingCart\Cart\Domain\TotalAmount;
 
 final class CartObjectMother
 {
     public static function make(
         ?CartId $cartId = null,
-        ?NumberItems $numberItems = null,
-        ?TotalAmount $totalAmount = null,
         ?ProductCollection $productCollection = null
     ): Cart {
+        $productCollection = $productCollection ?? ProductCollection::init();
         return new Cart(
             $cartId ?? CartIdObjectMother::make(),
-            $numberItems ?? NumberItems::init(),
-            $totalAmount ?? TotalAmount::init(),
-            $productCollection ?? ProductCollection::init(),
+            NumberItemsObjectMother::make($productCollection->totalQuantity()),
+            TotalAmountObjectMother::make($productCollection->totalAmount()),
+            $productCollection,
         );
     }
 

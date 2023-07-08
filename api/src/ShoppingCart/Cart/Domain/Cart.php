@@ -27,6 +27,31 @@ final class Cart
         $cartRepository->save($this);
     }
 
+    public function updateProduct(string $productId, int $quantity, CartRepository $cartRepository): Cart
+    {
+        $product = $this->productItems->get($productId) ?? $cartRepository->findProduct($productId);
+        if (!$product) {
+            throw CartException::productNotExist($productId);
+        }
+
+        $product = $product->updateQuantity($quantity);
+        $this->productItems = $this->productItems->add($product);
+        $this->updateNumberItems();
+        $this->updateTotalAmount();
+
+        return $this;
+    }
+
+    private function updateNumberItems(): void
+    {
+        $this->numberItems = new NumberItems($this->productItems->totalQuantity());
+    }
+
+    private function updateTotalAmount(): void
+    {
+        $this->totalAmount = new TotalAmount($this->productItems->totalAmount());
+    }
+
     public function getCartId(): string
     {
         return $this->cartId->value;

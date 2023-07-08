@@ -6,6 +6,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use ShoppingCart\Cart\Domain\Cart;
 use ShoppingCart\Cart\Domain\CartId;
 use ShoppingCart\Cart\Domain\CartRepository;
+use ShoppingCart\Cart\Domain\Product;
 
 final readonly class DoctrineCartRepository implements CartRepository
 {
@@ -22,5 +23,11 @@ final readonly class DoctrineCartRepository implements CartRepository
     public function find(CartId $cartId): ?Cart
     {
         return $this->entityManager->getRepository(Cart::class)->find($cartId->value);
+    }
+
+    public function findProduct(string $productId): ?Product
+    {
+        // TODO: Implement findProduct() method.
+        return null;
     }
 }
