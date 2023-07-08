@@ -8,8 +8,8 @@ final readonly class CartFinderResponse implements QueryResponse
 {
     public function __construct(
         public string $id,
-        public string $numberItems,
-        public string $totalAmount,
+        public int $numberItems,
+        public int $totalAmount,
         public array $productItems,
     ) {
     }

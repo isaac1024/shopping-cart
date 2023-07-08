@@ -9,7 +9,7 @@ use ShoppingCart\Tests\Shared\Infrastructure\PhpUnit\AcceptanceTestCase;
 
 class CartFinderControllerTest extends AcceptanceTestCase
 {
-    public function testGetACart()
+    public function testGetACart(): void
     {
         $cart = CartObjectMother::make();
         $this->getRepository(CartRepository::class)->save($cart);
@@ -17,7 +17,7 @@ class CartFinderControllerTest extends AcceptanceTestCase
         $this->json('GET', sprintf("/carts/%s", $cart->getCartId()));
         self::assertResponseStatusCodeSame(200);
     }
-    public function testNotFoundACart()
+    public function testNotFoundACart(): void
     {
         $this->json('GET', sprintf("/carts/%s", UuidUtils::random()));
         self::assertResponseStatusCodeSame(404);
