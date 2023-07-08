@@ -19,6 +19,17 @@ final class Product
         return new Product($productId, $title, $unitPrice, 0, 0);
     }
 
+    public function toArray(): array
+    {
+        return [
+            'productId' => $this->productId,
+            'title' => $this->title,
+            'unitPrice' => $this->unitPrice,
+            'quantity' => $this->quantity,
+            'totalPrice' => $this->totalPrice,
+        ];
+    }
+
     public function updateQuantity(int $quantity): Product
     {
         $totalPrice = $this->calculateNewTotalPrice($quantity);

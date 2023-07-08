@@ -68,4 +68,22 @@ class CartProductSetterControllerTest extends AcceptanceTestCase
         ]);
         self::assertResponseStatusCodeSame(400);
     }
+    public function testUpdateTwoProductsQuantity(): void
+    {
+        $cart = CartObjectMother::make();
+        $cartRepository = $this->getRepository(CartRepository::class);
+        $cartRepository->save($cart);
+
+        $this->json('POST', sprintf("/carts/%s/product_quantity", $cart->getCartId()), [
+            'productId' => 'dea6cb68-bc48-4b58-8ddf-ac8d9b7f2c31',
+            'quantity' => 3
+        ]);
+        self::assertResponseStatusCodeSame(204);
+
+        $this->json('POST', sprintf("/carts/%s/product_quantity", $cart->getCartId()), [
+            'productId' => '0dc19bc6-2520-430b-9ed6-b1dc6bcfe01e',
+            'quantity' => 3
+        ]);
+        self::assertResponseStatusCodeSame(204);
+    }
 }

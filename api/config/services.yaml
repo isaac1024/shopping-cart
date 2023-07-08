@@ -43,3 +43,6 @@ services:
     App\Service\ApiExceptionListener:
         tags:
             - { name: kernel.event_listener, event: kernel.exception }
+
+    ShoppingCart\Cart\Infrastructure\Doctrine\ProductCollectionType:
+

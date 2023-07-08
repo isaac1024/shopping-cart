@@ -4,6 +4,6 @@
         <id name="cartId" column="id" type="cart_id" />
         <embedded name="numberItems" class="ShoppingCart\Cart\Domain\NumberItems" use-column-prefix="false" />
         <embedded name="totalAmount" class="ShoppingCart\Cart\Domain\TotalAmount" use-column-prefix="false" />
-        <embedded name="productItems" class="ShoppingCart\Cart\Domain\ProductCollection" use-column-prefix="false" />
+        <field name="productItems" column="product_items" type="cart_product_items" />
     </entity>
 </doctrine-mapping>

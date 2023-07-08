@@ -36,7 +36,7 @@ final readonly class ProductCollection implements Countable, IteratorAggregate
 
     public function toArray(): array
     {
-        return $this->products;
+        return array_map(fn (Product $product) => $product->toArray(), $this->products);
     }
 
     public function get(string $productId): ?Product
