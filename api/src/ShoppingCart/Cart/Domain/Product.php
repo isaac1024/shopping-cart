@@ -14,6 +14,11 @@ final class Product
         $this->validate();
     }
 
+    public static function init(string $productId, string $title, int $unitPrice): Product
+    {
+        return new Product($productId, $title, $unitPrice, 0, 0);
+    }
+
     public function updateQuantity(int $quantity): Product
     {
         $totalPrice = $this->calculateNewTotalPrice($quantity);

@@ -51,4 +51,24 @@ class DoctrineCartRepositoryTest extends IntegrationTestCase
 
         self::assertNull($cart);
     }
+
+    public function testFoundAProduct(): void
+    {
+        $productId = 'd2d7d6d8-b056-492f-b703-99884085c862';
+        $title = 'Clean Architecture';
+
+        $product = $this->repository->findProduct($productId);
+
+        self::assertEquals($productId, $product->productId);
+        self::assertEquals($title, $product->title);
+    }
+
+    public function testNotFoundProduct(): void
+    {
+        $productId = '79eef388-802c-4ac4-a586-93b66ebb3a5d';
+
+        $product = $this->repository->findProduct($productId);
+
+        self::assertNull($product);
+    }
 }
