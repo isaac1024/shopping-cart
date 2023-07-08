@@ -7,6 +7,7 @@ use ShoppingCart\Cart\Application\CartProductSetterCommandHandler;
 use ShoppingCart\Cart\Domain\CartException;
 use ShoppingCart\Cart\Domain\CartId;
 use ShoppingCart\Cart\Domain\CartRepository;
+use ShoppingCart\Cart\Domain\NotFoundCartException;
 use ShoppingCart\Cart\Domain\ProductCollection;
 use ShoppingCart\Cart\Domain\ProductCollectionException;
 use ShoppingCart\Cart\Domain\ProductException;
@@ -56,7 +57,7 @@ class CartProductSetterCommandHandlerTest extends UnitTestCase
         $cart = CartObjectMother::make(productCollection: new ProductCollection($product));
         $numberItems = $cart->getNumberItems();
         $totalAmount = $cart->getTotalAmount();
-        $command = CartProductSetterCommandObjectMother::make($cart->getCartId(), $product->productId);
+        $command = CartProductSetterCommandObjectMother::make($cart->getCartId(), $product->productId, $product->quantity + 1);
 
         $this->cartRepository->expects($this->once())
             ->method('find')
@@ -143,6 +144,23 @@ class CartProductSetterCommandHandlerTest extends UnitTestCase
             ->method('findProduct')
             ->with($command->productId)
             ->willReturn($product);
+
+        $this->cartRepository->expects($this->never())
+            ->method('save');
+
+        $this->cartProductSetterCommandHandler->dispatch($command);
+    }
+
+    public function testNotFoundCart(): void
+    {
+        $command = CartProductSetterCommandObjectMother::make();
+        $this->expectException(NotFoundCartException::class);
+        $this->expectExceptionMessage(sprintf("Not found cart with id '%s'", $command->cartId));
+
+        $this->cartRepository->expects($this->once())
+            ->method('find')
+            ->with(new CartId($command->cartId))
+            ->willReturn(null);
 
         $this->cartRepository->expects($this->never())
             ->method('save');
