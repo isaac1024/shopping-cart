@@ -8,7 +8,7 @@ use ShoppingCart\Tests\Cart\Domain\CartObjectMother;
 use ShoppingCart\Tests\Cart\Domain\ProductObjectMother;
 use ShoppingCart\Tests\Shared\Infrastructure\PhpUnit\AcceptanceTestCase;
 
-class CartProductRemoverController extends AcceptanceTestCase
+class CartProductRemoverControllerTest extends AcceptanceTestCase
 {
     public function testRemoveProductFromCart(): void
     {

@@ -4,7 +4,7 @@ RUN apk update && apk add --update --no-cache bash git supervisor
 
 ADD https://github.com/mlocati/docker-php-extension-installer/releases/latest/download/install-php-extensions /usr/local/bin/
 RUN chmod +x /usr/local/bin/install-php-extensions && sync && \
-    install-php-extensions apcu opcache bcmath gd intl pdo_mysql zip sodium
+    install-php-extensions apcu opcache bcmath gd intl pdo_mysql zip sodium xdebug
 
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
@@ -17,6 +17,7 @@ RUN wget https://github.com/infection/infection/releases/download/0.26.19/infect
 WORKDIR /app
 
 COPY etc/php.ini /usr/local/etc/php/php.ini
+COPY etc/xdebug.ini /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
 COPY etc/supervisord.conf /etc/supervisord.conf
 
 CMD ["supervisord", "-c", "/etc/supervisord.conf"]

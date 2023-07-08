@@ -2,7 +2,9 @@
 
 namespace ShoppingCart\Cart\Domain;
 
-final class Cart
+use ShoppingCart\Shared\Domain\Models\AggregateRoot;
+
+final class Cart extends AggregateRoot
 {
     public function __construct(
         private readonly CartId $cartId,
