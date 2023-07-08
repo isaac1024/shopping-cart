@@ -2,6 +2,7 @@
 
 namespace ShoppingCart\Cart\Infrastructure\Controller;
 
+use ShoppingCart\Cart\Domain\NotFoundCartException;
 use ShoppingCart\Shared\Infrastructure\ApiController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
@@ -15,6 +16,8 @@ final readonly class CartFinderController extends ApiController
 
     protected function mapExceptions(): array
     {
-        return [];
+        return [
+            NotFoundCartException::class => 404,
+        ];
     }
 }
