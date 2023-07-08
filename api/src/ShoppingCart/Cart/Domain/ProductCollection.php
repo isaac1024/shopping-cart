@@ -49,7 +49,7 @@ final readonly class ProductCollection implements Countable, IteratorAggregate
         return $products[0];
     }
 
-    public function add(?Product $product): ProductCollection
+    public function add(Product $product): ProductCollection
     {
         $productId = $product->productId;
         $products = array_filter($this->products, fn (Product $product) => $product->productId !== $productId);

@@ -27,7 +27,7 @@ class CartProductSetterCommandHandlerTest extends UnitTestCase
         $this->cartProductSetterCommandHandler = new CartProductSetterCommandHandler($this->cartRepository);
     }
 
-    public function testAddNewProduct()
+    public function testAddNewProduct(): void
     {
         $cart = CartObjectMother::make();
         $product = ProductObjectMother::make(quantity: 0);
@@ -50,7 +50,7 @@ class CartProductSetterCommandHandlerTest extends UnitTestCase
         $this->cartProductSetterCommandHandler->dispatch($command);
     }
 
-    public function testUpdateProduct()
+    public function testUpdateProduct(): void
     {
         $product = ProductObjectMother::make();
         $cart = CartObjectMother::make(productCollection: new ProductCollection($product));
@@ -76,7 +76,7 @@ class CartProductSetterCommandHandlerTest extends UnitTestCase
         self::assertNotEquals($totalAmount, $cart->getTotalAmount());
     }
 
-    public function testProductNotExist()
+    public function testProductNotExist(): void
     {
         $cart = CartObjectMother::make();
         $command = CartProductSetterCommandObjectMother::make($cart->getCartId());
@@ -100,7 +100,7 @@ class CartProductSetterCommandHandlerTest extends UnitTestCase
         $this->cartProductSetterCommandHandler->dispatch($command);
     }
 
-    public function testAddProductWithZeroQuantity()
+    public function testAddProductWithZeroQuantity(): void
     {
         $cart = CartObjectMother::make();
         $product = ProductObjectMother::make(quantity: 0);
@@ -125,7 +125,7 @@ class CartProductSetterCommandHandlerTest extends UnitTestCase
         $this->cartProductSetterCommandHandler->dispatch($command);
     }
 
-    public function testAddProductWithNegativeQuantity()
+    public function testAddProductWithNegativeQuantity(): void
     {
         $cart = CartObjectMother::make();
         $product = ProductObjectMother::make(quantity: 0);

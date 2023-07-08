@@ -25,14 +25,14 @@ final class Product
         return new Product($this->productId, $this->title, $this->unitPrice, $quantity, $totalPrice);
     }
 
-    private function validate()
+    private function validate(): void
     {
         if ($this->quantity < 0) {
             throw ProductException::negativeQuantity();
         }
 
         if ($this->unitPrice < 0) {
-            throw ProductException::negativePrice();
+            throw NegativeProductPriceException::negativePrice();
         }
 
         $totalPrice = $this->calculateNewTotalPrice($this->quantity);

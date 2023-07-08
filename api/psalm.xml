@@ -43,5 +43,10 @@
                 <directory name="tests" />
             </errorLevel>
         </PossiblyNullReference>
+        <PossiblyNullPropertyFetch errorLevel="error">
+            <errorLevel type="suppress">
+                <directory name="tests" />
+            </errorLevel>
+        </PossiblyNullPropertyFetch>
     </issueHandlers>
 </psalm>
