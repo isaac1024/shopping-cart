@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping">
+    <embeddable name="ShoppingCart\Cart\Domain\NumberItems">
+        <field name="value" column="number_items" type="integer" />
+    </embeddable>
+</doctrine-mapping>

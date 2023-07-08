@@ -2,3 +2,8 @@ services:
     ShoppingCart\Product\Infrastructure\Repository\DoctrineProductRepository:
         arguments: [ '@doctrine.orm.default_entity_manager' ]
         public: true
+
+
+    ShoppingCart\Cart\Infrastructure\Repository\DoctrineCartRepository:
+        arguments: [ '@doctrine.orm.default_entity_manager' ]
+        public: true
