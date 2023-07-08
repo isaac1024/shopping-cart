@@ -108,20 +108,24 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-  /carts/{cartId}/pay:
+  /orders:
     post:
-      summary: Pay a cart
-      operationId: cartPay
+      summary: Send payment request
+      operationId: orderCreator
       tags:
-        - cart
+        - order
       requestBody:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/CartPayRequest'
+              $ref: '#/components/schemas/OrderCreatorRequest'
       responses:
-        204:
+        201:
           description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IdResponse'
         400:
           description: invalid request content
           content:
@@ -224,9 +228,13 @@ components:
           type: string
           format: uuid
           example: 49026749-320d-44d5-bb0f-fab562f94e44
-    CartPayRequest:
+    OrderCreatorRequest:
       type: object
       properties:
+        cartId:
+          type: string
+          format: uuid
+          example: 4c991bbd-8d3b-4f33-94be-fdf879858bab
         name:
           type: string
           description: User name

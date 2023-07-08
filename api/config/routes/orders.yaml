@@ -1,0 +1,4 @@
+order_creator:
+  path: /orders
+  controller: ShoppingCart\Order\Infrastructure\Controller\OrderCreatorController
+  methods: POST
