@@ -4,6 +4,7 @@ namespace ShoppingCart\Cart\Infrastructure\Repository;
 
 use Doctrine\ORM\EntityManagerInterface;
 use ShoppingCart\Cart\Domain\Cart;
+use ShoppingCart\Cart\Domain\CartId;
 use ShoppingCart\Cart\Domain\CartRepository;
 
 final readonly class DoctrineCartRepository implements CartRepository
@@ -16,5 +17,11 @@ final readonly class DoctrineCartRepository implements CartRepository
     {
         $this->entityManager->persist($cart);
         $this->entityManager->flush();
+    }
+
+    public function find(CartId $cartId): ?Cart
+    {
+        // TODO
+        return null;
     }
 }

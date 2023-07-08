@@ -3,6 +3,7 @@
 namespace ShoppingCart\Tests\Cart\Domain;
 
 use ShoppingCart\Cart\Application\CartCreatorCommand;
+use ShoppingCart\Cart\Application\CartFinderQuery;
 use ShoppingCart\Cart\Domain\Cart;
 use ShoppingCart\Cart\Domain\CartId;
 use ShoppingCart\Cart\Domain\NumberItems;
@@ -28,5 +29,10 @@ final class CartObjectMother
     public static function fromCartCreatorCommand(CartCreatorCommand $command): Cart
     {
         return CartObjectMother::make(CartIdObjectMother::make($command->cartId));
+    }
+
+    public static function fromCartFinderQuery(CartFinderQuery $query): Cart
+    {
+        return CartObjectMother::make(CartIdObjectMother::make($query->id));
     }
 }
