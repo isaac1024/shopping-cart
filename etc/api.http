@@ -4,3 +4,12 @@ Accept: application/json
 
 ### Create a cart
 POST {{url}}/carts
+
+> {%
+    if (response.status === 201) {
+        client.global.set("cart_uuid", response.body.id);
+    }
+%}
+
+### Find a cart
+GET {{url}}/carts/{{cart_uuid}}

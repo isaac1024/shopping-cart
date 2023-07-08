@@ -2,3 +2,10 @@ cart_creator:
   path: /carts
   controller: ShoppingCart\Cart\Infrastructure\Controller\CartCreatorController
   methods: POST
+
+cart_finder:
+  path: /carts/{cartId}
+  controller: ShoppingCart\Cart\Infrastructure\Controller\CartFinderController
+  methods: GET
+  requirements:
+    cartId: !php/const Symfony\Component\Routing\Requirement\Requirement::UUID_V4
