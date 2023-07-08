@@ -84,7 +84,8 @@
             "@phpmd",
             "@psalm"
         ],
-        "test": "vendor/bin/phpunit"
+        "test": "vendor/bin/phpunit",
+        "console": "bin/console"
     },
     "conflict": {
         "symfony/symfony": "*"
