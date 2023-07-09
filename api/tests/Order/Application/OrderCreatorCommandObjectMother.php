@@ -15,7 +15,7 @@ final class OrderCreatorCommandObjectMother
         ?string $address = null,
         ?string $cartId = null,
         ?array $productItems = null,
-    ) {
+    ): OrderCreatorCommand {
         $faker = Factory::create();
         return new OrderCreatorCommand(
             $orderId ?? UuidUtils::random(),

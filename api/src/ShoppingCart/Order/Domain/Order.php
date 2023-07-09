@@ -27,7 +27,7 @@ final class Order extends AggregateRoot
         array $productItems,
     ): Order {
         $products = new ProductCollection(...array_map(
-            fn(array $product) => new Product(
+            fn (array $product) => new Product(
                 $product['productId'],
                 $product['title'],
                 $product['unitPrice'],

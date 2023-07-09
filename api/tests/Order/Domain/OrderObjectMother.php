@@ -40,10 +40,10 @@ final class OrderObjectMother
         );
     }
 
-    public static function fromOrderCreatorCommand(OrderCreatorCommand $command)
+    public static function fromOrderCreatorCommand(OrderCreatorCommand $command): Order
     {
         $products = new ProductCollection(...array_map(
-            fn(array $product) => new Product(
+            fn (array $product) => new Product(
                 $product['productId'],
                 $product['title'],
                 $product['unitPrice'],

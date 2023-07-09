@@ -1,8 +1,8 @@
 <?php
 
-namespace ShoppingCart\Tests\Order\Domain;
+namespace ShoppingCart\Tests\Cart\Domain;
 
-use ShoppingCart\Order\Domain\ProductCollection;
+use ShoppingCart\Cart\Domain\ProductCollection;
 
 class ProductCollectionOrderMother
 {

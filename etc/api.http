@@ -45,3 +45,18 @@ Content-Type: application/json
 {
   "productId": "824ee66a-42c2-48d2-99af-0be1653c51ef"
 }
+
+### Create order
+POST {{url}}/orders
+Content-Type: application/json
+
+{
+  "cartId": {{cart_uuid}},
+  "name": "Isaac Abreu",
+  "address": "c/ Falsa 123",
+  "card": {
+    "number": "0000111122223333",
+    "validDate": "01/45",
+    "cvv": "000"
+  }
+}

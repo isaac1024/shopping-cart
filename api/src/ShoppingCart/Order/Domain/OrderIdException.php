@@ -11,6 +11,9 @@ final class OrderIdException extends ShoppingCartException
 
     public static function invalidOrderId(string $cartId): OrderIdException
     {
-        return new OrderIdException(self::INVALID_ORDER_ID_ERROR_CODE, sprintf(self::INVALID_ORDER_ID_MESSAGE, $cartId));
+        return new OrderIdException(
+            self::INVALID_ORDER_ID_ERROR_CODE,
+            sprintf(self::INVALID_ORDER_ID_MESSAGE, $cartId)
+        );
     }
 }

@@ -15,7 +15,10 @@ final class NameException extends ShoppingCartException
 
     public static function nameWithWhitespaces(string $name): NameException
     {
-        return new NameException(self::NAME_WITH_WHITESPACES_ERROR, sprintf(self::NAME_WITH_WHITESPACES_MESSAGE, $name));
+        return new NameException(
+            self::NAME_WITH_WHITESPACES_ERROR,
+            sprintf(self::NAME_WITH_WHITESPACES_MESSAGE, $name)
+        );
     }
 
     public static function emptyName(): NameException

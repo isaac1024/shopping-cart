@@ -15,7 +15,10 @@ final class AddressException extends ShoppingCartException
 
     public static function nameWithWhitespaces(string $address): AddressException
     {
-        return new AddressException(self::ADDRESS_WITH_WHITESPACES_ERROR, sprintf(self::ADDRESS_WITH_WHITESPACES_MESSAGE, $address));
+        return new AddressException(
+            self::ADDRESS_WITH_WHITESPACES_ERROR,
+            sprintf(self::ADDRESS_WITH_WHITESPACES_MESSAGE, $address)
+        );
     }
 
     public static function emptyAddress(): AddressException
