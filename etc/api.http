@@ -51,7 +51,7 @@ POST {{url}}/orders
 Content-Type: application/json
 
 {
-  "cartId": {{cart_uuid}},
+  "cartId": "{{cart_uuid}}",
   "name": "Isaac Abreu",
   "address": "c/ Falsa 123",
   "card": {
