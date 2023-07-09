@@ -7,7 +7,7 @@ use ShoppingCart\Cart\Domain\NotFoundCartException;
 use ShoppingCart\Shared\Domain\Bus\CommandHandler;
 use ShoppingCart\Shared\Domain\Models\CartId;
 
-class CartProductRemoverCommandHandler implements CommandHandler
+final readonly class CartProductRemoverCommandHandler implements CommandHandler
 {
     public function __construct(private CartRepository $cartRepository)
     {

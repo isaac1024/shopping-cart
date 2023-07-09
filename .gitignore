@@ -7,6 +7,7 @@
 /api/supervisord.pid
 /api/.phpcs-cache
 /api/.php-cs-fixer.cache
+/api/infection.html
 /api/var/
 /api/vendor/
 /api/tests/.phpunit.cache/

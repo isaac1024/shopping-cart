@@ -6,7 +6,7 @@ use Faker\Factory;
 use ShoppingCart\Cart\Application\CartProductSetterCommand;
 use ShoppingCart\Shared\Domain\Models\UuidUtils;
 
-class CartProductSetterCommandObjectMother
+final class CartProductSetterCommandObjectMother
 {
     public static function make(
         ?string $cartId = null,

@@ -2,9 +2,11 @@
 
 namespace ShoppingCart\Tests\Order\Application;
 
+use Faker\Factory;
 use PHPUnit\Framework\MockObject\MockObject;
 use ShoppingCart\Order\Application\OrderCreatorCommandHandler;
 use ShoppingCart\Order\Domain\AddressException;
+use ShoppingCart\Order\Domain\DuplicateProductException;
 use ShoppingCart\Order\Domain\NameException;
 use ShoppingCart\Order\Domain\NumberItemsException;
 use ShoppingCart\Order\Domain\OrderIdException;
@@ -15,6 +17,7 @@ use ShoppingCart\Shared\Domain\Models\CartIdException;
 use ShoppingCart\Shared\Domain\Models\UuidUtils;
 use ShoppingCart\Tests\Order\Domain\OrderObjectMother;
 use ShoppingCart\Tests\Order\Domain\OrderPendingToPayObjectMother;
+use ShoppingCart\Tests\Order\Domain\ProductObjectMother;
 use ShoppingCart\Tests\Shared\Infrastructure\PhpUnit\UnitTestCase;
 
 class OrderCreatorCommandHandlerTest extends UnitTestCase
@@ -140,6 +143,23 @@ class OrderCreatorCommandHandlerTest extends UnitTestCase
         $this->orderCreatorCommandHandler->dispatch($command);
     }
 
+    public function testCreateOrderNameTooLongShouldFaild(): void
+    {
+        $faker = Factory::create();
+        $name = $faker->realTextBetween(181);
+        $command = OrderCreatorCommandObjectMother::make(name: $name);
+        $this->expectException(NameException::class);
+        $this->expectExceptionMessage(sprintf("Name %s is too long. Max length 180", $name));
+
+        $this->orderRepository->expects($this->never())
+            ->method('save');
+
+        $this->eventBus->expects($this->never())
+            ->method('publish');
+
+        $this->orderCreatorCommandHandler->dispatch($command);
+    }
+
     public function testCreateOrderWithInvalidOrderIdShouldFaild(): void
     {
         $command = OrderCreatorCommandObjectMother::make('invalid_order_id');
@@ -190,6 +210,61 @@ class OrderCreatorCommandHandlerTest extends UnitTestCase
         $command = OrderCreatorCommandObjectMother::make(address: ' c/ Falsa 123 ');
         $this->expectException(AddressException::class);
         $this->expectExceptionMessage("Address ' c/ Falsa 123 ' contain whitespaces at first or end.");
+
+        $this->orderRepository->expects($this->never())
+            ->method('save');
+
+        $this->eventBus->expects($this->never())
+            ->method('publish');
+
+        $this->orderCreatorCommandHandler->dispatch($command);
+    }
+
+    public function testCreateOrderAddressTooLongShouldFaild(): void
+    {
+        $faker = Factory::create();
+        $address = $faker->realTextBetween(256, 300);
+        $command = OrderCreatorCommandObjectMother::make(address: $address);
+        $this->expectException(AddressException::class);
+        $this->expectExceptionMessage(sprintf("Address %s is too long. Max length 255", $address));
+
+        $this->orderRepository->expects($this->never())
+            ->method('save');
+
+        $this->eventBus->expects($this->never())
+            ->method('publish');
+
+        $this->orderCreatorCommandHandler->dispatch($command);
+    }
+
+    public function testCreateOrderWithDuplicatedProductShouldFaild(): void
+    {
+        $product = ProductObjectMother::make();
+        $command = OrderCreatorCommandObjectMother::make(productItems: [$product->toArray(), $product->toArray()]);
+        $this->expectException(DuplicateProductException::class);
+        $this->expectExceptionMessage("Product collection can't contain same product many times");
+
+        $this->orderRepository->expects($this->never())
+            ->method('save');
+
+        $this->eventBus->expects($this->never())
+            ->method('publish');
+
+        $this->orderCreatorCommandHandler->dispatch($command);
+    }
+
+    public function testCreateOrderInconsistentProductPriceShouldFaild(): void
+    {
+        $faker = Factory::create();
+        $command = OrderCreatorCommandObjectMother::make(productItems: [[
+            'productId' => UuidUtils::random(),
+            'title' => $faker->title(),
+            'unitPrice' => $faker->numberBetween(1, 3),
+            'quantity' => $faker->numberBetween(1, 10),
+            'totalPrice' => $faker->numberBetween(100, 1000),
+        ]]);
+        $this->expectException(ProductException::class);
+        $this->expectExceptionMessage("Product order total price is not valid");
 
         $this->orderRepository->expects($this->never())
             ->method('save');

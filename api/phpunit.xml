@@ -16,5 +16,8 @@
     <include>
       <directory suffix=".php">src</directory>
     </include>
+    <exclude>
+      <directory suffix=".php">src/ShoppingCart/*/Infrastructure/Doctrine</directory>
+    </exclude>
   </source>
 </phpunit>

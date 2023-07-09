@@ -2,31 +2,14 @@
 
 namespace ShoppingCart\Cart\Domain;
 
-use Countable;
-use IteratorAggregate;
-use Traversable;
-
-/**
- * @template-implements IteratorAggregate<int, Product>
- */
-final readonly class ProductCollection implements Countable, IteratorAggregate
+final readonly class ProductCollection
 {
-    public array $products;
+    private array $products;
 
     public function __construct(Product ...$products)
     {
         $this->validate($products);
         $this->products = $products;
-    }
-
-    public function count(): int
-    {
-        return count($this->products);
-    }
-
-    public function getIterator(): Traversable
-    {
-        yield from $this->products;
     }
 
     public static function init(): ProductCollection
@@ -59,16 +42,11 @@ final readonly class ProductCollection implements Countable, IteratorAggregate
 
     private function validate(array $products): void
     {
-        $productIds = [];
         /** @var Product $product */
         foreach ($products as $product) {
             if ($product->quantity === 0) {
                 throw ProductCollectionException::zeroQuantity();
             }
-            if (in_array($product->productId, $productIds, true)) {
-                throw DuplicateProductException::duplicateProductsOnCollection();
-            }
-            $productIds[] = $product->productId;
         }
     }
 

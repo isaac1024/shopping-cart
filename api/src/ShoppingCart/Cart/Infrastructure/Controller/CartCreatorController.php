@@ -3,8 +3,6 @@
 namespace ShoppingCart\Cart\Infrastructure\Controller;
 
 use ShoppingCart\Cart\Application\CartCreatorCommand;
-use ShoppingCart\Cart\Domain\NumberItemsException;
-use ShoppingCart\Cart\Domain\TotalAmountException;
 use ShoppingCart\Shared\Domain\Models\CartIdException;
 use ShoppingCart\Shared\Domain\Models\UuidUtils;
 use ShoppingCart\Shared\Infrastructure\ApiController;
@@ -25,8 +23,6 @@ final readonly class CartCreatorController extends ApiController
     {
         return [
             CartIdException::class => 400,
-            TotalAmountException::class => 400,
-            NumberItemsException::class => 400,
         ];
     }
 }

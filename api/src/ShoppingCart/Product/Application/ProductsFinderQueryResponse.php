@@ -25,7 +25,7 @@ final readonly class ProductsFinderQueryResponse implements Countable, IteratorA
     {
         $productsResponse = array_map(
             fn (Product $product) => ProductResponse::fromProduct($product),
-            $products->products
+            iterator_to_array($products)
         );
 
         return new ProductsFinderQueryResponse(...$productsResponse);

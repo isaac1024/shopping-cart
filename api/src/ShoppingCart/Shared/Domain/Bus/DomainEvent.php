@@ -17,7 +17,5 @@ abstract readonly class DomainEvent
         $this->occurredOn = DateTimeUtils::now();
     }
 
-    abstract public function type(): string;
-
     abstract public function attributes(): array;
 }

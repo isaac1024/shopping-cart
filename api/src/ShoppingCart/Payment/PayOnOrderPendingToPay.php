@@ -12,7 +12,7 @@ final readonly class PayOnOrderPendingToPay implements EventSubscriber
     {
     }
 
-    public function dispatch(OrderPendingToPay $event)
+    public function dispatch(OrderPendingToPay $event): void
     {
         $this->logger->info('Paying the order', [
             'orderId' => $event->aggregateId,

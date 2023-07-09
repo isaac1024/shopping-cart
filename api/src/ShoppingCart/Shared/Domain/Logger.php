@@ -4,5 +4,5 @@ namespace ShoppingCart\Shared\Domain;
 
 interface Logger
 {
-    public function info(string $message, array $context = []);
+    public function info(string $message, array $context = []): void;
 }

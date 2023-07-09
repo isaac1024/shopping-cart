@@ -8,7 +8,7 @@ final class ProductException extends ShoppingCartException
 {
     private const NO_QUANTITY_MESSAGE = "Product order quantity must be greater than 0";
     private const NO_QUANTITY_ERROR = 'no_product_order_quantity';
-    private const TOTAL_PRICE_NOT_VALID_MESSAGE = "Product order total price must be greater than 0";
+    private const TOTAL_PRICE_NOT_VALID_MESSAGE = "Product order total price is not valid";
     private const TOTAL_PRICE_NOT_VALID_ERROR = 'invalid_product_order_total_price';
     private const NO_PRICE_MESSAGE = "Product order price must be greater than 0";
     private const NO_PRICE_ERROR = 'no_product_order_price';

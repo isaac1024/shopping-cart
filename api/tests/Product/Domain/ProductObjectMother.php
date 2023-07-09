@@ -6,7 +6,7 @@ use Faker\Factory;
 use ShoppingCart\Product\Domain\Product;
 use ShoppingCart\Shared\Domain\Models\UuidUtils;
 
-class ProductObjectMother
+final class ProductObjectMother
 {
     /**
      * @psalm-suppress PossiblyInvalidArgument

@@ -11,7 +11,6 @@ use ShoppingCart\Order\Domain\NameException;
 use ShoppingCart\Order\Domain\NumberItemsException;
 use ShoppingCart\Order\Domain\OrderIdException;
 use ShoppingCart\Order\Domain\ProductException;
-use ShoppingCart\Order\Domain\TotalAmountException;
 use ShoppingCart\Order\Infrastructure\Request\OrderCreatorRequest;
 use ShoppingCart\Shared\Domain\Models\CartIdException;
 use ShoppingCart\Shared\Domain\Models\UuidUtils;
@@ -55,7 +54,6 @@ final readonly class OrderCreatorController extends ApiController
             OrderIdException::class => 500,
             CartIdException::class => 400,
             ProductException::class => 500,
-            TotalAmountException::class => 400,
         ];
     }
 }

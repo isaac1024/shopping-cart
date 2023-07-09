@@ -27,7 +27,7 @@ POST {{url}}/carts/{{cart_uuid}}/product_quantity
 Content-Type: application/json
 
 {
-  "productId": "824ee66a-42c2-48d2-99af-0be1653c51ef",
+  "productId": "307028d4-8a2f-4441-a3ac-0c904c12bf86",
   "quantity": {{$random.integer(1, 10)}}
 }
 

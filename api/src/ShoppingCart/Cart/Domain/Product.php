@@ -41,15 +41,6 @@ final class Product
         if ($this->quantity < 0) {
             throw ProductException::negativeQuantity();
         }
-
-        if ($this->unitPrice < 0) {
-            throw NegativeProductPriceException::negativePrice();
-        }
-
-        $totalPrice = $this->calculateNewTotalPrice($this->quantity);
-        if ($totalPrice !== $this->totalPrice) {
-            throw ProductException::totalPriceNotValid();
-        }
     }
 
     private function calculateNewTotalPrice(int $quantity): int

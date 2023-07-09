@@ -4,7 +4,7 @@ namespace ShoppingCart\Tests\Order\Domain;
 
 use ShoppingCart\Order\Domain\ProductCollection;
 
-class ProductCollectionOrderMother
+final class ProductCollectionOrderMother
 {
     public static function make(int $numberProducts): ProductCollection
     {

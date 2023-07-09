@@ -15,11 +15,6 @@ final readonly class OrderPendingToPay extends DomainEvent
         parent::__construct($id);
     }
 
-    public function type(): string
-    {
-        return 'soppingCart.order.orderPendingToPay';
-    }
-
     public function attributes(): array
     {
         return [

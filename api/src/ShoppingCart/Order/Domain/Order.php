@@ -61,44 +61,4 @@ final class Order extends AggregateRoot
         $orderRepository->save($this);
         $this->publishEvents($eventBus);
     }
-
-    public function getOrderId(): string
-    {
-        return $this->orderId->value;
-    }
-
-    public function getName(): string
-    {
-        return $this->name->value;
-    }
-
-    public function getAddress(): string
-    {
-        return $this->address->value;
-    }
-
-    public function getCartId(): string
-    {
-        return $this->cartId->value;
-    }
-
-    public function getNumberItems(): int
-    {
-        return $this->numberItems->value;
-    }
-
-    public function getTotalAmount(): int
-    {
-        return $this->totalAmount->value;
-    }
-
-    public function getProductItems(): array
-    {
-        return $this->productItems->toArray();
-    }
-
-    public function getStatus(): Status
-    {
-        return $this->status;
-    }
 }

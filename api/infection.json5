@@ -3,9 +3,12 @@
     "source": {
         "directories": [
             "src"
+        ],
+        "excludes": [
+            "{.*/Infrastructure/Doctrine/.*}"
         ]
     },
-    "mutators": {
-        "@default": true
+    "logs": {
+        "html": "infection.html"
     }
 }

@@ -7,7 +7,6 @@ use ShoppingCart\Cart\Domain\CartRepository;
 use ShoppingCart\Order\Domain\OrderPendingToPay;
 use ShoppingCart\Tests\Cart\Domain\CartObjectMother;
 use ShoppingCart\Tests\Cart\Domain\ProductCollectionOrderMother;
-use ShoppingCart\Tests\Order\Domain\OrderPendingToPayObjectMother;
 use ShoppingCart\Tests\Order\Infrastructure\Request\CartCreatorRequestObjectMother;
 use ShoppingCart\Tests\Shared\Infrastructure\PhpUnit\AcceptanceTestCase;
 
