@@ -10,32 +10,41 @@ use ShoppingCart\Order\Domain\NumberItemsException;
 use ShoppingCart\Order\Domain\OrderIdException;
 use ShoppingCart\Order\Domain\OrderRepository;
 use ShoppingCart\Order\Domain\ProductException;
+use ShoppingCart\Shared\Domain\Bus\EventBus;
 use ShoppingCart\Shared\Domain\Models\CartIdException;
 use ShoppingCart\Shared\Domain\Models\UuidUtils;
 use ShoppingCart\Tests\Order\Domain\OrderObjectMother;
+use ShoppingCart\Tests\Order\Domain\OrderPendingToPayObjectMother;
 use ShoppingCart\Tests\Shared\Infrastructure\PhpUnit\UnitTestCase;
 
 class OrderCreatorCommandHandlerTest extends UnitTestCase
 {
     private OrderCreatorCommandHandler $orderCreatorCommandHandler;
     private OrderRepository&MockObject $orderRepository;
+    private EventBus&MockObject $eventBus;
 
     protected function setUp(): void
     {
         parent::setUp();
 
         $this->orderRepository = $this->getMockBuilder(OrderRepository::class)->getMock();
-        $this->orderCreatorCommandHandler = new OrderCreatorCommandHandler($this->orderRepository);
+        $this->eventBus = $this->getMockBuilder(EventBus::class)->getMock();
+        $this->orderCreatorCommandHandler = new OrderCreatorCommandHandler($this->orderRepository, $this->eventBus);
     }
 
     public function testCreateOrder(): void
     {
         $command = OrderCreatorCommandObjectMother::make();
         $expectedCart = OrderObjectMother::fromOrderCreatorCommand($command);
+        $orderPendingToPayEvent = OrderPendingToPayObjectMother::fromOrderCreatorCommand($command);
 
         $this->orderRepository->expects($this->once())
             ->method('save')
             ->with($expectedCart);
+
+        $this->eventBus->expects($this->once())
+            ->method('publish')
+            ->with($orderPendingToPayEvent);
 
         $this->orderCreatorCommandHandler->dispatch($command);
     }
@@ -48,6 +57,9 @@ class OrderCreatorCommandHandlerTest extends UnitTestCase
 
         $this->orderRepository->expects($this->never())
             ->method('save');
+
+        $this->eventBus->expects($this->never())
+            ->method('publish');
 
         $this->orderCreatorCommandHandler->dispatch($command);
     }
@@ -69,6 +81,9 @@ class OrderCreatorCommandHandlerTest extends UnitTestCase
         $this->orderRepository->expects($this->never())
             ->method('save');
 
+        $this->eventBus->expects($this->never())
+            ->method('publish');
+
         $this->orderCreatorCommandHandler->dispatch($command);
     }
 
@@ -89,6 +104,9 @@ class OrderCreatorCommandHandlerTest extends UnitTestCase
         $this->orderRepository->expects($this->never())
             ->method('save');
 
+        $this->eventBus->expects($this->never())
+            ->method('publish');
+
         $this->orderCreatorCommandHandler->dispatch($command);
     }
 
@@ -100,6 +118,9 @@ class OrderCreatorCommandHandlerTest extends UnitTestCase
 
         $this->orderRepository->expects($this->never())
             ->method('save');
+
+        $this->eventBus->expects($this->never())
+            ->method('publish');
 
         $this->orderCreatorCommandHandler->dispatch($command);
     }
@@ -113,6 +134,9 @@ class OrderCreatorCommandHandlerTest extends UnitTestCase
         $this->orderRepository->expects($this->never())
             ->method('save');
 
+        $this->eventBus->expects($this->never())
+            ->method('publish');
+
         $this->orderCreatorCommandHandler->dispatch($command);
     }
 
@@ -124,6 +148,9 @@ class OrderCreatorCommandHandlerTest extends UnitTestCase
 
         $this->orderRepository->expects($this->never())
             ->method('save');
+
+        $this->eventBus->expects($this->never())
+            ->method('publish');
 
         $this->orderCreatorCommandHandler->dispatch($command);
     }
@@ -137,6 +164,9 @@ class OrderCreatorCommandHandlerTest extends UnitTestCase
         $this->orderRepository->expects($this->never())
             ->method('save');
 
+        $this->eventBus->expects($this->never())
+            ->method('publish');
+
         $this->orderCreatorCommandHandler->dispatch($command);
     }
 
@@ -149,6 +179,9 @@ class OrderCreatorCommandHandlerTest extends UnitTestCase
         $this->orderRepository->expects($this->never())
             ->method('save');
 
+        $this->eventBus->expects($this->never())
+            ->method('publish');
+
         $this->orderCreatorCommandHandler->dispatch($command);
     }
 
@@ -160,6 +193,9 @@ class OrderCreatorCommandHandlerTest extends UnitTestCase
 
         $this->orderRepository->expects($this->never())
             ->method('save');
+
+        $this->eventBus->expects($this->never())
+            ->method('publish');
 
         $this->orderCreatorCommandHandler->dispatch($command);
     }

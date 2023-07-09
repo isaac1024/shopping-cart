@@ -14,11 +14,15 @@ services:
     _instanceof:
         ShoppingCart\Shared\Domain\Bus\CommandHandler:
             tags:
-                - { name: messenger.message_handler, bus: command.bus, from_transport: sync, method: dispatch }
+                - { name: messenger.message_handler, bus: command.bus, from_transport: command, method: dispatch }
 
         ShoppingCart\Shared\Domain\Bus\QueryHandler:
             tags:
-                - { name: messenger.message_handler, bus: query.bus, from_transport: sync, method: ask }
+                - { name: messenger.message_handler, bus: query.bus, from_transport: query, method: ask }
+
+        ShoppingCart\Shared\Domain\Bus\EventSubscriber:
+            tags:
+                - { name: messenger.message_handler, bus: event.bus, from_transport: event, method: dispatch }
 
         ShoppingCart\Shared\Infrastructure\ApiController:
             tags: [ 'controller.service_arguments' ]

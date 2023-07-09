@@ -12,6 +12,9 @@ final readonly class OrderCreatorCommand implements Command
         public string $address,
         public string $cartId,
         public array $productItems,
+        public string $cardNumber,
+        public string $cardValidDate,
+        public string $cardCvv,
     ) {
     }
 }
