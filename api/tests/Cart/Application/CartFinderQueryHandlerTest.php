@@ -6,8 +6,8 @@ use PHPUnit\Framework\MockObject\MockObject;
 use ShoppingCart\Cart\Application\CartFinderQueryHandler;
 use ShoppingCart\Cart\Domain\CartRepository;
 use ShoppingCart\Cart\Domain\NotFoundCartException;
-use ShoppingCart\Tests\Cart\Domain\CartIdObjectMother;
 use ShoppingCart\Tests\Cart\Domain\CartObjectMother;
+use ShoppingCart\Tests\Shared\Domain\Models\CartIdObjectMother;
 use ShoppingCart\Tests\Shared\Infrastructure\PhpUnit\UnitTestCase;
 
 class CartFinderQueryHandlerTest extends UnitTestCase

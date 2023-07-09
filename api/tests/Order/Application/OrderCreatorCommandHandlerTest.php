@@ -2,16 +2,15 @@
 
 namespace ShoppingCart\Tests\Order\Application;
 
-use Faker\Factory;
 use PHPUnit\Framework\MockObject\MockObject;
 use ShoppingCart\Order\Application\OrderCreatorCommandHandler;
 use ShoppingCart\Order\Domain\AddressException;
-use ShoppingCart\Order\Domain\CartIdException;
 use ShoppingCart\Order\Domain\NameException;
 use ShoppingCart\Order\Domain\NumberItemsException;
 use ShoppingCart\Order\Domain\OrderIdException;
 use ShoppingCart\Order\Domain\OrderRepository;
 use ShoppingCart\Order\Domain\ProductException;
+use ShoppingCart\Shared\Domain\Models\CartIdException;
 use ShoppingCart\Shared\Domain\Models\UuidUtils;
 use ShoppingCart\Tests\Order\Domain\OrderObjectMother;
 use ShoppingCart\Tests\Shared\Infrastructure\PhpUnit\UnitTestCase;

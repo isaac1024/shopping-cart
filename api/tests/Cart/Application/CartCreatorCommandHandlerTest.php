@@ -4,8 +4,8 @@ namespace ShoppingCart\Tests\Cart\Application;
 
 use PHPUnit\Framework\MockObject\MockObject;
 use ShoppingCart\Cart\Application\CartCreatorCommandHandler;
-use ShoppingCart\Cart\Domain\CartIdException;
 use ShoppingCart\Cart\Domain\CartRepository;
+use ShoppingCart\Shared\Domain\Models\CartIdException;
 use ShoppingCart\Tests\Cart\Domain\CartObjectMother;
 use ShoppingCart\Tests\Shared\Infrastructure\PhpUnit\UnitTestCase;
 

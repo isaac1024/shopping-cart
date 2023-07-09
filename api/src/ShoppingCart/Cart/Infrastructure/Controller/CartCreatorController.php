@@ -3,9 +3,9 @@
 namespace ShoppingCart\Cart\Infrastructure\Controller;
 
 use ShoppingCart\Cart\Application\CartCreatorCommand;
-use ShoppingCart\Cart\Domain\CartIdException;
 use ShoppingCart\Cart\Domain\NumberItemsException;
 use ShoppingCart\Cart\Domain\TotalAmountException;
+use ShoppingCart\Shared\Domain\Models\CartIdException;
 use ShoppingCart\Shared\Domain\Models\UuidUtils;
 use ShoppingCart\Shared\Infrastructure\ApiController;
 use Symfony\Component\HttpFoundation\JsonResponse;

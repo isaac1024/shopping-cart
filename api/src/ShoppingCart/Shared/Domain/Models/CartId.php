@@ -1,8 +1,6 @@
 <?php
 
-namespace ShoppingCart\Cart\Domain;
-
-use ShoppingCart\Shared\Domain\Models\Uuid;
+namespace ShoppingCart\Shared\Domain\Models;
 
 final readonly class CartId extends Uuid
 {

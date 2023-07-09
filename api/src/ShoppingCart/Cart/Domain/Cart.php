@@ -3,6 +3,7 @@
 namespace ShoppingCart\Cart\Domain;
 
 use ShoppingCart\Shared\Domain\Models\AggregateRoot;
+use ShoppingCart\Shared\Domain\Models\CartId;
 
 final class Cart extends AggregateRoot
 {

@@ -1,14 +1,14 @@
 <?php
 
-namespace ShoppingCart\Cart\Infrastructure\Doctrine;
+namespace ShoppingCart\Order\Infrastructure\Doctrine;
 
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Types\Type;
-use ShoppingCart\Cart\Domain\CartId;
+use ShoppingCart\Order\Domain\OrderId;
 
-final class CartIdType extends Type
+final class OrderIdType extends Type
 {
-    private const NAME = 'cart_id';
+    private const NAME = 'order_id';
 
     public function getSQLDeclaration(array $column, AbstractPlatform $platform): string
     {
@@ -16,15 +16,15 @@ final class CartIdType extends Type
     }
 
     /** @SuppressWarnings(PHPMD.UnusedFormalParameter) */
-    public function convertToPHPValue($value, AbstractPlatform $platform): CartId
+    public function convertToPHPValue($value, AbstractPlatform $platform): OrderId
     {
-        return new CartId($value);
+        return new OrderId($value);
     }
 
     /** @SuppressWarnings(PHPMD.UnusedFormalParameter) */
     public function convertToDatabaseValue($value, AbstractPlatform $platform): string
     {
-        if ($value instanceof CartId) {
+        if ($value instanceof OrderId) {
             return $value->value;
         }
 

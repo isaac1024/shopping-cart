@@ -4,7 +4,6 @@ namespace ShoppingCart\Cart\Infrastructure\Controller;
 
 use ShoppingCart\Cart\Application\CartProductSetterCommand;
 use ShoppingCart\Cart\Domain\CartException;
-use ShoppingCart\Cart\Domain\CartIdException;
 use ShoppingCart\Cart\Domain\DuplicateProductException;
 use ShoppingCart\Cart\Domain\NegativeProductPriceException;
 use ShoppingCart\Cart\Domain\NotFoundCartException;
@@ -13,6 +12,7 @@ use ShoppingCart\Cart\Domain\ProductCollectionException;
 use ShoppingCart\Cart\Domain\ProductException;
 use ShoppingCart\Cart\Domain\TotalAmountException;
 use ShoppingCart\Cart\Infrastructure\Request\CartProductSetterRequest;
+use ShoppingCart\Shared\Domain\Models\CartIdException;
 use ShoppingCart\Shared\Infrastructure\ApiController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 

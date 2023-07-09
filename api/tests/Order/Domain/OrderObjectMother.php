@@ -5,7 +5,6 @@ namespace ShoppingCart\Tests\Order\Domain;
 use Faker\Factory;
 use ShoppingCart\Order\Application\OrderCreatorCommand;
 use ShoppingCart\Order\Domain\Address;
-use ShoppingCart\Order\Domain\CartId;
 use ShoppingCart\Order\Domain\Name;
 use ShoppingCart\Order\Domain\NumberItems;
 use ShoppingCart\Order\Domain\Order;
@@ -14,7 +13,8 @@ use ShoppingCart\Order\Domain\Product;
 use ShoppingCart\Order\Domain\ProductCollection;
 use ShoppingCart\Order\Domain\Status;
 use ShoppingCart\Order\Domain\TotalAmount;
-use ShoppingCart\Tests\Cart\Domain\CartObjectMother;
+use ShoppingCart\Shared\Domain\Models\CartId;
+use ShoppingCart\Tests\Shared\Domain\Models\CartIdObjectMother;
 
 final class OrderObjectMother
 {
@@ -33,7 +33,7 @@ final class OrderObjectMother
             Status::PENDING_PAYMENT,
             $name ?? NameObjectMother::make(),
             $address ?? AddressObjectMother::make(),
-            $cartId ?? CartObjectMother::make(),
+            $cartId ?? CartIdObjectMother::make(),
             $numberItems ?? NumberItemsObjectMother::make(),
             $totalAmount ?? TotalAmountObjectMother::make(),
             $productItems ?? ProductCollectionOrderMother::make($faker->numberBetween(1, 5))

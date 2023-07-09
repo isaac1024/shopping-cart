@@ -4,10 +4,10 @@ namespace ShoppingCart\Tests\Cart\Application;
 
 use PHPUnit\Framework\MockObject\MockObject;
 use ShoppingCart\Cart\Application\CartProductRemoverCommandHandler;
-use ShoppingCart\Cart\Domain\CartId;
 use ShoppingCart\Cart\Domain\CartRepository;
 use ShoppingCart\Cart\Domain\NotFoundCartException;
 use ShoppingCart\Cart\Domain\ProductCollection;
+use ShoppingCart\Shared\Domain\Models\CartId;
 use ShoppingCart\Shared\Domain\Models\UuidUtils;
 use ShoppingCart\Tests\Cart\Domain\CartObjectMother;
 use ShoppingCart\Tests\Cart\Domain\ProductObjectMother;

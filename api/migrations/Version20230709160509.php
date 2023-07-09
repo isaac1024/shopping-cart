@@ -10,18 +10,22 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20230708130849 extends AbstractMigration
+final class Version20230709160509 extends AbstractMigration
 {
     public function getDescription(): string
     {
-        return 'Create carts table';
+        return 'Create orders table';
     }
 
     public function up(Schema $schema): void
     {
         $this->addSql(<<<SQL
-            CREATE TABLE carts (
+            CREATE TABLE orders (
                 id UUID NOT NULL,
+                cart_id UUID NOT NULL,
+                status VARCHAR(32) NOT NULL,
+                address VARCHAR(255) NOT NULL,
+                name VARCHAR(180) NOT NULL,
                 number_items INTEGER NOT NULL,
                 total_amount INTEGER NOT NULL,
                 product_items JSON NOT NULL,
@@ -33,7 +37,7 @@ final class Version20230708130849 extends AbstractMigration
     public function down(Schema $schema): void
     {
         $this->addSql(<<<SQL
-            DROP TABLE carts;
+            DROP TABLE orders;
         SQL);
     }
 }

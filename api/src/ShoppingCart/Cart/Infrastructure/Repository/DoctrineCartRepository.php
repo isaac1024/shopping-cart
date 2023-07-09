@@ -4,9 +4,9 @@ namespace ShoppingCart\Cart\Infrastructure\Repository;
 
 use Doctrine\ORM\EntityManagerInterface;
 use ShoppingCart\Cart\Domain\Cart;
-use ShoppingCart\Cart\Domain\CartId;
 use ShoppingCart\Cart\Domain\CartRepository;
 use ShoppingCart\Cart\Domain\Product;
+use ShoppingCart\Shared\Domain\Models\CartId;
 
 final readonly class DoctrineCartRepository implements CartRepository
 {

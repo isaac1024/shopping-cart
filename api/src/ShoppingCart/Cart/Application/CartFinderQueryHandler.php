@@ -2,10 +2,10 @@
 
 namespace ShoppingCart\Cart\Application;
 
-use ShoppingCart\Cart\Domain\CartId;
 use ShoppingCart\Cart\Domain\CartRepository;
 use ShoppingCart\Cart\Domain\NotFoundCartException;
 use ShoppingCart\Shared\Domain\Bus\QueryHandler;
+use ShoppingCart\Shared\Domain\Models\CartId;
 
 final readonly class CartFinderQueryHandler implements QueryHandler
 {

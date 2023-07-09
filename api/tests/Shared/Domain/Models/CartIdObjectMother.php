@@ -1,8 +1,8 @@
 <?php
 
-namespace ShoppingCart\Tests\Cart\Domain;
+namespace ShoppingCart\Tests\Shared\Domain\Models;
 
-use ShoppingCart\Cart\Domain\CartId;
+use ShoppingCart\Shared\Domain\Models\CartId;
 use ShoppingCart\Shared\Domain\Models\UuidUtils;
 
 final class CartIdObjectMother
