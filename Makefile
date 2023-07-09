@@ -13,6 +13,7 @@ down: ## Down docker containers
 prepare: ## Prepare database
 	@cp -n api/.env.example api/.env || true
 	@cp -n api/.env.test.example api/.env.test || true
+	@docker-compose exec api composer install
 	@docker-compose exec api php bin/console doctrine:migrations:migrate -n
 	@docker-compose exec api php bin/console doctrine:database:create --if-not-exists -e test
 	@docker-compose exec api php bin/console doctrine:migrations:migrate -n -e test
