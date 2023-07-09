@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace ShoppingCart\Tests\Shared\Infrastructure\PhpUnit;
 
+use SebastianBergmann\Exporter\Exporter;
 use ShoppingCart\Shared\Domain\Models\AggregateRoot;
 use ReflectionClass;
 use SebastianBergmann\Comparator\Comparator;
@@ -29,15 +30,15 @@ final class AggregateRootComparator extends Comparator
 
     public function recursiveComparator($expected, $actual): void
     {
+        $exporter = new Exporter();
         if ($actual::class !== $expected::class) {
-            $expectedExported = $this->exporter->export($expected);
-            $actualExported = $this->exporter->export($actual);
+            $expectedExported = $exporter->export($expected);
+            $actualExported = $exporter->export($actual);
             throw new ComparisonFailure(
                 $expected,
                 $actual,
                 $expectedExported,
                 $actualExported,
-                false,
                 sprintf('%s is not instance of expected class "%s".', $actualExported, $expected::class),
             );
         }
@@ -59,13 +60,30 @@ final class AggregateRootComparator extends Comparator
                 continue;
             }
 
+            if (is_array($expectedValue)) {
+                if (array_keys($expectedValue) !== array_keys($actualValue)) {
+                    throw new ComparisonFailure(
+                        $expected,
+                        $actual,
+                        $exporter->export($expected),
+                        $exporter->export($actual),
+                        'Failed asserting that two objects are equal.',
+                    );
+                }
+
+                foreach (array_keys($expectedValue) as $key) {
+                    $this->recursiveComparator($expectedValue[$key], $actualValue[$key]);
+                }
+
+                continue;
+            }
+
             if ($expectedValue !== $actualValue) {
                 throw new ComparisonFailure(
                     $expected,
                     $actual,
-                    $this->exporter->export($expected),
-                    $this->exporter->export($actual),
-                    false,
+                    $exporter->export($expected),
+                    $exporter->export($actual),
                     'Failed asserting that two objects are equal.',
                 );
             }

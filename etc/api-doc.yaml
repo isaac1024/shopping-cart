@@ -185,7 +185,7 @@ components:
     CartItemResponse:
       type: object
       properties:
-        id:
+        productId:
           type: string
           format: uuid
           example: db7b6fd5-4994-4852-be3f-3c8ff78c7292
