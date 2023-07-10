@@ -16,7 +16,7 @@ final readonly class PayOnOrderPendingToPay implements EventSubscriber
     {
         $this->logger->info('Paying the order', [
             'orderId' => $event->aggregateId,
-            'card' => $event->attributes(),
+            'attributes' => $event->attributes(),
         ]);
     }
 }
