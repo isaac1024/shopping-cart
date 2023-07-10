@@ -38,12 +38,12 @@ class OrderCreatorCommandHandlerTest extends UnitTestCase
     public function testCreateOrder(): void
     {
         $command = OrderCreatorCommandObjectMother::make();
-        $expectedCart = OrderObjectMother::fromOrderCreatorCommand($command);
-        $orderPendingToPayEvent = OrderPendingToPayObjectMother::fromOrderCreatorCommand($command);
+        $expectedOrder = OrderObjectMother::fromOrderCreatorCommand($command);
+        $orderPendingToPayEvent = OrderPendingToPayObjectMother::fromOrderAndCommand($expectedOrder, $command);
 
         $this->orderRepository->expects($this->once())
             ->method('save')
-            ->with($expectedCart);
+            ->with($expectedOrder);
 
         $this->eventBus->expects($this->once())
             ->method('publish')

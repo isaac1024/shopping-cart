@@ -40,6 +40,7 @@ final class Order extends AggregateRoot
             ),
             $productItems
         ));
+        $totalAmount = $products->totalAmount();
         $order = new Order(
             new OrderId($orderId),
             Status::PENDING_PAYMENT,
@@ -47,11 +48,18 @@ final class Order extends AggregateRoot
             new Address($address),
             new CartId($cartId),
             new NumberItems($products->totalQuantity()),
-            new TotalAmount($products->totalAmount()),
+            new TotalAmount($totalAmount),
             $products,
         );
 
-        $order->registerNewEvent(new OrderPendingToPay($orderId, $cardNumber, $cardValidDate, $cardCvv));
+        $order->registerNewEvent(new OrderPendingToPay(
+            $orderId,
+            $name,
+            $totalAmount,
+            $cardNumber,
+            $cardValidDate,
+            $cardCvv
+        ));
 
         return $order;
     }
@@ -60,5 +68,10 @@ final class Order extends AggregateRoot
     {
         $orderRepository->save($this);
         $this->publishEvents($eventBus);
+    }
+
+    public function getTotalAmount(): int
+    {
+        return $this->totalAmount->value;
     }
 }

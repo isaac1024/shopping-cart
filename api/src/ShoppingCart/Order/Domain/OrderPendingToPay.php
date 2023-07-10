@@ -8,9 +8,11 @@ final readonly class OrderPendingToPay extends DomainEvent
 {
     public function __construct(
         string $id,
+        private string $name,
+        private int $totalAmount,
         private string $cardNumber,
         private string $cardValidDate,
-        private string $cardCvv
+        private string $cardCvv,
     ) {
         parent::__construct($id);
     }
@@ -18,6 +20,8 @@ final readonly class OrderPendingToPay extends DomainEvent
     public function attributes(): array
     {
         return [
+            'name' => $this->name,
+            'totalAmount' => $this->totalAmount,
             'cardNumber' => $this->cardNumber,
             'cardValidDate' => $this->cardValidDate,
             'cardCvv' => $this->cardCvv,
