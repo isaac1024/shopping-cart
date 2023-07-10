@@ -29,7 +29,7 @@ final class OrderPendingToPayObjectMother
         );
     }
 
-    public static function fromOrderAndCommand(Order $order, OrderCreatorCommand $command)
+    public static function fromOrderAndCommand(Order $order, OrderCreatorCommand $command): OrderPendingToPay
     {
         return OrderPendingToPayObjectMother::make(
             $command->orderId,
