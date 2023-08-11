@@ -11,7 +11,28 @@ final class Product
         public int $quantity,
         public int $totalPrice,
     ) {
-        $this->validate();
+    }
+
+    public static function create(
+        string $productId,
+        string $title,
+        int $unitPrice,
+        int $quantity,
+        int $totalPrice,
+    ): Product {
+        if ($quantity <= 0) {
+            throw ProductException::noQuantity();
+        }
+
+        if ($unitPrice <= 0) {
+            throw ProductException::noPrice();
+        }
+
+        if ($totalPrice !== $unitPrice * $quantity) {
+            throw ProductException::totalPriceNotValid();
+        }
+
+        return new Product($productId, $title, $unitPrice, $quantity, $totalPrice);
     }
 
     public function toArray(): array
@@ -23,26 +44,5 @@ final class Product
             'quantity' => $this->quantity,
             'totalPrice' => $this->totalPrice,
         ];
-    }
-
-    private function validate(): void
-    {
-        if ($this->quantity <= 0) {
-            throw ProductException::noQuantity();
-        }
-
-        if ($this->unitPrice <= 0) {
-            throw ProductException::noPrice();
-        }
-
-        $totalPrice = $this->calculateNewTotalPrice($this->quantity);
-        if ($totalPrice !== $this->totalPrice) {
-            throw ProductException::totalPriceNotValid();
-        }
-    }
-
-    private function calculateNewTotalPrice(int $quantity): int
-    {
-        return $this->unitPrice * $quantity;
     }
 }

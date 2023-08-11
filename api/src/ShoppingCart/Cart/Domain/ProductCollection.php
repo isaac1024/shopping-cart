@@ -8,7 +8,6 @@ final readonly class ProductCollection
 
     public function __construct(Product ...$products)
     {
-        $this->validate($products);
         $this->products = $products;
     }
 
@@ -34,20 +33,14 @@ final readonly class ProductCollection
 
     public function add(Product $product): ProductCollection
     {
+        if ($product->quantity === 0) {
+            throw ProductCollectionException::zeroQuantity();
+        }
+
         $productId = $product->productId;
         $products = array_filter($this->products, fn (Product $product) => $product->productId !== $productId);
 
         return new ProductCollection($product, ...$products);
-    }
-
-    private function validate(array $products): void
-    {
-        /** @var Product $product */
-        foreach ($products as $product) {
-            if ($product->quantity === 0) {
-                throw ProductCollectionException::zeroQuantity();
-            }
-        }
     }
 
     public function totalQuantity(): int

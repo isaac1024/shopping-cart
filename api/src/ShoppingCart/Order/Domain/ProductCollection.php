@@ -8,25 +8,25 @@ final readonly class ProductCollection
 
     public function __construct(Product ...$products)
     {
-        $this->validate($products);
         $this->products = $products;
     }
 
-    public function toArray(): array
-    {
-        return array_map(fn (Product $product) => $product->toArray(), $this->products);
-    }
-
-    private function validate(array $products): void
+    public static function create(Product ...$products): ProductCollection
     {
         $productIds = [];
-        /** @var Product $product */
         foreach ($products as $product) {
             if (in_array($product->productId, $productIds, true)) {
                 throw DuplicateProductException::duplicateProductsOnCollection();
             }
             $productIds[] = $product->productId;
         }
+
+        return new ProductCollection(...$products);
+    }
+
+    public function toArray(): array
+    {
+        return array_map(fn (Product $product) => $product->toArray(), $this->products);
     }
 
     public function totalQuantity(): int

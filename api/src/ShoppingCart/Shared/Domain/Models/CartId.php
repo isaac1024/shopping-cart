@@ -4,8 +4,8 @@ namespace ShoppingCart\Shared\Domain\Models;
 
 final readonly class CartId extends Uuid
 {
-    protected function throwException(): never
+    protected static function throwException(string $value): never
     {
-        throw CartIdException::invalidCartId($this->value);
+        throw CartIdException::invalidCartId($value);
     }
 }

@@ -8,21 +8,22 @@ final readonly class Address
 
     public function __construct(public string $value)
     {
-        $this->validate();
     }
 
-    private function validate(): void
+    public static function create(string $value): Address
     {
-        if ($this->value !== trim($this->value)) {
-            throw AddressException::nameWithWhitespaces($this->value);
+        if ($value !== trim($value)) {
+            throw AddressException::nameWithWhitespaces($value);
         }
 
-        if (empty($this->value)) {
+        if (empty($value)) {
             throw AddressException::emptyAddress();
         }
 
-        if (strlen($this->value) > self::MAX_LENGTH) {
-            throw AddressException::tooLong($this->value, self::MAX_LENGTH);
+        if (strlen($value) > self::MAX_LENGTH) {
+            throw AddressException::tooLong($value, self::MAX_LENGTH);
         }
+
+        return new Address($value);
     }
 }

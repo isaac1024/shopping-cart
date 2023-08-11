@@ -6,13 +6,14 @@ final readonly class NumberItems
 {
     public function __construct(public int $value)
     {
-        $this->validate();
     }
 
-    private function validate(): void
+    public static function create(int $value): NumberItems
     {
-        if ($this->value <= 0) {
+        if ($value <= 0) {
             throw NumberItemsException::orderWithoutItems();
         }
+
+        return new NumberItems($value);
     }
 }

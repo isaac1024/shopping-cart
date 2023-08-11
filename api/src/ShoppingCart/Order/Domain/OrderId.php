@@ -6,8 +6,8 @@ use ShoppingCart\Shared\Domain\Models\Uuid;
 
 final readonly class OrderId extends Uuid
 {
-    protected function throwException(): never
+    protected static function throwException(string $value): never
     {
-        throw OrderIdException::invalidOrderId($this->value);
+        throw OrderIdException::invalidOrderId($value);
     }
 }

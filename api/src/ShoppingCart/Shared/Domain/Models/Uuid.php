@@ -4,21 +4,22 @@ namespace ShoppingCart\Shared\Domain\Models;
 
 abstract readonly class Uuid
 {
-    public function __construct(public string $value)
+    final public function __construct(public string $value)
     {
-        $this->validate();
     }
 
-    private function validate(): void
+    final public static function create(string $value): static
     {
-        if (!UuidUtils::isValid($this->value)) {
-            $this->throwException();
+        if (!UuidUtils::isValid($value)) {
+            static::throwException($value);
         }
+
+        return new static($value);
     }
 
-    abstract protected function throwException(): never;
+    abstract protected static function throwException(string $value): never;
 
-    public function __toString(): string
+    final public function __toString(): string
     {
         return $this->value;
     }

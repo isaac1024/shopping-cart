@@ -8,21 +8,22 @@ final readonly class Name
 
     public function __construct(public string $value)
     {
-        $this->validate();
     }
 
-    private function validate(): void
+    public static function create(string $value): Name
     {
-        if ($this->value !== trim($this->value)) {
-            throw NameException::nameWithWhitespaces($this->value);
+        if ($value !== trim($value)) {
+            throw NameException::nameWithWhitespaces($value);
         }
 
-        if (empty($this->value)) {
+        if (empty($value)) {
             throw NameException::emptyName();
         }
 
-        if (strlen($this->value) > self::MAX_LENGTH) {
-            throw NameException::tooLong($this->value, self::MAX_LENGTH);
+        if (strlen($value) > self::MAX_LENGTH) {
+            throw NameException::tooLong($value, self::MAX_LENGTH);
         }
+
+        return new Name($value);
     }
 }

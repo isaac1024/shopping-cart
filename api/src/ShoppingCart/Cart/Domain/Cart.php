@@ -18,7 +18,7 @@ final class Cart extends AggregateRoot
     public static function new(string $cartId): Cart
     {
         return new Cart(
-            new CartId($cartId),
+            CartId::create($cartId),
             NumberItems::init(),
             TotalAmount::init(),
             ProductCollection::init(),

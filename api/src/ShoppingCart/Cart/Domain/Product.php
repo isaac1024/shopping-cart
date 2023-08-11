@@ -11,7 +11,6 @@ final class Product
         public int $quantity,
         public int $totalPrice
     ) {
-        $this->validate();
     }
 
     public static function init(string $productId, string $title, int $unitPrice): Product
@@ -32,15 +31,12 @@ final class Product
 
     public function updateQuantity(int $quantity): Product
     {
-        $totalPrice = $this->calculateNewTotalPrice($quantity);
-        return new Product($this->productId, $this->title, $this->unitPrice, $quantity, $totalPrice);
-    }
-
-    private function validate(): void
-    {
-        if ($this->quantity < 0) {
+        if ($quantity < 0) {
             throw ProductException::negativeQuantity();
         }
+
+        $totalPrice = $this->calculateNewTotalPrice($quantity);
+        return new Product($this->productId, $this->title, $this->unitPrice, $quantity, $totalPrice);
     }
 
     private function calculateNewTotalPrice(int $quantity): int
