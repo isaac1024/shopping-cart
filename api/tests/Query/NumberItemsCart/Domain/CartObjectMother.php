@@ -6,7 +6,6 @@ use Faker\Factory;
 use ShoppingCart\Query\NumberItemsCart\Application\NumberItemsCartFinderQuery;
 use ShoppingCart\Query\NumberItemsCart\Domain\Cart;
 use ShoppingCart\Shared\Domain\Models\UuidUtils;
-use ShoppingCart\Tests\Shared\Domain\Models\CartIdObjectMother;
 
 final class CartObjectMother
 {
