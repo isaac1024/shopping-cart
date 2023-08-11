@@ -6,11 +6,11 @@ use PHPUnit\Framework\MockObject\MockObject;
 use ShoppingCart\Command\Cart\Application\CartProductSetterCommandHandler;
 use ShoppingCart\Command\Cart\Domain\CartException;
 use ShoppingCart\Command\Cart\Domain\CartRepository;
-use ShoppingCart\Command\Cart\Domain\NotFoundCartException;
 use ShoppingCart\Command\Cart\Domain\ProductCollection;
 use ShoppingCart\Command\Cart\Domain\ProductCollectionException;
 use ShoppingCart\Command\Cart\Domain\ProductException;
 use ShoppingCart\Shared\Domain\Models\CartId;
+use ShoppingCart\Shared\Domain\Models\NotFoundCartException;
 use ShoppingCart\Tests\Command\Cart\Domain\CartObjectMother;
 use ShoppingCart\Tests\Command\Cart\Domain\ProductObjectMother;
 use ShoppingCart\Tests\Shared\Infrastructure\PhpUnit\UnitTestCase;
@@ -35,7 +35,7 @@ class CartProductSetterCommandHandlerTest extends UnitTestCase
         $command = CartProductSetterCommandObjectMother::make($cart->cartId(), $product->productId);
 
         $this->cartRepository->expects($this->once())
-            ->method('find')
+            ->method('search')
             ->with(new CartId($command->cartId))
             ->willReturn($cart);
 
@@ -60,7 +60,7 @@ class CartProductSetterCommandHandlerTest extends UnitTestCase
         $command = CartProductSetterCommandObjectMother::make($cart->cartId(), $product->productId, $product->quantity + 1);
 
         $this->cartRepository->expects($this->once())
-            ->method('find')
+            ->method('search')
             ->with(new CartId($command->cartId))
             ->willReturn($cart);
 
@@ -86,7 +86,7 @@ class CartProductSetterCommandHandlerTest extends UnitTestCase
         $this->expectExceptionMessage(sprintf("Not exist a product with id '%s'", $command->productId));
 
         $this->cartRepository->expects($this->once())
-            ->method('find')
+            ->method('search')
             ->with(new CartId($command->cartId))
             ->willReturn($cart);
 
@@ -111,7 +111,7 @@ class CartProductSetterCommandHandlerTest extends UnitTestCase
         $this->expectExceptionMessage("Can't add a product with 0 quantity");
 
         $this->cartRepository->expects($this->once())
-            ->method('find')
+            ->method('search')
             ->with(new CartId($command->cartId))
             ->willReturn($cart);
 
@@ -136,7 +136,7 @@ class CartProductSetterCommandHandlerTest extends UnitTestCase
         $this->expectExceptionMessage("Product cart quantity can't be negative");
 
         $this->cartRepository->expects($this->once())
-            ->method('find')
+            ->method('search')
             ->with(new CartId($command->cartId))
             ->willReturn($cart);
 
@@ -158,7 +158,7 @@ class CartProductSetterCommandHandlerTest extends UnitTestCase
         $this->expectExceptionMessage(sprintf("Not found cart with id '%s'", $command->cartId));
 
         $this->cartRepository->expects($this->once())
-            ->method('find')
+            ->method('search')
             ->with(new CartId($command->cartId))
             ->willReturn(null);
 

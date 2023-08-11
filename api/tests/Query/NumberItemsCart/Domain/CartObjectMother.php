@@ -24,6 +24,6 @@ final class CartObjectMother
 
     public static function fromCartFinderQuery(NumberItemsCartFinderQuery $query): Cart
     {
-        return CartObjectMother::make(CartIdObjectMother::make($query->id));
+        return CartObjectMother::make($query->id);
     }
 }

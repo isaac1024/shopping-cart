@@ -3,9 +3,9 @@
 namespace ShoppingCart\Command\Cart\Application;
 
 use ShoppingCart\Command\Cart\Domain\CartRepository;
-use ShoppingCart\Command\Cart\Domain\NotFoundCartException;
 use ShoppingCart\Shared\Domain\Bus\CommandHandler;
 use ShoppingCart\Shared\Domain\Models\CartId;
+use ShoppingCart\Shared\Domain\Models\NotFoundCartException;
 
 final readonly class CartProductSetterCommandHandler implements CommandHandler
 {
@@ -15,7 +15,7 @@ final readonly class CartProductSetterCommandHandler implements CommandHandler
 
     public function dispatch(CartProductSetterCommand $command): void
     {
-        $cart = $this->cartRepository->find(new CartId($command->cartId));
+        $cart = $this->cartRepository->search($command->cartId);
         if (!$cart) {
             throw NotFoundCartException::notFound($command->cartId);
         }

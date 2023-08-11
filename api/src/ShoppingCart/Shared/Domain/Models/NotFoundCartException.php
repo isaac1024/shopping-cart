@@ -1,6 +1,6 @@
 <?php
 
-namespace ShoppingCart\Query\Cart\Domain;
+namespace ShoppingCart\Shared\Domain\Models;
 
 use ShoppingCart\Shared\Domain\ShoppingCartException;
 

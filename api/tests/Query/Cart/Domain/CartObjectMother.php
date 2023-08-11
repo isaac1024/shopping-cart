@@ -6,7 +6,6 @@ use ShoppingCart\Query\Cart\Application\CartFinderQuery;
 use ShoppingCart\Query\Cart\Domain\Cart;
 use ShoppingCart\Query\Cart\Domain\ProductCollection;
 use ShoppingCart\Shared\Domain\Models\UuidUtils;
-use ShoppingCart\Tests\Shared\Domain\Models\CartIdObjectMother;
 
 final class CartObjectMother
 {
@@ -25,6 +24,6 @@ final class CartObjectMother
 
     public static function fromCartFinderQuery(CartFinderQuery $query): Cart
     {
-        return CartObjectMother::make(CartIdObjectMother::make($query->id));
+        return CartObjectMother::make($query->id);
     }
 }

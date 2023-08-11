@@ -38,7 +38,7 @@ class DoctrineCartRepositoryTest extends IntegrationTestCase
 
     public function testNotFindACart(): void
     {
-        $cart = $this->repository->search(new CartId(UuidUtils::random()));
+        $cart = $this->repository->search(UuidUtils::random());
 
         self::assertNull($cart);
     }

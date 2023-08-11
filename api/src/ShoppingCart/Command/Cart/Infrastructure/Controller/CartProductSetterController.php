@@ -4,11 +4,11 @@ namespace ShoppingCart\Command\Cart\Infrastructure\Controller;
 
 use ShoppingCart\Command\Cart\Application\CartProductSetterCommand;
 use ShoppingCart\Command\Cart\Domain\CartException;
-use ShoppingCart\Command\Cart\Domain\NotFoundCartException;
 use ShoppingCart\Command\Cart\Domain\ProductCollectionException;
 use ShoppingCart\Command\Cart\Domain\ProductException;
 use ShoppingCart\Command\Cart\Infrastructure\Request\CartProductSetterRequest;
 use ShoppingCart\Shared\Domain\Models\CartIdException;
+use ShoppingCart\Shared\Domain\Models\NotFoundCartException;
 use ShoppingCart\Shared\Infrastructure\ApiController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 

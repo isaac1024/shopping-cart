@@ -5,7 +5,7 @@ namespace ShoppingCart\Tests\Query\Cart\Application;
 use PHPUnit\Framework\MockObject\MockObject;
 use ShoppingCart\Query\Cart\Application\CartFinderQueryHandler;
 use ShoppingCart\Query\Cart\Domain\CartRepository;
-use ShoppingCart\Query\Cart\Domain\NotFoundCartException;
+use ShoppingCart\Shared\Domain\Models\NotFoundCartException;
 use ShoppingCart\Tests\Query\Cart\Domain\CartObjectMother;
 use ShoppingCart\Tests\Shared\Domain\Models\CartIdObjectMother;
 use ShoppingCart\Tests\Shared\Infrastructure\PhpUnit\UnitTestCase;

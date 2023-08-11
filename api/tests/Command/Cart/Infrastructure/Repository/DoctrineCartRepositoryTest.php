@@ -40,14 +40,14 @@ class DoctrineCartRepositoryTest extends IntegrationTestCase
         $em = $this->getContainer()->get('doctrine.orm.default_entity_manager');
         $em->clear();
 
-        $cart = $this->repository->find(new CartId($expectedCart->cartId()));
+        $cart = $this->repository->search($expectedCart->cartId());
 
         self::assertEquals($expectedCart, $cart);
     }
 
     public function testNotFindACart(): void
     {
-        $cart = $this->repository->find(new CartId(UuidUtils::random()));
+        $cart = $this->repository->search(UuidUtils::random());
 
         self::assertNull($cart);
     }

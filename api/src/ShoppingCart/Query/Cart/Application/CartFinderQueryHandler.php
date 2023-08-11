@@ -3,9 +3,8 @@
 namespace ShoppingCart\Query\Cart\Application;
 
 use ShoppingCart\Query\Cart\Domain\CartRepository;
-use ShoppingCart\Query\Cart\Domain\NotFoundCartException;
 use ShoppingCart\Shared\Domain\Bus\QueryHandler;
-use ShoppingCart\Shared\Domain\Models\CartId;
+use ShoppingCart\Shared\Domain\Models\NotFoundCartException;
 
 final readonly class CartFinderQueryHandler implements QueryHandler
 {
@@ -15,7 +14,7 @@ final readonly class CartFinderQueryHandler implements QueryHandler
 
     public function ask(CartFinderQuery $query): CartFinderResponse
     {
-        $cart = $this->cartRepository->search(new CartId($query->id));
+        $cart = $this->cartRepository->search($query->id);
         if (!$cart) {
             throw NotFoundCartException::notFound($query->id);
         }

@@ -3,9 +3,9 @@
 namespace ShoppingCart\Command\Cart\Infrastructure\Controller;
 
 use ShoppingCart\Command\Cart\Application\CartProductRemoverCommand;
-use ShoppingCart\Command\Cart\Domain\NotFoundCartException;
 use ShoppingCart\Command\Cart\Infrastructure\Request\CartProductRemoverRequest;
 use ShoppingCart\Shared\Domain\Models\CartIdException;
+use ShoppingCart\Shared\Domain\Models\NotFoundCartException;
 use ShoppingCart\Shared\Infrastructure\ApiController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 

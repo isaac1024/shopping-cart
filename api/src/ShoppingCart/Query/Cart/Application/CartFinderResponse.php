@@ -15,7 +15,7 @@ final readonly class CartFinderResponse implements QueryResponse
     ) {
     }
 
-    public static function fromCart(Cart $cart)
+    public static function fromCart(Cart $cart): CartFinderResponse
     {
         return new CartFinderResponse(
             $cart->id(),

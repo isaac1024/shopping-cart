@@ -3,7 +3,7 @@
 namespace ShoppingCart\Query\NumberItemsCart\Infrastructure\Controller;
 
 use ShoppingCart\Query\NumberItemsCart\Application\NumberItemsCartFinderQuery;
-use ShoppingCart\Query\NumberItemsCart\Domain\NotFoundCartException;
+use ShoppingCart\Shared\Domain\Models\NotFoundCartException;
 use ShoppingCart\Shared\Infrastructure\ApiController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;

@@ -5,9 +5,9 @@ namespace ShoppingCart\Tests\Command\Cart\Application;
 use PHPUnit\Framework\MockObject\MockObject;
 use ShoppingCart\Command\Cart\Application\CartProductRemoverCommandHandler;
 use ShoppingCart\Command\Cart\Domain\CartRepository;
-use ShoppingCart\Command\Cart\Domain\NotFoundCartException;
 use ShoppingCart\Command\Cart\Domain\ProductCollection;
 use ShoppingCart\Shared\Domain\Models\CartId;
+use ShoppingCart\Shared\Domain\Models\NotFoundCartException;
 use ShoppingCart\Shared\Domain\Models\UuidUtils;
 use ShoppingCart\Tests\Command\Cart\Domain\CartObjectMother;
 use ShoppingCart\Tests\Command\Cart\Domain\ProductObjectMother;
@@ -33,7 +33,7 @@ class CartProductRemoverCommandHandlerTest extends UnitTestCase
         $command = CartProductRemoverCommandObjectMother::make($cart->cartId(), $product->productId);
 
         $this->cartRepository->expects($this->once())
-            ->method('find')
+            ->method('search')
             ->with(new CartId($command->cartId))
             ->willReturn($cart);
 
@@ -55,7 +55,7 @@ class CartProductRemoverCommandHandlerTest extends UnitTestCase
         $cartTotalAmount = $cart->totalAmount();
 
         $this->cartRepository->expects($this->once())
-            ->method('find')
+            ->method('search')
             ->with(new CartId($command->cartId))
             ->willReturn($cart);
 
@@ -75,7 +75,7 @@ class CartProductRemoverCommandHandlerTest extends UnitTestCase
         $this->expectExceptionMessage(sprintf("Not found cart with id '%s'", $command->cartId));
 
         $this->cartRepository->expects($this->once())
-            ->method('find')
+            ->method('search')
             ->with(new CartId($command->cartId))
             ->willReturn(null);
 

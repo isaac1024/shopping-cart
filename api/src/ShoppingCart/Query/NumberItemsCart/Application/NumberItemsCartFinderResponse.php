@@ -13,7 +13,7 @@ final readonly class NumberItemsCartFinderResponse implements QueryResponse
     ) {
     }
 
-    public static function fromCart(Cart $cart)
+    public static function fromCart(Cart $cart): NumberItemsCartFinderResponse
     {
         return new NumberItemsCartFinderResponse(
             $cart->id(),
