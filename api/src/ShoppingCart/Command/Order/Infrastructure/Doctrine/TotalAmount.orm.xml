@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping">
+    <embeddable name="ShoppingCart\Command\Order\Domain\TotalAmount">
+        <field name="value" column="total_amount" type="integer" />
+    </embeddable>
+</doctrine-mapping>

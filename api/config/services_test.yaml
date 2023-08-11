@@ -1,12 +1,20 @@
 services:
-    ShoppingCart\Product\Infrastructure\Repository\DoctrineProductRepository:
+    ShoppingCart\Query\Product\Infrastructure\Repository\DoctrineProductRepository:
         arguments: [ '@doctrine.orm.default_entity_manager' ]
         public: true
 
-    ShoppingCart\Cart\Infrastructure\Repository\DoctrineCartRepository:
+    ShoppingCart\Query\Cart\Infrastructure\Repository\DoctrineCartRepository:
         arguments: [ '@doctrine.orm.default_entity_manager' ]
         public: true
 
-    ShoppingCart\Order\Infrastructure\Repository\DoctrineOrderRepository:
+    ShoppingCart\Query\NumberItemsCart\Infrastructure\Repository\DoctrineCartRepository:
+        arguments: [ '@doctrine.orm.default_entity_manager' ]
+        public: true
+
+    ShoppingCart\Command\Cart\Infrastructure\Repository\DoctrineCartRepository:
+        arguments: [ '@doctrine.orm.default_entity_manager' ]
+        public: true
+
+    ShoppingCart\Command\Order\Infrastructure\Repository\DoctrineOrderRepository:
         arguments: [ '@doctrine.orm.default_entity_manager' ]
         public: true

@@ -56,6 +56,25 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
+  /carts/{cartId}/items:
+    get:
+      summary: Get a cart number of items
+      operationId: numberItemsCartFinder
+      tags:
+        - cart
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NumberItemsCartResponse'
+        404:
+          description: cart not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
   /carts/{cartId}/product_quantity:
     post:
       summary: Set a product to the cart
@@ -165,6 +184,16 @@ components:
           format: url
         price:
           type: integer
+    NumberItemsCartResponse:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          example: 81d82b61-cb5c-4e2d-8f6a-2acca3c40d63
+        numberItems:
+          type: integer
+          example: 2
     CartResponse:
       type: object
       properties:

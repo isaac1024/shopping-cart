@@ -15,6 +15,10 @@ POST {{url}}/carts
 GET {{url}}/carts/{{cart_uuid}}
 Accept: application/json
 
+### Find a cart number items
+GET {{url}}/carts/{{cart_uuid}}/items
+Accept: application/json
+
 ### Update product quantities
 # 824ee66a-42c2-48d2-99af-0be1653c51ef: The software craftsman
 # 307028d4-8a2f-4441-a3ac-0c904c12bf86: Domain-Driven Design

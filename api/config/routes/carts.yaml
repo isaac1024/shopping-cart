@@ -1,25 +1,32 @@
 cart_creator:
   path: /carts
-  controller: ShoppingCart\Cart\Infrastructure\Controller\CartCreatorController
+  controller: ShoppingCart\Command\Cart\Infrastructure\Controller\CartCreatorController
   methods: POST
 
 cart_finder:
   path: /carts/{cartId}
-  controller: ShoppingCart\Cart\Infrastructure\Controller\CartFinderController
+  controller: ShoppingCart\Query\Cart\Infrastructure\Controller\CartFinderController
+  methods: GET
+  requirements:
+    cartId: !php/const Symfony\Component\Routing\Requirement\Requirement::UUID_V4
+
+cart_number_items:
+  path: /carts/{cartId}/items
+  controller: ShoppingCart\Query\NumberItemsCart\Infrastructure\Controller\NumberItemsCartFinderController
   methods: GET
   requirements:
     cartId: !php/const Symfony\Component\Routing\Requirement\Requirement::UUID_V4
 
 cart_product_quantity:
   path: /carts/{cartId}/product_quantity
-  controller: ShoppingCart\Cart\Infrastructure\Controller\CartProductSetterController
+  controller: ShoppingCart\Command\Cart\Infrastructure\Controller\CartProductSetterController
   methods: POST
   requirements:
     cartId: !php/const Symfony\Component\Routing\Requirement\Requirement::UUID_V4
 
 cart_product_delete:
   path: /carts/{cartId}/product_delete
-  controller: ShoppingCart\Cart\Infrastructure\Controller\CartProductRemoverController
+  controller: ShoppingCart\Command\Cart\Infrastructure\Controller\CartProductRemoverController
   methods: POST
   requirements:
     cartId: !php/const Symfony\Component\Routing\Requirement\Requirement::UUID_V4

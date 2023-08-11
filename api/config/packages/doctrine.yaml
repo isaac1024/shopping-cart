@@ -3,9 +3,10 @@ doctrine:
         url: '%env(resolve:DATABASE_URL)%'
         types:
             cart_id: ShoppingCart\Shared\Infrastructure\Doctrine\CartIdType
-            order_id: ShoppingCart\Order\Infrastructure\Doctrine\OrderIdType
-            cart_product_items: ShoppingCart\Cart\Infrastructure\Doctrine\ProductCollectionType
-            order_product_items: ShoppingCart\Order\Infrastructure\Doctrine\ProductCollectionType
+            order_id: ShoppingCart\Command\Order\Infrastructure\Doctrine\OrderIdType
+            command_cart_product_items: ShoppingCart\Command\Cart\Infrastructure\Doctrine\ProductCollectionType
+            query_cart_product_items: ShoppingCart\Query\Cart\Infrastructure\Doctrine\ProductCollectionType
+            order_product_items: ShoppingCart\Command\Order\Infrastructure\Doctrine\ProductCollectionType
 
         # IMPORTANT: You MUST configure your server version,
         # either here or in the DATABASE_URL env var (see .env file)
@@ -18,21 +19,31 @@ doctrine:
         naming_strategy: doctrine.orm.naming_strategy.underscore_number_aware
         auto_mapping: true
         mappings:
-            Product:
+            QueryProduct:
                 is_bundle: false
                 type: xml
-                dir: '%kernel.project_dir%/src/ShoppingCart/Product/Infrastructure/Doctrine/'
-                prefix: 'ShoppingCart\Product\Domain'
-            Cart:
+                dir: '%kernel.project_dir%/src/ShoppingCart/Query/Product/Infrastructure/Doctrine/'
+                prefix: 'ShoppingCart\Query\Product\Domain'
+            QueryCart:
                 is_bundle: false
                 type: xml
-                dir: '%kernel.project_dir%/src/ShoppingCart/Cart/Infrastructure/Doctrine/'
-                prefix: 'ShoppingCart\Cart\Domain'
-            Order:
+                dir: '%kernel.project_dir%/src/ShoppingCart/Query/Cart/Infrastructure/Doctrine/'
+                prefix: 'ShoppingCart\Query\Cart\Domain'
+            QueryNumberItemsCart:
                 is_bundle: false
                 type: xml
-                dir: '%kernel.project_dir%/src/ShoppingCart/Order/Infrastructure/Doctrine/'
-                prefix: 'ShoppingCart\Order\Domain'
+                dir: '%kernel.project_dir%/src/ShoppingCart/Query/NumberItemsCart/Infrastructure/Doctrine/'
+                prefix: 'ShoppingCart\Query\NumberItemsCart\Domain'
+            CommandCart:
+                is_bundle: false
+                type: xml
+                dir: '%kernel.project_dir%/src/ShoppingCart/Command/Cart/Infrastructure/Doctrine/'
+                prefix: 'ShoppingCart\Command\Cart\Domain'
+            CommandOrder:
+                is_bundle: false
+                type: xml
+                dir: '%kernel.project_dir%/src/ShoppingCart/Command/Order/Infrastructure/Doctrine/'
+                prefix: 'ShoppingCart\Command\Order\Domain'
 when@test:
     doctrine:
         dbal:
