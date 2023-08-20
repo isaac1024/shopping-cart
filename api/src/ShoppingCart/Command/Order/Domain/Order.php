@@ -30,24 +30,24 @@ final class Order extends AggregateRoot
         string $cardValidDate,
         string $cardCvv,
     ): Order {
-        $products = ProductCollection::create(...array_map(
-            fn (array $product) => Product::create(
+        $products = (new ValidProductCollection(...array_map(
+            fn (array $product) => (new ValidProduct(
                 $product['productId'],
                 $product['title'],
                 $product['unitPrice'],
                 $product['quantity'],
                 $product['totalPrice'],
-            ),
+            ))->create(),
             $productItems
-        ));
+        )))->create();
         $totalAmount = $products->totalAmount();
         $order = new Order(
             OrderId::create($orderId),
             Status::PENDING_PAYMENT,
-            Name::create($name),
-            Address::create($address),
+            (new ValidName($name))->create(),
+            (new ValidAddress($address))->create(),
             CartId::create($cartId),
-            NumberItems::create($products->totalQuantity()),
+            (new ValidNumberItems($products->totalQuantity()))->create(),
             new TotalAmount($totalAmount),
             $products,
         );

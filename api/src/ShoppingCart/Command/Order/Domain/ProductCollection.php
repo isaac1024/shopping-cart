@@ -11,19 +11,6 @@ final readonly class ProductCollection
         $this->products = $products;
     }
 
-    public static function create(Product ...$products): ProductCollection
-    {
-        $productIds = [];
-        foreach ($products as $product) {
-            if (in_array($product->productId, $productIds, true)) {
-                throw DuplicateProductException::duplicateProductsOnCollection();
-            }
-            $productIds[] = $product->productId;
-        }
-
-        return new ProductCollection(...$products);
-    }
-
     public function toArray(): array
     {
         return array_map(fn (Product $product) => $product->toArray(), $this->products);
