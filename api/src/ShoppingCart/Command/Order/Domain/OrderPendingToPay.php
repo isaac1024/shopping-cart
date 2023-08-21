@@ -27,4 +27,9 @@ final readonly class OrderPendingToPay extends DomainEvent
             'cardCvv' => $this->cardCvv,
         ];
     }
+
+    public function type(): string
+    {
+        return 'shopping_cart.order.pending_to_pay';
+    }
 }

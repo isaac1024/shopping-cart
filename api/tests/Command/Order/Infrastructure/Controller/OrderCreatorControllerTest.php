@@ -4,7 +4,7 @@ namespace ShoppingCart\Tests\Command\Order\Infrastructure\Controller;
 
 use Faker\Factory;
 use ShoppingCart\Command\Cart\Domain\CartRepository;
-use ShoppingCart\Command\Order\Domain\OrderPendingToPay;
+use ShoppingCart\Command\Payment\OrderPendingToPay;
 use ShoppingCart\Tests\Command\Cart\Domain\CartObjectMother;
 use ShoppingCart\Tests\Command\Cart\Domain\ProductCollectionOrderMother;
 use ShoppingCart\Tests\Command\Order\Infrastructure\Request\OrderCreatorRequestObjectMother;
@@ -23,6 +23,6 @@ class OrderCreatorControllerTest extends AcceptanceTestCase
         $this->json('POST', '/orders', $request);
         self::assertResponseStatusCodeSame(201);
 
-        $this->assertSendEvent(OrderPendingToPay::class);
+        $this->assertSendEvents(['shopping_cart.order.pending_to_pay']);
     }
 }

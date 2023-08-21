@@ -12,4 +12,19 @@ final class DateTimeUtils
     {
         return new DateTimeImmutable();
     }
+
+    public static function format(DateTimeImmutable $dateTime): string
+    {
+        return $dateTime->format(DateTimeImmutable::ATOM);
+    }
+
+    public static function fromString(string $dateTime): DateTimeImmutable
+    {
+        $datetime = DateTimeImmutable::createFromFormat(DateTimeImmutable::ATOM, $dateTime);
+        if ($datetime === false) {
+            throw DateTimeUtilsException::invalidDateTimeFormat($dateTime, DateTimeImmutable::ATOM);
+        }
+
+        return $datetime;
+    }
 }

@@ -11,20 +11,59 @@ framework:
                 middleware:
                     - validation
             event.bus:
+                default_middleware:
+                    enabled: true
+                    allow_no_handlers: false
+                    allow_no_senders: false
                 middleware:
                     - validation
+                    - 'App\Service\AmqpEventMapperMiddleware'
 
         transports:
             # https://symfony.com/doc/current/messenger.html#transport-configuration
             # async: '%env(MESSENGER_TRANSPORT_DSN)%'
-            # failed: 'doctrine://default?queue_name=failed'
             command: 'sync://'
             query: 'sync://'
-            event: 'sync://'
-
+            event:
+                dsn: '%env(MESSENGER_TRANSPORT_DSN)%'
+                serializer: App\Service\JsonAmqpSerializer
+                retry_strategy:
+                    max_retries: 0
+                options:
+                    exchange:
+                        name: shop_events
+                        type: topic
+                    queues:
+                        shopping_cart.payment.pay:
+                            binding_keys: ['shopping_cart.order.pending_to_pay']
+            event_retry:
+                dsn: '%env(MESSENGER_TRANSPORT_DSN)%'
+                serializer: App\Service\JsonAmqpSerializer
+                options:
+                    exchange:
+                        name: shop_events_retry
+                        type: topic
+                    queues:
+                        shopping_cart.payment.pay.retry:
+                            arguments:
+                                x-dead-letter-exchange: shop_events
+                                x-dead-letter-routing-key: shopping_cart.order.pending_to_pay
+                                x-message-ttl: 10000
+                            binding_keys: [ 'shopping_cart.order.pending_to_pay.retry' ]
+            event_failed:
+                dsn: '%env(MESSENGER_TRANSPORT_DSN)%'
+                serializer: App\Service\JsonAmqpSerializer
+                options:
+                    exchange:
+                        name: shop_events_failed
+                        type: topic
+                    queues:
+                        shopping_cart.payment.pay.failed:
+                            binding_keys: [ 'shopping_cart.order.pending_to_pay.failed' ]
         routing:
-            # Route your messages to the transports
-            # 'App\Message\YourMessage': async
+            'ShoppingCart\Shared\Domain\Bus\Command': command
+            'ShoppingCart\Shared\Domain\Bus\Query': query
+            'ShoppingCart\Shared\Domain\Bus\DomainEvent': event
 
 when@test:
     framework:
@@ -32,4 +71,6 @@ when@test:
             transports:
                 # replace with your transport name here (e.g., my_transport: 'in-memory://')
                 # For more Messenger testing tools, see https://github.com/zenstruck/messenger-test
-                event: 'test://'
+                event:
+                    dsn: test://
+                    serializer: App\Service\JsonAmqpSerializer

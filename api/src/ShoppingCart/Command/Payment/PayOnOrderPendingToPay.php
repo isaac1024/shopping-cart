@@ -2,7 +2,6 @@
 
 namespace ShoppingCart\Command\Payment;
 
-use ShoppingCart\Command\Order\Domain\OrderPendingToPay;
 use ShoppingCart\Shared\Domain\Bus\EventSubscriber;
 use ShoppingCart\Shared\Domain\Logger;
 

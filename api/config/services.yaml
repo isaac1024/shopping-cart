@@ -23,6 +23,7 @@ services:
         ShoppingCart\Shared\Domain\Bus\EventSubscriber:
             tags:
                 - { name: messenger.message_handler, bus: event.bus, from_transport: event, method: dispatch }
+                - { name: shop.event_subscriber }
 
         ShoppingCart\Shared\Infrastructure\ApiController:
             tags: [ 'controller.service_arguments' ]
@@ -44,9 +45,18 @@ services:
         tags:
             - { name: controller.argument_value_resolver, priority: 50 }
 
+    App\Service\EventMapper:
+        arguments: [ !tagged_iterator shop.event_subscriber ]
+
     App\Service\ApiExceptionListener:
         tags:
             - { name: kernel.event_listener, event: kernel.exception }
 
-    ShoppingCart\Cart\Infrastructure\Doctrine\ProductCollectionType:
+    App\Service\AmqpRetryListener:
+        arguments:
+            $retryTransport: '@messenger.transport.event_retry'
+            $failedTransport: '@messenger.transport.event_failed'
 
+    ShoppingCart\Shared\Infrastructure\Bus\SymfonyEventBus:
+        arguments:
+            $transport: '@messenger.transport.event'

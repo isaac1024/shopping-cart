@@ -1,5 +1,14 @@
 version: '3'
 services:
+  amqp:
+    image: rabbitmq:3-management-alpine
+    restart: always
+    ports:
+      - ${AMQP_PORT}:5672
+      - ${AMQP_MANAGEMENT_PORT}:15672
+    environment:
+      - RABBITMQ_DEFAULT_USER=${AMQP_USER}
+      - RABBITMQ_DEFAULT_PASS=${AMQP_PASSWORD}
   db:
     image: mariadb:10
     restart: always
@@ -20,3 +29,4 @@ services:
       - ./api:/app
     depends_on:
       - db
+      - amqp

@@ -1,10 +1,10 @@
 FROM php:8.2-cli-alpine
 
-RUN apk update && apk add --update --no-cache bash git supervisor
+RUN apk update && apk add --update --no-cache bash git supervisor rabbitmq-c rabbitmq-c-dev
 
 ADD https://github.com/mlocati/docker-php-extension-installer/releases/latest/download/install-php-extensions /usr/local/bin/
 RUN chmod +x /usr/local/bin/install-php-extensions && sync && \
-    install-php-extensions apcu opcache bcmath gd intl pdo_mysql zip sodium xdebug
+    install-php-extensions amqp-1.11.0 apcu opcache bcmath gd intl pdo_mysql zip sodium xdebug
 
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 

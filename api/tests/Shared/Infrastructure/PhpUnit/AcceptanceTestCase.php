@@ -6,6 +6,7 @@ namespace ShoppingCart\Tests\Shared\Infrastructure\PhpUnit;
 
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+use Symfony\Component\Messenger\Bridge\Amqp\Transport\AmqpStamp;
 use Zenstruck\Messenger\Test\InteractsWithMessenger;
 
 abstract class AcceptanceTestCase extends WebTestCase
@@ -31,8 +32,17 @@ abstract class AcceptanceTestCase extends WebTestCase
         return $this->client->getContainer()->get($repositoryName);
     }
 
-    protected function assertSendEvent(string $eventClass, int $times = 1): void
+    protected function assertSendEvents(array $expected): void
     {
-        $this->bus('event.bus')->dispatched()->assertContains($eventClass, $times);
+        $routings = [];
+        foreach ($this->transport('event')->queue() as $envelope) {
+            /** @var AmqpStamp|null $amqpStamp */
+            $amqpStamp = $envelope->last(AmqpStamp::class);
+            if ($amqpStamp) {
+                $routings[] = $amqpStamp->getRoutingKey();
+            }
+        }
+
+        self::assertEquals($expected, $routings);
     }
 }
