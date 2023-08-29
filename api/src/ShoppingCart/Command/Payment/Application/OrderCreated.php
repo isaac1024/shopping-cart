@@ -1,20 +1,19 @@
 <?php
 
-namespace ShoppingCart\Command\Payment;
+namespace ShoppingCart\Command\Payment\Application;
 
 use DateTimeImmutable;
 use ShoppingCart\Shared\Domain\Bus\Event;
 use ShoppingCart\Shared\Domain\Models\DateTimeUtils;
 
-final readonly class OrderPendingToPay extends Event
+final readonly class OrderCreated extends Event
 {
     public function __construct(
         string $id,
         private string $name,
-        private int $totalAmount,
-        private string $cardNumber,
-        private string $cardValidDate,
-        private string $cardCvv,
+        private string $address,
+        private string $cartId,
+        private array $productItems,
         string $eventId,
         DateTimeImmutable $occurredOn,
     ) {
@@ -23,13 +22,12 @@ final readonly class OrderPendingToPay extends Event
 
     public static function fromConsumer(array $eventData): static
     {
-        return new OrderPendingToPay(
+        return new OrderCreated(
             $eventData['data']['id'],
             $eventData['data']['attributes']['name'],
-            $eventData['data']['attributes']['totalAmount'],
-            $eventData['data']['attributes']['cardNumber'],
-            $eventData['data']['attributes']['cardValidDate'],
-            $eventData['data']['attributes']['cardCvv'],
+            $eventData['data']['attributes']['address'],
+            $eventData['data']['attributes']['cartId'],
+            $eventData['data']['attributes']['productItems'],
             $eventData['id'],
             DateTimeUtils::fromString($eventData['occurredOn']),
         );
@@ -37,17 +35,16 @@ final readonly class OrderPendingToPay extends Event
 
     public static function type(): string
     {
-        return 'shopping_cart.payment.pay.shopping_cart.order.pending_to_pay';
+        return 'shopping_cart.payment.pay.shopping_cart.order.created';
     }
 
     public function attributes(): array
     {
         return [
             'name' => $this->name,
-            'totalAmount' => $this->totalAmount,
-            'cardNumber' => $this->cardNumber,
-            'cardValidDate' => $this->cardValidDate,
-            'cardCvv' => $this->cardCvv,
+            'address' => $this->address,
+            'cartId' => $this->cartId,
+            'productItems' => $this->productItems,
         ];
     }
 }

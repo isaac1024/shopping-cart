@@ -1,0 +1,29 @@
+:root {
+    --background: #fff9f0;
+    --foreground: #000000;
+    --primary: #fc6a03;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+html {
+    line-height: 1.15;
+    -webkit-text-size-adjust: 100%;
+}
+
+body {
+    margin: 0;
+    font-family: var(--font-base);
+    font-size: 1rem;
+    background-color: var(--background);
+    color: var(--foreground);
+    padding: 0 1rem;
+}
+
+body > main, body > header {
+    display: block;
+    max-width: 60rem;
+    margin: 0 auto;
+}

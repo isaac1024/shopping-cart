@@ -27,3 +27,7 @@ To run tests execute `make test`
 To run mutant testing execute `make mutant`
 
 To check linter execute `make lint`
+
+## Front app
+
+The front app is in progress. I'm not a good designer :'(

@@ -16,8 +16,8 @@ RUN wget https://github.com/infection/infection/releases/download/0.27.0/infecti
 
 WORKDIR /app
 
-COPY etc/php.ini /usr/local/etc/php/php.ini
-COPY etc/xdebug.ini /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
-COPY etc/supervisord.conf /etc/supervisord.conf
+COPY etc/api/php.ini /usr/local/etc/php/php.ini
+COPY etc/api/xdebug.ini /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
+COPY etc/api/supervisord.conf /etc/supervisord.conf
 
 CMD ["supervisord", "-c", "/etc/supervisord.conf"]

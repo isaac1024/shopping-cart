@@ -8,7 +8,6 @@ final readonly class OrderCreatorRequest
         public string $cartId,
         public string $name,
         public string $address,
-        public CardRequest $card
     ) {
     }
 }

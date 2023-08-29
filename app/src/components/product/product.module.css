@@ -1,0 +1,42 @@
+.card {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    grid-template-rows: auto 1fr auto;
+    gap: 1rem;
+    padding: 1rem;
+    border-radius: 3px;
+    border: 1px solid #dddddd;
+    box-shadow: 1px 1px #dddddd;
+    background-color: #ffffff;
+}
+
+.cardTitle {
+    grid-column: 2 / 3;
+    grid-row: 1 / 2;
+    margin: 0;
+    font-weight: bold;
+    font-size: 1.25rem;
+    border-bottom: 1px solid #dddddd;
+    padding-bottom: .5rem;
+}
+
+.cardPhoto {
+    grid-column: 1 / 2;
+    grid-row: 1 / 4;
+}
+
+.cardDescription {
+    grid-column: 2 / 3;
+    grid-row: 2 / 3;
+    margin: 0;
+}
+
+.cardPrice {
+    grid-column: 2 / 3;
+    grid-row: 3 / 4;
+    margin: 0;
+    display: flex;
+    justify-content: flex-end;
+    align-content: center;
+    gap: 1rem;
+}

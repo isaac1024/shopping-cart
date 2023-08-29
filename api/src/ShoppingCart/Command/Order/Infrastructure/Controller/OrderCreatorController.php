@@ -36,9 +36,6 @@ final readonly class OrderCreatorController extends ApiController
             $request->address,
             $cart->id,
             $cart->productItems,
-            $request->card->number,
-            $request->card->validDate,
-            $request->card->cvv,
         ));
 
         return new JsonResponse(['id' => $id], Response::HTTP_CREATED);

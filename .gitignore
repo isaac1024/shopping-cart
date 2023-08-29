@@ -1,6 +1,7 @@
 /.idea/
 /.env
 
+# api
 /api/.env
 /api/.env.test
 /api/supervisord.log
@@ -11,3 +12,7 @@
 /api/var/
 /api/vendor/
 /api/tests/.phpunit.cache/
+
+# app
+/app/node_modules
+/app/.next/

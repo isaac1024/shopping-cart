@@ -2,7 +2,6 @@
 
 namespace ShoppingCart\Command\Order\Domain;
 
-use ShoppingCart\Shared\Domain\Bus\EventBus;
 use ShoppingCart\Shared\Domain\Models\AggregateRoot;
 use ShoppingCart\Shared\Domain\Models\CartId;
 
@@ -26,9 +25,6 @@ final class Order extends AggregateRoot
         string $address,
         string $cartId,
         array $productItems,
-        string $cardNumber,
-        string $cardValidDate,
-        string $cardCvv,
     ): Order {
         $products = (new ValidProductCollection(...array_map(
             fn (array $product) => (new ValidProduct(
@@ -52,26 +48,11 @@ final class Order extends AggregateRoot
             $products,
         );
 
-        $order->registerNewEvent(new OrderPendingToPay(
-            $orderId,
-            $name,
-            $totalAmount,
-            $cardNumber,
-            $cardValidDate,
-            $cardCvv
-        ));
-
         return $order;
     }
 
-    public function save(OrderRepository $orderRepository, EventBus $eventBus): void
+    public function save(OrderRepository $orderRepository): void
     {
         $orderRepository->save($this);
-        $this->publishEvents($eventBus);
-    }
-
-    public function totalAmount(): int
-    {
-        return $this->totalAmount->value;
     }
 }

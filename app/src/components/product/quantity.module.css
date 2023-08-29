@@ -1,0 +1,15 @@
+.btn {
+    background-color: var(--primary);
+    color: #ffffff;
+    border: 1px solid var(--primary);
+    padding: .5rem;
+    font-size: 1rem;
+    border-radius: 3px;
+}
+
+.input {
+    border: 1px solid #dddddd;
+    padding: .5rem;
+    font-size: 1rem;
+    border-radius: 3px;
+}

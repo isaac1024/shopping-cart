@@ -1,0 +1,15 @@
+.productCollection {
+    display: flex;
+    gap: 1rem;
+    flex-direction: column;
+    margin: 1rem 0;
+}
+
+.price {
+    display: flex;
+    gap: 1rem;
+    font-weight: bold;
+    font-size: 1.25rem;
+    justify-content: end;
+    padding: 1rem;
+}

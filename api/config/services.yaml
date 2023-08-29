@@ -60,3 +60,7 @@ services:
     ShoppingCart\Shared\Infrastructure\Bus\SymfonyEventBus:
         arguments:
             $transport: '@messenger.transport.event'
+
+    ShoppingCart\Query\Payment\Infrastructure\Repository\StripePaymentSecretRepository:
+        arguments:
+            $stripeSecretKey: 'secret-key'
