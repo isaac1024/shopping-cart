@@ -28,7 +28,7 @@ final readonly class ProductCollection
             return null;
         }
 
-        return $products[0];
+        return array_values($products)[0];
     }
 
     public function add(Product $product): ProductCollection

@@ -13,7 +13,7 @@ export default function Cart() {
                 cart &&
                 <div>
                     <section className={styles.productCollection}>{
-                        cart && cart.productItems.map((p) => <Product key={p.productId} product={p}/>)
+                        cart && cart.productItems.map((p) => <Product key={p.productId} product={p} cartId={cart.id}/>)
                     }</section>
                     <div>
                         <p className={styles.price}>

@@ -1,7 +1,8 @@
 .card {
-    display: grid;
-    grid-template-rows: auto 1fr auto;
+    display: flex;
     gap: 1rem;
+    justify-content: space-between;
+    align-items: center;
     padding: 1rem;
     border-radius: 3px;
     border: 1px solid #dddddd;
@@ -10,19 +11,15 @@
 }
 
 .cardTitle {
-    grid-row: 1 / 2;
     margin: 0;
     font-weight: bold;
     font-size: 1.25rem;
-    border-bottom: 1px solid #dddddd;
-    padding-bottom: .5rem;
 }
 
 .cardPrice {
-    grid-row: 2 / 3;
     margin: 0;
     display: flex;
     justify-content: flex-end;
-    align-content: center;
+    align-items: center;
     gap: 1rem;
 }
