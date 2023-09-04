@@ -1,5 +1,5 @@
 import styles from "@/components/product/product.module.css";
-import {ProductData} from "@/core/product";
+import {ProductData} from "@/services/product";
 import Image from "next/image";
 import Price from "@/components/shared/price";
 import Quantity from "@/components/product/quantity";

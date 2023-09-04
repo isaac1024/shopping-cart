@@ -1,6 +1,6 @@
 import styles from "@/components/cart/trash.module.css";
 import Image from "next/image";
-import {deleteProduct} from "@/core/delete-product";
+import {deleteProduct} from "@/services/delete-product";
 
 export default function Trash({cartId, productId}: {cartId: string, productId: string}) {
     const deleteHandler = () => {

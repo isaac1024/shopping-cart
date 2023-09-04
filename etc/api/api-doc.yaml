@@ -272,16 +272,3 @@ components:
           type: string
           description: Delivery address
           example: c/ Falsa 123
-        card:
-          type: object
-          properties:
-            number:
-              type: string
-              description: Card number
-              example: 4024007177312757
-            validDate:
-              type: string
-              example: 01/32
-            cvv:
-              type: string
-              example: 123

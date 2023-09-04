@@ -1,7 +1,7 @@
 'use client'
 
 import styles from '@/components/product/quantity.module.css';
-import {useProductUpdate} from "@/core/use-product-update";
+import {useProductUpdate} from "@/services/use-product-update";
 
 export default function Quantity({productId}: {productId: string}) {
     const [quantity, updateQuantity, quantityChange] = useProductUpdate(productId);

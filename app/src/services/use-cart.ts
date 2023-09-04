@@ -1,4 +1,5 @@
 import {useEffect, useState} from "react";
+import {useCartItemsContext} from "@/app/cart-items-context";
 
 interface Cart {
     id: string,

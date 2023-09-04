@@ -37,7 +37,7 @@ final class Cart extends AggregateRoot
             throw CartException::productNotExist($productId);
         }
 
-        $product = $product->updateQuantity($quantity);
+        $product = $product->addQuantity($quantity);
         $this->productItems = $this->productItems->add($product);
         $this->updateNumberItems();
         $this->updateTotalAmount();

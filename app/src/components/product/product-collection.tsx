@@ -1,6 +1,6 @@
 import styles from "@/components/product/product-collection.module.css";
 import Product from "@/components/product/product";
-import {getAllProducts} from "@/core/product";
+import {getAllProducts} from "@/services/product";
 
 export default async function ProductCollection() {
     const products = await getAllProducts();

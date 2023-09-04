@@ -1,7 +1,7 @@
 'use client'
 
 import styles from "@/components/cart/cart.module.css"
-import {useCart} from "@/core/use-cart";
+import {useCart} from "@/services/use-cart";
 import Product from "@/components/cart/product";
 import Price from "@/components/shared/price";
 

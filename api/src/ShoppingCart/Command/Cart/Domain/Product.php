@@ -29,14 +29,16 @@ final class Product
         ];
     }
 
-    public function updateQuantity(int $quantity): Product
+    public function addQuantity(int $quantity): Product
     {
-        if ($quantity < 0) {
+        $newQuantity = $this->quantity + $quantity;
+
+        if ($newQuantity < 0) {
             throw ProductException::negativeQuantity();
         }
 
-        $totalPrice = $this->calculateNewTotalPrice($quantity);
-        return new Product($this->productId, $this->title, $this->unitPrice, $quantity, $totalPrice);
+        $totalPrice = $this->calculateNewTotalPrice($newQuantity);
+        return new Product($this->productId, $this->title, $this->unitPrice, $newQuantity, $totalPrice);
     }
 
     private function calculateNewTotalPrice(int $quantity): int

@@ -1,5 +1,5 @@
 import styles from "@/components/cart/product.module.css";
-import {ProductData} from "@/core/use-cart";
+import {ProductData} from "@/services/use-cart";
 import Price from "@/components/shared/price";
 import Trash from "@/components/cart/trash";
 

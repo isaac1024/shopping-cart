@@ -1,25 +1,13 @@
-import {useEffect, useState} from "react";
-
 interface CartId {
     id: string,
 }
 
-interface Cart {
+interface CartItems {
     id: string,
     numberItems: number,
 }
 
-export function useNumberItems(): number {
-    const [numberItems, setNumberItems] = useState(null);
-
-    useEffect(() => {
-        getCart().then((c) => setNumberItems(c.numberItems));
-    }, []);
-
-    return numberItems;
-}
-
-async function getCart(): Promise<Cart> {
+export async function getCart(): Promise<CartItems> {
     const cartId = await getCartId();
     const response = await fetch('http://localhost:8000/carts/'+cartId+'/items');
     if (!response.ok) {
