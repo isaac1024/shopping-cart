@@ -43,6 +43,15 @@ paths:
       operationId: cartFinder
       tags:
         - cart
+      parameters:
+        - name: cartId
+          required: true
+          in: path
+          description: Cart uuid
+          schema:
+            type: string
+            format: uuid
+            example: 1094a883-d793-420c-8be9-10db3ac37f2b
       responses:
         200:
           description: successful operation
@@ -62,6 +71,15 @@ paths:
       operationId: numberItemsCartFinder
       tags:
         - cart
+      parameters:
+        - name: cartId
+          required: true
+          in: path
+          description: Cart uuid
+          schema:
+            type: string
+            format: uuid
+            example: 1094a883-d793-420c-8be9-10db3ac37f2b
       responses:
         200:
           description: successful operation
@@ -81,6 +99,15 @@ paths:
       operationId: cartProductSetter
       tags:
         - cart
+      parameters:
+        - name: cartId
+          required: true
+          in: path
+          description: Cart uuid
+          schema:
+            type: string
+            format: uuid
+            example: 1094a883-d793-420c-8be9-10db3ac37f2b
       requestBody:
         content:
           application/json:
@@ -107,6 +134,15 @@ paths:
       operationId: cartProductRemover
       tags:
         - cart
+      parameters:
+        - name: cartId
+          required: true
+          in: path
+          description: Cart uuid
+          schema:
+            type: string
+            format: uuid
+            example: 1094a883-d793-420c-8be9-10db3ac37f2b
       requestBody:
         content:
           application/json:
