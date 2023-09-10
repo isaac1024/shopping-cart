@@ -11,6 +11,7 @@ final class ProductObjectMother
     public static function make(
         ?string $productId = null,
         ?string $title = null,
+        ?string $photo = null,
         ?int $unitPrice = null,
         ?int $quantity = null,
         ?int $totalPrice = null,
@@ -23,6 +24,7 @@ final class ProductObjectMother
         return new Product(
             $productId ?? UuidUtils::random(),
             $title ?? $faker->title(),
+            $photo ?? $faker->url(),
             $unitPrice,
             $quantity,
             $totalPrice,

@@ -1,6 +1,7 @@
 'use client'
 
-import React, {createContext, useContext, useState} from "react";
+import React, {createContext, useContext, useEffect, useState} from "react";
+import {getCart} from "@/services/cart-items";
 
 const CartItemsContext = createContext({
     numberItems: 0,
@@ -10,8 +11,12 @@ const CartItemsContext = createContext({
 export function CartItemsContextProvider({children}: {children: React.ReactNode}) {
     const [numberItems, setNumberItems] = useState(0);
 
-    const cartItemsHandler = (quantity: number) => {
-        setNumberItems(numberItems + quantity)
+    useEffect(() => {
+        getCart().then((cartItems) => setNumberItems(cartItems.numberItems));
+    }, [])
+
+    const cartItemsHandler = () => {
+        getCart().then((cartItems) => setNumberItems(cartItems.numberItems));
     };
 
     return (

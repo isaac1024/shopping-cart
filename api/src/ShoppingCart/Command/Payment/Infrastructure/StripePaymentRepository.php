@@ -14,6 +14,10 @@ final readonly class StripePaymentRepository implements PaymentRepository
         $this->stripeClient = new StripeClient($stripeSecretKey);
     }
 
+    /**
+     * @psalm-suppress NullableReturnStatement
+     * @psalm-suppress InvalidNullableReturnType
+     */
     public function createCheckout(): string
     {
         $paymentIntent = $this->stripeClient->paymentIntents->create([

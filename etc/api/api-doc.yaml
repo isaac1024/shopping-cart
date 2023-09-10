@@ -130,7 +130,7 @@ paths:
                 $ref: '#/components/schemas/ErrorResponse'
   /carts/{cartId}/product_delete:
     post:
-      summary: Deleta a product to the cart
+      summary: Delete a product to the cart
       operationId: cartProductRemover
       tags:
         - cart
@@ -237,6 +237,9 @@ components:
           type: string
           format: uuid
           example: 81d82b61-cb5c-4e2d-8f6a-2acca3c40d63
+        photo:
+          type: string
+          format: url
         numberItems:
           type: integer
           example: 2

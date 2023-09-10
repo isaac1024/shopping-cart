@@ -7,15 +7,16 @@ final class Product
     public function __construct(
         public string $productId,
         public string $title,
+        public string $photo,
         public int $unitPrice,
         public int $quantity,
         public int $totalPrice
     ) {
     }
 
-    public static function init(string $productId, string $title, int $unitPrice): Product
+    public static function init(string $productId, string $title, string $photo, int $unitPrice): Product
     {
-        return new Product($productId, $title, $unitPrice, 0, 0);
+        return new Product($productId, $title, $photo, $unitPrice, 0, 0);
     }
 
     public function toArray(): array
@@ -23,6 +24,7 @@ final class Product
         return [
             'productId' => $this->productId,
             'title' => $this->title,
+            'photo' => $this->photo,
             'unitPrice' => $this->unitPrice,
             'quantity' => $this->quantity,
             'totalPrice' => $this->totalPrice,
@@ -38,7 +40,7 @@ final class Product
         }
 
         $totalPrice = $this->calculateNewTotalPrice($newQuantity);
-        return new Product($this->productId, $this->title, $this->unitPrice, $newQuantity, $totalPrice);
+        return new Product($this->productId, $this->title, $this->photo, $this->unitPrice, $newQuantity, $totalPrice);
     }
 
     private function calculateNewTotalPrice(int $quantity): int

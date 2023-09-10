@@ -15,6 +15,10 @@ final readonly class StripePaymentSecretRepository implements PaymentSecretRepos
         $this->stripeClient = new StripeClient($stripeSecretKey);
     }
 
+    /**
+     * @psalm-suppress NullableReturnStatement
+     * @psalm-suppress InvalidNullableReturnType
+     */
     public function getSecret(Payment $payment): string
     {
         $paymentIntent = $this->stripeClient->paymentIntents->create([

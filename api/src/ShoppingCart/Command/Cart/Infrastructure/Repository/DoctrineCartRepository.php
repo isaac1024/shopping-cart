@@ -6,7 +6,6 @@ use Doctrine\ORM\EntityManagerInterface;
 use ShoppingCart\Command\Cart\Domain\Cart;
 use ShoppingCart\Command\Cart\Domain\CartRepository;
 use ShoppingCart\Command\Cart\Domain\Product;
-use ShoppingCart\Shared\Domain\Models\CartId;
 
 final readonly class DoctrineCartRepository implements CartRepository
 {
@@ -27,12 +26,12 @@ final readonly class DoctrineCartRepository implements CartRepository
 
     public function findProduct(string $productId): ?Product
     {
-        $sql = "SELECT id, title, price FROM products WHERE id = :id";
+        $sql = "SELECT id, photo, title, price FROM products WHERE id = :id";
         $productData = $this->entityManager->getConnection()->fetchAssociative($sql, ['id' => $productId]);
         if ($productData === false) {
             return null;
         }
 
-        return Product::init($productData['id'], $productData['title'], $productData['price']);
+        return Product::init($productData['id'], $productData['title'], $productData['photo'], $productData['price']);
     }
 }

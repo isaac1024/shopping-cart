@@ -15,9 +15,6 @@ final class OrderCreatorCommandObjectMother
         ?string $address = null,
         ?string $cartId = null,
         ?array $productItems = null,
-        ?string $cardNumber = null,
-        ?string $cardValidDate = null,
-        ?string $cardCvv = null,
     ): OrderCreatorCommand {
         $faker = Factory::create();
         return new OrderCreatorCommand(
@@ -26,9 +23,6 @@ final class OrderCreatorCommandObjectMother
             $address ?? $faker->address(),
             $cartId ?? UuidUtils::random(),
             $productItems ?? ProductCollectionOrderMother::make($faker->numberBetween(1, 5))->toArray(),
-            $cardNumber ?? $faker->creditCardNumber(),
-            $cardValidDate ?? $faker->creditCardExpirationDateString(expirationDateFormat: 'm/y'),
-            $cardCvv ?? $faker->numerify(),
         );
     }
 }

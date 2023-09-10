@@ -11,13 +11,15 @@ interface Cart {
 export interface ProductData {
     productId: string,
     title: string,
+    photo: string
     unitPrice: number,
     quantity: number,
     totalPrice: number,
 }
 
-export function useCart(): Cart {
-    const [cart, setCart] = useState(null);
+export function useCart(): [Cart|null, (cartId: string, productId: string) => void] {
+    const [cart, setCart] = useState<Cart|null>(null);
+    const {cartItemsHandler} = useCartItemsContext();
 
     useEffect(() => {
         const cartId = localStorage.getItem('cart_id');
@@ -26,10 +28,21 @@ export function useCart(): Cart {
         }
 
         getCart(cartId).then((c) => setCart(c));
-        console.log(cart)
     }, []);
 
-    return cart;
+    const deleteHandler = (cartId: string, productId: string) => {
+        fetch('http://localhost:8000/carts/'+cartId+'/product_delete', {
+            method: "POST",
+            body: JSON.stringify({productId: productId}),
+        }).then((response) => {
+            getCart(cartId).then((c) => {
+                setCart(c);
+                cartItemsHandler(c.numberItems);
+            });
+        });
+    }
+
+    return [cart, deleteHandler];
 }
 
 async function getCart(cartId: string): Promise<Cart> {

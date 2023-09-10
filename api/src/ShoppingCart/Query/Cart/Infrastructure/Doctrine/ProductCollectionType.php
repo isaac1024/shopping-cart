@@ -24,6 +24,7 @@ final class ProductCollectionType extends Type
             fn (stdClass $product) => new Product(
                 $product->productId,
                 $product->title,
+                $product->photo,
                 $product->unitPrice,
                 $product->quantity,
                 $product->totalPrice
