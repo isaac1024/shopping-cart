@@ -12,11 +12,11 @@ export default function Product({deleteHandler, cartId, product}: {deleteHandler
                 <Image src={imageUrl} width={70} height={84} alt={product.title} />
                 <h2>{product.title}</h2>
             </div>
-            <p className={styles.cardPrice}>
+            <div className={styles.cardPrice}>
                 <span>Number of books: {product.quantity}</span>
                 <span>Unit price: <Price amount={product.unitPrice} /></span>
                 <Trash trashHandler={deleteHandler}/>
-            </p>
+            </div>
         </article>
     )
 }

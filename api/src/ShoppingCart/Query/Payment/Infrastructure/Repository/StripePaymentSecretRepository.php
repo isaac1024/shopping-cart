@@ -24,7 +24,7 @@ final readonly class StripePaymentSecretRepository implements PaymentSecretRepos
         $paymentIntent = $this->stripeClient->paymentIntents->create([
             'amount' => $payment->amount(),
             'currency' => 'eur',
-            'automatic_payment_methods' => ['endabled' => true],
+            'automatic_payment_methods' => ['enabled' => true],
         ]);
 
         return $paymentIntent->client_secret;

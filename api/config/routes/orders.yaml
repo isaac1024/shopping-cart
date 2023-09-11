@@ -2,3 +2,10 @@ order_creator:
   path: /orders
   controller: ShoppingCart\Command\Order\Infrastructure\Controller\OrderCreatorController
   methods: POST
+
+payment_secret:
+  path: /payments/{paymentId}
+  controller: ShoppingCart\Query\Payment\Infrastructure\Controller\PaymentSecretController
+  methods: GET
+  requirements:
+    paymentId: !php/const Symfony\Component\Routing\Requirement\Requirement::UUID_V4

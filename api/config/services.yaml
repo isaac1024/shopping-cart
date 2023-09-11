@@ -63,4 +63,4 @@ services:
 
     ShoppingCart\Query\Payment\Infrastructure\Repository\StripePaymentSecretRepository:
         arguments:
-            $stripeSecretKey: 'secret-key'
+            $stripeSecretKey: '%env(STRIPE_KEY)%'
