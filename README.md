@@ -40,7 +40,7 @@ The front app is in progress. I'm not a good designer :'(
 - If localstorage cart_id not exist, get new empty cart
 - Create notification microservice (golang or rust websockets) to communicate async actions
 - Add asyncapi documentation
-- Refactor front components and services for better reusable code
+- Refactor front components and services for better and reusable code
 - Test front code
 - Add cypress/playwright tests
 - ¿cucumber tests on backend?
