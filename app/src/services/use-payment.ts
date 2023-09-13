@@ -1,21 +1,20 @@
-import {useParams} from "next/navigation";
-import {useEffect, useState} from "react";
-import {loadStripe} from "@stripe/stripe-js";
+import {FormEvent} from "react";
+import {useElements, useStripe} from "@stripe/react-stripe-js";
 
 export function usePayment() {
-    const params = useParams();
-    const [secret, setSecret] = useState('');
-    const [stripe, setStripe] = useState(null);
-    const stripeKey = 'pk_test_51NpFv4E7UVPvnb6MDPZxKoAmRWz1T7axOwf9fkXjp8sqNqI42YToAxgnFxV5HP2eNSYO5Uhi1yt9VZMWjJr3YyfQ00BVjLZlcg';
-    useEffect(() => {
-        fetch('http://localhost:8000/payments/'+params.paymentId)
-            .then((response) => {
-                return response.json();
-            }).then(({paymentSecret}) => {
-            setSecret(paymentSecret)
-            setStripe(loadStripe(stripeKey))
-        })
-    }, [])
+    const stripe = useStripe();
+    const elements = useElements();
 
-    return [stripe, secret];
+    const handleSubmit = (e: FormEvent) => {
+        e.preventDefault();
+
+        stripe.confirmPayment({
+            elements,
+            confirmParams: {
+                return_url: "http://localhost:3000",
+            },
+        });
+    }
+
+    return handleSubmit;
 }
