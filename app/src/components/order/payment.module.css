@@ -1,0 +1,30 @@
+.card {
+    display: flex;
+    gap: 1rem;
+    justify-content: space-between;
+    align-items: center;
+    flex-direction: column;
+    padding: 1rem;
+    border-radius: 3px;
+    border: 1px solid #dddddd;
+    box-shadow: 1px 1px #dddddd;
+    background-color: #ffffff;
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+    flex-basis: fit-content;
+    justify-content: stretch;
+    width: 100%;
+}
+
+.btn {
+    background-color: var(--primary);
+    color: #ffffff;
+    border: 1px solid var(--primary);
+    padding: .5rem;
+    font-size: 1rem;
+    border-radius: 3px;
+    margin-top: 1rem;
+}
