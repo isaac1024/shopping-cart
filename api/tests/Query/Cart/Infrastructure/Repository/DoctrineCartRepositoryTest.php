@@ -5,7 +5,6 @@ namespace ShoppingCart\Tests\Query\Cart\Infrastructure\Repository;
 use Doctrine\ORM\EntityManager;
 use ShoppingCart\Query\Cart\Domain\CartRepository;
 use ShoppingCart\Query\Cart\Infrastructure\Repository\DoctrineCartRepository;
-use ShoppingCart\Shared\Domain\Models\CartId;
 use ShoppingCart\Shared\Domain\Models\UuidUtils;
 use ShoppingCart\Tests\Query\Cart\Domain\CartObjectMother;
 use ShoppingCart\Tests\Shared\Infrastructure\PhpUnit\IntegrationTestCase;

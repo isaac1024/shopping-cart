@@ -55,4 +55,44 @@ final class Order extends AggregateRoot
     {
         $orderRepository->save($this);
     }
+
+    public function orderId(): string
+    {
+        return $this->orderId->value;
+    }
+
+    public function status(): string
+    {
+        return $this->status->value;
+    }
+
+    public function name(): string
+    {
+        return $this->name->value;
+    }
+
+    public function address(): string
+    {
+        return $this->address->value;
+    }
+
+    public function cartId(): string
+    {
+        return $this->cartId->value;
+    }
+
+    public function numberItems(): int
+    {
+        return $this->numberItems->value;
+    }
+
+    public function totalAmount(): int
+    {
+        return $this->totalAmount->value;
+    }
+
+    public function productItems(): array
+    {
+        return $this->productItems->toArray();
+    }
 }

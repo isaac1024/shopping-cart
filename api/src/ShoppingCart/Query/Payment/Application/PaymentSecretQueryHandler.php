@@ -2,7 +2,7 @@
 
 namespace ShoppingCart\Query\Payment\Application;
 
-use ShoppingCart\Query\Payment\Domain\PaymentException;
+use ShoppingCart\Query\Payment\Domain\PaymentNotFoundException;
 use ShoppingCart\Query\Payment\Domain\PaymentRepository;
 use ShoppingCart\Query\Payment\Domain\PaymentSecretRepository;
 use ShoppingCart\Shared\Domain\Bus\QueryHandler;
@@ -19,7 +19,7 @@ final readonly class PaymentSecretQueryHandler implements QueryHandler
     {
         $payment = $this->paymentRepository->find($query->id);
         if (!$payment) {
-            throw PaymentException::notfound($query->id);
+            throw PaymentNotFoundException::notfound($query->id);
         }
 
         return new PaymentSecretQueryResponse($payment->secret($this->paymentSecretRepository));

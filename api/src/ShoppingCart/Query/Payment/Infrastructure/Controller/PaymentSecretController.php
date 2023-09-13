@@ -4,6 +4,7 @@ namespace ShoppingCart\Query\Payment\Infrastructure\Controller;
 
 use ShoppingCart\Query\Payment\Application\PaymentSecretQuery;
 use ShoppingCart\Query\Payment\Application\PaymentSecretQueryResponse;
+use ShoppingCart\Query\Payment\Domain\PaymentNotFoundException;
 use ShoppingCart\Shared\Infrastructure\ApiController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
@@ -19,6 +20,8 @@ final readonly class PaymentSecretController extends ApiController
 
     protected function mapExceptions(): array
     {
-        return [];
+        return [
+            PaymentNotFoundException::class => 404,
+        ];
     }
 }
