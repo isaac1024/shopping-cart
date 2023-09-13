@@ -31,3 +31,16 @@ To check linter execute `make lint`
 ## Front app
 
 The front app is in progress. I'm not a good designer :'(
+
+## Pending tasks
+
+- Create payment webhook: Remove cart after paid and update order status
+- Create cronjob to remove old order pending to pay
+- Create cronjob to remove old carts
+- If localstorage cart_id not exist, get new empty cart
+- Create notification microservice (golang or rust websockets) to communicate async actions
+- Add asyncapi documentation
+- Refactor front components and services for better reusable code
+- Test front code
+- Add cypress/playwright tests
+- ¿cucumber tests on backend?
