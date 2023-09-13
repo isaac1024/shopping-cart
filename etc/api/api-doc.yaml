@@ -165,7 +165,7 @@ paths:
                 $ref: '#/components/schemas/ErrorResponse'
   /orders:
     post:
-      summary: Send payment request
+      summary: Create order
       operationId: orderCreator
       tags:
         - order
@@ -189,6 +189,34 @@ paths:
                 $ref: '#/components/schemas/ErrorResponse'
         404:
           description: Cart not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /payments/{paymentId}:
+    get:
+      summary: Get payment secret
+      operationId: PaymentSecret
+      tags:
+        - payment
+      parameters:
+        - name: paymentId
+          required: true
+          in: path
+          description: Payment uuid
+          schema:
+            type: string
+            format: uuid
+            example: cb1cb9ac-24f3-4093-8502-17f3e9e4836d
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaymentSecretResponse'
+        404:
+          description: payment not found
           content:
             application/json:
               schema:
@@ -269,6 +297,11 @@ components:
         totalPrice:
           type: integer
           example: 1400
+    PaymentSecretResponse:
+      type: object
+      properties:
+        paymentSecret:
+          type: string
     ErrorResponse:
       type: object
       properties:
