@@ -44,3 +44,4 @@ The front app is in progress. I'm not a good designer :'(
 - Test front code
 - Add cypress/playwright tests
 - ¿cucumber tests on backend?
+- ¿doctrine orm or dbal?
