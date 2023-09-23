@@ -4,7 +4,6 @@ doctrine:
         types:
             cart_id: ShoppingCart\Shared\Infrastructure\Doctrine\CartIdType
             order_id: ShoppingCart\Command\Order\Infrastructure\Doctrine\OrderIdType
-            command_cart_product_items: ShoppingCart\Command\Cart\Infrastructure\Doctrine\ProductCollectionType
             query_cart_product_items: ShoppingCart\Query\Cart\Infrastructure\Doctrine\ProductCollectionType
             order_product_items: ShoppingCart\Command\Order\Infrastructure\Doctrine\ProductCollectionType
 
@@ -34,11 +33,6 @@ doctrine:
                 type: xml
                 dir: '%kernel.project_dir%/src/ShoppingCart/Query/NumberItemsCart/Infrastructure/Doctrine/'
                 prefix: 'ShoppingCart\Query\NumberItemsCart\Domain'
-            CommandCart:
-                is_bundle: false
-                type: xml
-                dir: '%kernel.project_dir%/src/ShoppingCart/Command/Cart/Infrastructure/Doctrine/'
-                prefix: 'ShoppingCart\Command\Cart\Domain'
             CommandOrder:
                 is_bundle: false
                 type: xml

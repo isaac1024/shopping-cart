@@ -10,5 +10,9 @@ class CartCreatorControllerTest extends AcceptanceTestCase
     {
         $this->json('POST', '/carts');
         self::assertResponseStatusCodeSame(201);
+
+        $id = $this->response()['id'] ?? null;
+        self::assertIsString($id);
+        $this->assertHasDatabase('carts', ['id' => $id]);
     }
 }

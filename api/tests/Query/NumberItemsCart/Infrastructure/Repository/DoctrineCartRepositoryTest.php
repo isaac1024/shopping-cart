@@ -2,12 +2,12 @@
 
 namespace ShoppingCart\Tests\Query\NumberItemsCart\Infrastructure\Repository;
 
-use Doctrine\ORM\EntityManager;
 use ShoppingCart\Query\NumberItemsCart\Domain\CartRepository;
 use ShoppingCart\Query\NumberItemsCart\Infrastructure\Repository\DoctrineCartRepository;
-use ShoppingCart\Shared\Domain\Models\CartId;
+use ShoppingCart\Shared\Domain\Models\DateTimeUtils;
 use ShoppingCart\Shared\Domain\Models\UuidUtils;
 use ShoppingCart\Tests\Query\NumberItemsCart\Domain\CartObjectMother;
+use ShoppingCart\Tests\Shared\Domain\Models\CartIdObjectMother;
 use ShoppingCart\Tests\Shared\Infrastructure\PhpUnit\IntegrationTestCase;
 
 class DoctrineCartRepositoryTest extends IntegrationTestCase
@@ -23,13 +23,18 @@ class DoctrineCartRepositoryTest extends IntegrationTestCase
 
     public function testFindACart(): void
     {
-        $expectedCart = CartObjectMother::make();
+        $cartId = CartIdObjectMother::make();
+        $expectedCart = CartObjectMother::make($cartId->value, 0);
+        $now = DateTimeUtils::now();
 
-        $sql = "INSERT INTO carts (id, number_items, total_amount, product_items) VALUES (?, ?, ?, ?)";
-        /** @var EntityManager $em */
-        $em = $this->getContainer()->get('doctrine.orm.default_entity_manager');
-        $em->getConnection()->executeQuery($sql, [$expectedCart->id(), $expectedCart->numberItems(), 0, "{}"]);
-        $em->clear();
+        $this->prepareRecord('carts', [
+            'id' => $cartId->value,
+            'number_items' => 0,
+            'total_amount' => 0,
+            'product_items' => json_encode([]),
+            'created_at' => DateTimeUtils::toDatabase($now),
+            'updated_at' => DateTimeUtils::toDatabase($now),
+        ]);
 
         $cart = $this->repository->search($expectedCart->id());
 

@@ -2,10 +2,10 @@
 
 namespace ShoppingCart\Tests\Command\Cart\Infrastructure\Controller;
 
-use ShoppingCart\Command\Cart\Domain\CartRepository;
 use ShoppingCart\Command\Cart\Domain\ProductCollection;
-use ShoppingCart\Tests\Command\Cart\Domain\CartObjectMother;
+use ShoppingCart\Shared\Domain\Models\DateTimeUtils;
 use ShoppingCart\Tests\Command\Cart\Domain\ProductObjectMother;
+use ShoppingCart\Tests\Shared\Domain\Models\CartIdObjectMother;
 use ShoppingCart\Tests\Shared\Infrastructure\PhpUnit\AcceptanceTestCase;
 
 class CartProductRemoverControllerTest extends AcceptanceTestCase
@@ -14,15 +14,28 @@ class CartProductRemoverControllerTest extends AcceptanceTestCase
     {
         $prductId = '307028d4-8a2f-4441-a3ac-0c904c12bf86';
         $prduct = ProductObjectMother::make($prductId);
-        $cart = CartObjectMother::make(productCollection: new ProductCollection($prduct));
+        $cartId = CartIdObjectMother::make();
+        $productCollection = new ProductCollection($prduct);
+        $now = DateTimeUtils::now();
 
-        $cartRepository = $this->getRepository(CartRepository::class);
-        $cartRepository->save($cart);
+        $this->prepareRecord('carts', [
+            'id' => $cartId->value,
+            'number_items' => $productCollection->totalQuantity(),
+            'total_amount' => $productCollection->totalAmount(),
+            'product_items' => json_encode($productCollection->toArray()),
+            'created_at' => DateTimeUtils::toDatabase($now),
+            'updated_at' => DateTimeUtils::toDatabase($now),
+        ]);
 
-        $this->json('POST', sprintf("/carts/%s/product_delete", $cart->cartId()), [
+        $this->json('POST', sprintf("/carts/%s/product_delete", $cartId->value), [
             'productId' => $prductId,
         ]);
         self::assertResponseStatusCodeSame(204);
+
+        $this->assertHasDatabase('carts', [
+            'id' => $cartId->value,
+            'number_items' => 0,
+        ]);
     }
 
     public function testRemoveProductFromCartNotExistOnCollection(): void
@@ -30,15 +43,28 @@ class CartProductRemoverControllerTest extends AcceptanceTestCase
         $prductId = '307028d4-8a2f-4441-a3ac-0c904c12bf86';
         $otherProductId = 'b473ca32-d86a-4ec6-83cb-1747a372a300';
         $prduct = ProductObjectMother::make($prductId);
-        $cart = CartObjectMother::make(productCollection: new ProductCollection($prduct));
+        $cartId = CartIdObjectMother::make();
+        $productCollection = new ProductCollection($prduct);
+        $now = DateTimeUtils::now();
 
-        $cartRepository = $this->getRepository(CartRepository::class);
-        $cartRepository->save($cart);
+        $this->prepareRecord('carts', [
+            'id' => $cartId->value,
+            'number_items' => $productCollection->totalQuantity(),
+            'total_amount' => $productCollection->totalAmount(),
+            'product_items' => json_encode($productCollection->toArray()),
+            'created_at' => DateTimeUtils::toDatabase($now),
+            'updated_at' => DateTimeUtils::toDatabase($now),
+        ]);
 
-        $this->json('POST', sprintf("/carts/%s/product_delete", $cart->cartId()), [
+        $this->json('POST', sprintf("/carts/%s/product_delete", $cartId->value), [
             'productId' => $otherProductId,
         ]);
         self::assertResponseStatusCodeSame(204);
+
+        $this->assertHasDatabase('carts', [
+            'id' => $cartId->value,
+            'number_items' => $prduct->quantity,
+        ]);
     }
 
     public function testCartNotFound(): void

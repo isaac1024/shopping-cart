@@ -5,11 +5,13 @@ namespace ShoppingCart\Tests\Command\Cart\Application;
 use PHPUnit\Framework\MockObject\MockObject;
 use ShoppingCart\Command\Cart\Application\CartProductSetterCommandHandler;
 use ShoppingCart\Command\Cart\Domain\CartException;
+use ShoppingCart\Command\Cart\Domain\CartModel;
 use ShoppingCart\Command\Cart\Domain\CartRepository;
 use ShoppingCart\Command\Cart\Domain\ProductCollection;
 use ShoppingCart\Command\Cart\Domain\ProductCollectionException;
 use ShoppingCart\Command\Cart\Domain\ProductException;
 use ShoppingCart\Shared\Domain\Models\CartId;
+use ShoppingCart\Shared\Domain\Models\DateTimeUtils;
 use ShoppingCart\Shared\Domain\Models\NotFoundCartException;
 use ShoppingCart\Tests\Command\Cart\Domain\CartObjectMother;
 use ShoppingCart\Tests\Command\Cart\Domain\ProductObjectMother;
@@ -30,9 +32,19 @@ class CartProductSetterCommandHandlerTest extends UnitTestCase
 
     public function testAddNewProduct(): void
     {
-        $cart = CartObjectMother::make();
+        $now = DateTimeUtils::now();
         $product = ProductObjectMother::make(quantity: 0);
-        $command = CartProductSetterCommandObjectMother::make($cart->cartId(), $product->productId);
+        $command = CartProductSetterCommandObjectMother::make(productId:  $product->productId);
+        $cart = CartObjectMother::fromCartProductSetterCommand($command, ProductCollection::init());
+        $productCollection = new ProductCollection($product->addQuantity($command->quantity));
+        $cartModel = new CartModel(
+            $command->cartId,
+            $productCollection->totalQuantity(),
+            $productCollection->totalAmount(),
+            $productCollection->toArray(),
+            $now,
+            $now
+        );
 
         $this->cartRepository->expects($this->once())
             ->method('search')
@@ -40,24 +52,32 @@ class CartProductSetterCommandHandlerTest extends UnitTestCase
             ->willReturn($cart);
 
         $this->cartRepository->expects($this->once())
-            ->method('findProduct')
+            ->method('searchProduct')
             ->with($command->productId)
             ->willReturn($product);
 
         $this->cartRepository->expects($this->once())
             ->method('save')
-            ->with($cart);
+            ->with($cartModel);
 
         $this->cartProductSetterCommandHandler->dispatch($command);
     }
 
     public function testUpdateProduct(): void
     {
+        $now = DateTimeUtils::now();
         $product = ProductObjectMother::make();
-        $cart = CartObjectMother::make(productCollection: new ProductCollection($product));
-        $numberItems = $cart->numberItems();
-        $totalAmount = $cart->totalAmount();
-        $command = CartProductSetterCommandObjectMother::make($cart->cartId(), $product->productId, $product->quantity + 1);
+        $command = CartProductSetterCommandObjectMother::make(productId: $product->productId, quantity: $product->quantity + 1);
+        $cart = CartObjectMother::fromCartProductSetterCommand($command, new ProductCollection($product));
+        $productCollection = new ProductCollection($product->addQuantity($command->quantity));
+        $cartModel = new CartModel(
+            $command->cartId,
+            $productCollection->totalQuantity(),
+            $productCollection->totalAmount(),
+            $productCollection->toArray(),
+            $now,
+            $now
+        );
 
         $this->cartRepository->expects($this->once())
             ->method('search')
@@ -65,22 +85,19 @@ class CartProductSetterCommandHandlerTest extends UnitTestCase
             ->willReturn($cart);
 
         $this->cartRepository->expects($this->never())
-            ->method('findProduct');
+            ->method('searchProduct');
 
         $this->cartRepository->expects($this->once())
             ->method('save')
-            ->with($cart);
+            ->with($cartModel);
 
         $this->cartProductSetterCommandHandler->dispatch($command);
-
-        self::assertNotEquals($numberItems, $cart->numberItems());
-        self::assertNotEquals($totalAmount, $cart->totalAmount());
     }
 
     public function testProductNotExist(): void
     {
-        $cart = CartObjectMother::make();
-        $command = CartProductSetterCommandObjectMother::make($cart->cartId());
+        $command = CartProductSetterCommandObjectMother::make();
+        $cart = CartObjectMother::fromCartProductSetterCommand($command, ProductCollection::init());
 
         $this->expectException(CartException::class);
         $this->expectExceptionMessage(sprintf("Not exist a product with id '%s'", $command->productId));
@@ -91,7 +108,7 @@ class CartProductSetterCommandHandlerTest extends UnitTestCase
             ->willReturn($cart);
 
         $this->cartRepository->expects($this->once())
-            ->method('findProduct')
+            ->method('searchProduct')
             ->with($command->productId)
             ->willReturn(null);
 
@@ -103,9 +120,9 @@ class CartProductSetterCommandHandlerTest extends UnitTestCase
 
     public function testAddProductWithZeroQuantity(): void
     {
-        $cart = CartObjectMother::make();
         $product = ProductObjectMother::make(quantity: 0);
-        $command = CartProductSetterCommandObjectMother::make($cart->cartId(), $product->productId, 0);
+        $command = CartProductSetterCommandObjectMother::make(productId:  $product->productId, quantity: 0);
+        $cart = CartObjectMother::fromCartProductSetterCommand($command, ProductCollection::init());
 
         $this->expectException(ProductCollectionException::class);
         $this->expectExceptionMessage("Can't add a product with 0 quantity");
@@ -116,7 +133,7 @@ class CartProductSetterCommandHandlerTest extends UnitTestCase
             ->willReturn($cart);
 
         $this->cartRepository->expects($this->once())
-            ->method('findProduct')
+            ->method('searchProduct')
             ->with($command->productId)
             ->willReturn($product);
 
@@ -128,9 +145,9 @@ class CartProductSetterCommandHandlerTest extends UnitTestCase
 
     public function testAddProductWithNegativeQuantity(): void
     {
-        $cart = CartObjectMother::make();
         $product = ProductObjectMother::make(quantity: 0);
-        $command = CartProductSetterCommandObjectMother::make($cart->cartId(), $product->productId, -1);
+        $command = CartProductSetterCommandObjectMother::make(productId: $product->productId, quantity: -1);
+        $cart = CartObjectMother::fromCartProductSetterCommand($command, ProductCollection::init());
 
         $this->expectException(ProductException::class);
         $this->expectExceptionMessage("Product cart quantity can't be negative");
@@ -141,7 +158,7 @@ class CartProductSetterCommandHandlerTest extends UnitTestCase
             ->willReturn($cart);
 
         $this->cartRepository->expects($this->once())
-            ->method('findProduct')
+            ->method('searchProduct')
             ->with($command->productId)
             ->willReturn($product);
 

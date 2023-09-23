@@ -4,6 +4,7 @@ namespace ShoppingCart\Command\Cart\Domain;
 
 use ShoppingCart\Shared\Domain\Models\AggregateRoot;
 use ShoppingCart\Shared\Domain\Models\CartId;
+use ShoppingCart\Shared\Domain\Models\Timestamps;
 
 final class Cart extends AggregateRoot
 {
@@ -12,6 +13,7 @@ final class Cart extends AggregateRoot
         private NumberItems $numberItems,
         private TotalAmount $totalAmount,
         private ProductCollection $productItems,
+        private Timestamps $timestamps,
     ) {
     }
 
@@ -22,17 +24,26 @@ final class Cart extends AggregateRoot
             NumberItems::init(),
             TotalAmount::init(),
             ProductCollection::init(),
+            Timestamps::init(),
         );
     }
 
     public function save(CartRepository $cartRepository): void
     {
-        $cartRepository->save($this);
+        $model = new CartModel(
+            $this->cartId->value,
+            $this->numberItems->value,
+            $this->totalAmount->value,
+            $this->productItems->toArray(),
+            $this->timestamps->createdAt,
+            $this->timestamps->updatedAt,
+        );
+        $cartRepository->save($model);
     }
 
     public function updateProduct(string $productId, int $quantity, CartRepository $cartRepository): Cart
     {
-        $product = $this->productItems->get($productId) ?? $cartRepository->findProduct($productId);
+        $product = $this->productItems->get($productId) ?? $cartRepository->searchProduct($productId);
         if (!$product) {
             throw CartException::productNotExist($productId);
         }
@@ -41,6 +52,7 @@ final class Cart extends AggregateRoot
         $this->productItems = $this->productItems->add($product);
         $this->updateNumberItems();
         $this->updateTotalAmount();
+        $this->timestamps = $this->timestamps->update();
 
         return $this;
     }
@@ -60,27 +72,8 @@ final class Cart extends AggregateRoot
         $this->productItems = $this->productItems->remove($productId);
         $this->updateNumberItems();
         $this->updateTotalAmount();
+        $this->timestamps = $this->timestamps->update();
 
         return $this;
-    }
-
-    public function cartId(): string
-    {
-        return $this->cartId->value;
-    }
-
-    public function numberItems(): int
-    {
-        return $this->numberItems->value;
-    }
-
-    public function totalAmount(): int
-    {
-        return $this->totalAmount->value;
-    }
-
-    public function productItems(): array
-    {
-        return $this->productItems->toArray();
     }
 }

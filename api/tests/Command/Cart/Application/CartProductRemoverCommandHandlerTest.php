@@ -4,9 +4,11 @@ namespace ShoppingCart\Tests\Command\Cart\Application;
 
 use PHPUnit\Framework\MockObject\MockObject;
 use ShoppingCart\Command\Cart\Application\CartProductRemoverCommandHandler;
+use ShoppingCart\Command\Cart\Domain\CartModel;
 use ShoppingCart\Command\Cart\Domain\CartRepository;
 use ShoppingCart\Command\Cart\Domain\ProductCollection;
 use ShoppingCart\Shared\Domain\Models\CartId;
+use ShoppingCart\Shared\Domain\Models\DateTimeUtils;
 use ShoppingCart\Shared\Domain\Models\NotFoundCartException;
 use ShoppingCart\Shared\Domain\Models\UuidUtils;
 use ShoppingCart\Tests\Command\Cart\Domain\CartObjectMother;
@@ -28,31 +30,46 @@ class CartProductRemoverCommandHandlerTest extends UnitTestCase
 
     public function testRemoveAProduct(): void
     {
+        $now = DateTimeUtils::now();
         $product = ProductObjectMother::make();
-        $cart = CartObjectMother::make(productCollection: new ProductCollection($product));
-        $command = CartProductRemoverCommandObjectMother::make($cart->cartId(), $product->productId);
+        $command = CartProductRemoverCommandObjectMother::make(productId: $product->productId);
+        $cart = CartObjectMother::fromCartProductRemoverCommand($command, new ProductCollection($product));
+        $cartModel = new CartModel(
+            $command->cartId,
+            0,
+            0,
+            [],
+            $now,
+            $now
+        );
 
         $this->cartRepository->expects($this->once())
             ->method('search')
-            ->with(new CartId($command->cartId))
+            ->with($command->cartId)
             ->willReturn($cart);
 
         $this->cartRepository->expects($this->once())
             ->method('save')
-            ->with($cart);
+            ->with($cartModel);
 
         $this->cartProductRemoverCommandHandler->dispatch($command);
-        self::assertEquals(0, $cart->numberItems());
-        self::assertEquals(0, $cart->totalAmount());
     }
 
     public function testRemoveAProductThatNotExistOnCart(): void
     {
+        $now = DateTimeUtils::now();
         $product = ProductObjectMother::make();
-        $cart = CartObjectMother::make(productCollection: new ProductCollection($product));
-        $command = CartProductRemoverCommandObjectMother::make($cart->cartId(), UuidUtils::random());
-        $cartNumberItems = $cart->numberItems();
-        $cartTotalAmount = $cart->totalAmount();
+        $productCollection = new ProductCollection($product);
+        $command = CartProductRemoverCommandObjectMother::make(productId: UuidUtils::random());
+        $cart = CartObjectMother::fromCartProductRemoverCommand($command, $productCollection);
+        $cartModel = new CartModel(
+            $command->cartId,
+            $productCollection->totalQuantity(),
+            $productCollection->totalAmount(),
+            $productCollection->toArray(),
+            $now,
+            $now
+        );
 
         $this->cartRepository->expects($this->once())
             ->method('search')
@@ -61,11 +78,9 @@ class CartProductRemoverCommandHandlerTest extends UnitTestCase
 
         $this->cartRepository->expects($this->once())
             ->method('save')
-            ->with($cart);
+            ->with($cartModel);
 
         $this->cartProductRemoverCommandHandler->dispatch($command);
-        self::assertEquals($cartNumberItems, $cart->numberItems());
-        self::assertEquals($cartTotalAmount, $cart->totalAmount());
     }
 
     public function testNotFoundCart(): void

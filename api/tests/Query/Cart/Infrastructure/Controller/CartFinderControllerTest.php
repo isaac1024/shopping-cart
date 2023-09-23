@@ -2,19 +2,30 @@
 
 namespace ShoppingCart\Tests\Query\Cart\Infrastructure\Controller;
 
-use ShoppingCart\Command\Cart\Domain\CartRepository;
+use ShoppingCart\Shared\Domain\Models\DateTimeUtils;
 use ShoppingCart\Shared\Domain\Models\UuidUtils;
-use ShoppingCart\Tests\Command\Cart\Domain\CartObjectMother;
+use ShoppingCart\Tests\Query\Cart\Domain\ProductCollectionOrderMother;
+use ShoppingCart\Tests\Shared\Domain\Models\CartIdObjectMother;
 use ShoppingCart\Tests\Shared\Infrastructure\PhpUnit\AcceptanceTestCase;
 
 class CartFinderControllerTest extends AcceptanceTestCase
 {
     public function testGetACart(): void
     {
-        $cart = CartObjectMother::make();
-        $this->getRepository(CartRepository::class)->save($cart);
+        $cartId = CartIdObjectMother::make();
+        $productCollection = ProductCollectionOrderMother::make(2);
+        $now = DateTimeUtils::now();
 
-        $this->json('GET', sprintf("/carts/%s", $cart->cartId()));
+        $this->prepareRecord('carts', [
+            'id' => $cartId->value,
+            'number_items' => $productCollection->totalQuantity(),
+            'total_amount' => $productCollection->totalAmount(),
+            'product_items' => json_encode($productCollection->toArray()),
+            'created_at' => DateTimeUtils::toDatabase($now),
+            'updated_at' => DateTimeUtils::toDatabase($now),
+        ]);
+
+        $this->json('GET', sprintf("/carts/%s", $cartId->value));
         self::assertResponseStatusCodeSame(200);
     }
     public function testNotFoundACart(): void

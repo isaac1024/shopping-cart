@@ -2,11 +2,13 @@
 
 namespace ShoppingCart\Tests\Query\Cart\Infrastructure\Repository;
 
-use Doctrine\ORM\EntityManager;
 use ShoppingCart\Query\Cart\Domain\CartRepository;
 use ShoppingCart\Query\Cart\Infrastructure\Repository\DoctrineCartRepository;
+use ShoppingCart\Shared\Domain\Models\DateTimeUtils;
 use ShoppingCart\Shared\Domain\Models\UuidUtils;
+use ShoppingCart\Tests\Query\Cart\Domain\ProductCollectionOrderMother;
 use ShoppingCart\Tests\Query\Cart\Domain\CartObjectMother;
+use ShoppingCart\Tests\Shared\Domain\Models\CartIdObjectMother;
 use ShoppingCart\Tests\Shared\Infrastructure\PhpUnit\IntegrationTestCase;
 
 class DoctrineCartRepositoryTest extends IntegrationTestCase
@@ -22,13 +24,19 @@ class DoctrineCartRepositoryTest extends IntegrationTestCase
 
     public function testFindACart(): void
     {
-        $expectedCart = CartObjectMother::make();
+        $cartId = CartIdObjectMother::make();
+        $productCollection = ProductCollectionOrderMother::make(2);
+        $expectedCart = CartObjectMother::make($cartId->value, $productCollection);
+        $now = DateTimeUtils::now();
 
-        /** @var EntityManager $em */
-        $em = $this->getContainer()->get('doctrine.orm.default_entity_manager');
-        $em->persist($expectedCart);
-        $em->flush();
-        $em->clear();
+        $this->prepareRecord('carts', [
+            'id' => $cartId->value,
+            'number_items' => $productCollection->totalQuantity(),
+            'total_amount' => $productCollection->totalAmount(),
+            'product_items' => json_encode($productCollection->toArray()),
+            'created_at' => DateTimeUtils::toDatabase($now),
+            'updated_at' => DateTimeUtils::toDatabase($now),
+        ]);
 
         $cart = $this->repository->search($expectedCart->id());
 
