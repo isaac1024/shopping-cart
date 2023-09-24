@@ -2,20 +2,34 @@
 
 namespace ShoppingCart\Query\Product\Infrastructure\Repository;
 
-use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\DBAL\Connection;
 use ShoppingCart\Query\Product\Domain\Product;
 use ShoppingCart\Query\Product\Domain\ProductCollection;
 use ShoppingCart\Query\Product\Domain\ProductRepository;
 
 final readonly class DoctrineProductRepository implements ProductRepository
 {
-    public function __construct(private EntityManagerInterface $entityManager)
+    public function __construct(private Connection $connection)
     {
     }
 
     public function all(): ProductCollection
     {
-        $products = $this->entityManager->getRepository(Product::class)->findAll();
-        return new ProductCollection(...$products);
+        $sql = "SELECT * FROM products";
+        $dataProducts = $this->connection->fetchAllAssociative($sql);
+
+        $prodcuts = array_map(
+            function (array $product) {
+                return new Product(
+                    $product['id'],
+                    $product['title'],
+                    $product['description'],
+                    $product['photo'],
+                    $product['price'],
+                );
+            },
+            $dataProducts
+        );
+        return new ProductCollection(...$prodcuts);
     }
 }

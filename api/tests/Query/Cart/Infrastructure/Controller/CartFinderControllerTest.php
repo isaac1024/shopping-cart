@@ -27,6 +27,14 @@ class CartFinderControllerTest extends AcceptanceTestCase
 
         $this->json('GET', sprintf("/carts/%s", $cartId->value));
         self::assertResponseStatusCodeSame(200);
+
+        $expected = [
+            'id' => $cartId->value,
+            'numberItems' => $productCollection->totalQuantity(),
+            'totalAmount' => $productCollection->totalAmount(),
+            'productItems' => $productCollection->toArray(),
+        ];
+        self::assertEquals($expected, $this->response());
     }
     public function testNotFoundACart(): void
     {

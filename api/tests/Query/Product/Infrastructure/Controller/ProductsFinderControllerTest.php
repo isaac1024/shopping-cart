@@ -10,5 +10,8 @@ class ProductsFinderControllerTest extends AcceptanceTestCase
     {
         $this->json('GET', '/products');
         self::assertResponseStatusCodeSame(200);
+
+        $response = $this->response();
+        self::assertCount(7, $response);
     }
 }

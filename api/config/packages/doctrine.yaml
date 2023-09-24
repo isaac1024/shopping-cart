@@ -4,7 +4,6 @@ doctrine:
         types:
             cart_id: ShoppingCart\Shared\Infrastructure\Doctrine\CartIdType
             order_id: ShoppingCart\Command\Order\Infrastructure\Doctrine\OrderIdType
-            query_cart_product_items: ShoppingCart\Query\Cart\Infrastructure\Doctrine\ProductCollectionType
             order_product_items: ShoppingCart\Command\Order\Infrastructure\Doctrine\ProductCollectionType
 
         # IMPORTANT: You MUST configure your server version,
@@ -18,16 +17,6 @@ doctrine:
         naming_strategy: doctrine.orm.naming_strategy.underscore_number_aware
         auto_mapping: true
         mappings:
-            QueryProduct:
-                is_bundle: false
-                type: xml
-                dir: '%kernel.project_dir%/src/ShoppingCart/Query/Product/Infrastructure/Doctrine/'
-                prefix: 'ShoppingCart\Query\Product\Domain'
-            QueryCart:
-                is_bundle: false
-                type: xml
-                dir: '%kernel.project_dir%/src/ShoppingCart/Query/Cart/Infrastructure/Doctrine/'
-                prefix: 'ShoppingCart\Query\Cart\Domain'
             CommandOrder:
                 is_bundle: false
                 type: xml
