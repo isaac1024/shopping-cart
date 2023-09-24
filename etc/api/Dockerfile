@@ -18,3 +18,4 @@ WORKDIR /app
 
 COPY etc/api/php.ini /usr/local/etc/php/php.ini
 COPY etc/api/xdebug.ini /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
+COPY etc/api/Caddyfile /etc/caddy/Caddyfile

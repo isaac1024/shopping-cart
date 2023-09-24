@@ -22,8 +22,9 @@ services:
       context: .
       dockerfile: etc/api/Dockerfile
     environment:
-      FRANKENPHP_CONFIG: "worker ./public/index.php"
       SERVER_NAME: "http://localhost"
+      MERCURE_PUBLISHER_JWT_KEY: ${MERCURE_SERVER_PASSWORD}
+      MERCURE_SUBSCRIBER_JWT_KEY: ${MERCURE_CLIENT_PASSWORD}
     ports:
       - ${API_PORT}:80
     volumes:
