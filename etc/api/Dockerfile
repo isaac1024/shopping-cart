@@ -1,6 +1,6 @@
-FROM php:8.2-cli-alpine
+FROM dunglas/frankenphp:latest-alpine
 
-RUN apk update && apk add --update --no-cache bash git supervisor rabbitmq-c rabbitmq-c-dev
+RUN apk update && apk add --update --no-cache bash git rabbitmq-c rabbitmq-c-dev
 
 ADD https://github.com/mlocati/docker-php-extension-installer/releases/latest/download/install-php-extensions /usr/local/bin/
 RUN chmod +x /usr/local/bin/install-php-extensions && sync && \
@@ -18,6 +18,3 @@ WORKDIR /app
 
 COPY etc/api/php.ini /usr/local/etc/php/php.ini
 COPY etc/api/xdebug.ini /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
-COPY etc/api/supervisord.conf /etc/supervisord.conf
-
-CMD ["supervisord", "-c", "/etc/supervisord.conf"]
