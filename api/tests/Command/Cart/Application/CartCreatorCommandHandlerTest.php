@@ -4,10 +4,10 @@ namespace ShoppingCart\Tests\Command\Cart\Application;
 
 use PHPUnit\Framework\MockObject\MockObject;
 use ShoppingCart\Command\Cart\Application\CartCreatorCommandHandler;
-use ShoppingCart\Command\Cart\Domain\CartModel;
 use ShoppingCart\Command\Cart\Domain\CartRepository;
 use ShoppingCart\Shared\Domain\Models\CartIdException;
-use ShoppingCart\Shared\Domain\Models\DateTimeUtils;
+use ShoppingCart\Shared\Domain\Models\DatabaseStatus;
+use ShoppingCart\Tests\Command\Cart\Domain\CartModelObjectMother;
 use ShoppingCart\Tests\Shared\Infrastructure\PhpUnit\UnitTestCase;
 
 class CartCreatorCommandHandlerTest extends UnitTestCase
@@ -25,16 +25,8 @@ class CartCreatorCommandHandlerTest extends UnitTestCase
 
     public function testCreateANewCart(): void
     {
-        $now = DateTimeUtils::now();
         $command = CartCreatorCommandObjectMother::make();
-        $cartModel = new CartModel(
-            $command->cartId,
-            0,
-            0,
-            [],
-            $now,
-            $now
-        );
+        $cartModel = CartModelObjectMother::make($command->cartId, databaseStatus: DatabaseStatus::CREATED);
 
         $this->cartRepository->expects($this->once())
             ->method('save')

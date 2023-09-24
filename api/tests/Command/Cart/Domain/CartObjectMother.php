@@ -6,10 +6,13 @@ use ShoppingCart\Command\Cart\Application\CartCreatorCommand;
 use ShoppingCart\Command\Cart\Application\CartProductRemoverCommand;
 use ShoppingCart\Command\Cart\Application\CartProductSetterCommand;
 use ShoppingCart\Command\Cart\Domain\Cart;
+use ShoppingCart\Command\Cart\Domain\CartModel;
+use ShoppingCart\Command\Cart\Domain\Product;
 use ShoppingCart\Command\Cart\Domain\ProductCollection;
 use ShoppingCart\Shared\Domain\Models\CartId;
 use ShoppingCart\Shared\Domain\Models\Timestamps;
 use ShoppingCart\Tests\Shared\Domain\Models\CartIdObjectMother;
+use ShoppingCart\Tests\Shared\Domain\Models\TimestampsObjectMother;
 
 final class CartObjectMother
 {
@@ -25,6 +28,29 @@ final class CartObjectMother
             TotalAmountObjectMother::make($productCollection->totalAmount()),
             $productCollection,
             $timestamps ?? Timestamps::init(),
+        );
+    }
+
+    public static function fromCartModel(CartModel $cart): Cart
+    {
+        $productCollection = new ProductCollection(...array_map(
+            function (array $product) {
+                return new Product(
+                    $product['productId'],
+                    $product['title'],
+                    $product['photo'],
+                    $product['unitPrice'],
+                    $product['quantity'],
+                    $product['totalPrice']
+                );
+            },
+            $cart->productItems,
+        ));
+
+        return CartObjectMother::make(
+            CartIdObjectMother::make($cart->cartId),
+            $productCollection,
+            TimestampsObjectMother::make($cart->createdAt, $cart->updatedAt)
         );
     }
 

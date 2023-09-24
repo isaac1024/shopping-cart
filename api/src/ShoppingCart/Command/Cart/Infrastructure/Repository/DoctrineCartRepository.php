@@ -11,6 +11,7 @@ use ShoppingCart\Command\Cart\Domain\Product;
 use ShoppingCart\Command\Cart\Domain\ProductCollection;
 use ShoppingCart\Command\Cart\Domain\TotalAmount;
 use ShoppingCart\Shared\Domain\Models\CartId;
+use ShoppingCart\Shared\Domain\Models\DatabaseStatus;
 use ShoppingCart\Shared\Domain\Models\DateTimeUtils;
 use ShoppingCart\Shared\Domain\Models\Timestamps;
 
@@ -22,12 +23,12 @@ final readonly class DoctrineCartRepository implements CartRepository
 
     public function save(CartModel $cart): void
     {
-        $sql = match ($cart->createdAt->getTimestamp() === $cart->updatedAt->getTimestamp()) {
-            true => <<<SQL
+        $sql = match ($cart->databaseStatus) {
+            DatabaseStatus::CREATED => <<<SQL
                 INSERT INTO carts (id, number_items, total_amount, product_items, created_at, updated_at)
                 VALUES (:id, :number_items, :total_amount, :product_items, :created_at, :updated_at)
             SQL,
-            false => <<<SQL
+            DatabaseStatus::UPDATED => <<<SQL
                 UPDATE carts
                 SET number_items = :number_items,
                     total_amount = :total_amount,
@@ -35,7 +36,12 @@ final readonly class DoctrineCartRepository implements CartRepository
                     updated_at = :updated_at
                 WHERE id = :id
             SQL,
+            DatabaseStatus::DATABASE_LOADED => null,
         };
+        if (!$sql) {
+            return;
+        }
+
         $this->connection->executeQuery($sql, [
             'id' => $cart->cartId,
             'number_items' => $cart->numberItems,
@@ -73,10 +79,7 @@ final readonly class DoctrineCartRepository implements CartRepository
             new NumberItems($cart['number_items']),
             new TotalAmount($cart['total_amount']),
             new ProductCollection(...$products),
-            new Timestamps(
-                DateTimeUtils::fromDatabase($cart['created_at']),
-                DateTimeUtils::fromDatabase($cart['updated_at'])
-            ),
+            Timestamps::fromDatabase($cart['created_at'], $cart['updated_at']),
         );
     }
 

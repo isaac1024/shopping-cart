@@ -3,6 +3,7 @@
 namespace ShoppingCart\Command\Cart\Domain;
 
 use DateTimeImmutable;
+use ShoppingCart\Shared\Domain\Models\DatabaseStatus;
 use ShoppingCart\Shared\Domain\Models\RepositoryModel;
 
 final readonly class CartModel extends RepositoryModel
@@ -14,7 +15,8 @@ final readonly class CartModel extends RepositoryModel
         public array $productItems,
         DateTimeImmutable $createdAt,
         DateTimeImmutable $updatedAt,
+        DatabaseStatus $databaseStatus,
     ) {
-        parent::__construct($createdAt, $updatedAt);
+        parent::__construct($createdAt, $updatedAt, $databaseStatus);
     }
 }
