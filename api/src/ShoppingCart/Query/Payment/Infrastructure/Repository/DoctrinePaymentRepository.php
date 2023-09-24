@@ -14,7 +14,8 @@ final readonly class DoctrinePaymentRepository implements PaymentRepository
 
     public function find(string $id): ?Payment
     {
-        $payment = $this->connection->fetchAssociative("SELECT total_amount FROM orders WHERE id = :id", ['id' => $id]);
+        $sql = "SELECT total_amount FROM orders WHERE id = :id AND status = :status";
+        $payment = $this->connection->fetchAssociative($sql, ['id' => $id, 'status' => 'pending_payment']);
         return $payment ? new Payment($id, $payment['total_amount']) : null;
     }
 }

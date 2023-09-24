@@ -1,6 +1,2 @@
 services:
-    ShoppingCart\Command\Order\Infrastructure\Repository\DoctrineOrderRepository:
-        arguments: [ '@doctrine.orm.default_entity_manager' ]
-        public: true
-
     ShoppingCart\Query\Payment\Domain\PaymentSecretRepository: '@ShoppingCart\Query\Payment\Infrastructure\Repository\FakePaymentSecretRepository'

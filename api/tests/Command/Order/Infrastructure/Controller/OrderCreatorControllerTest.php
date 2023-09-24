@@ -36,5 +36,9 @@ class OrderCreatorControllerTest extends AcceptanceTestCase
 
         $this->json('POST', '/orders', $request);
         self::assertResponseStatusCodeSame(201);
+
+        $orderId = $this->response()['id'] ?? null;
+        self::assertIsString($orderId);
+        $this->assertHasDatabase('orders', ['id' => $orderId]);
     }
 }

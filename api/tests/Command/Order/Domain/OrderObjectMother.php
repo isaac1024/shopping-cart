@@ -6,14 +6,13 @@ use Faker\Factory;
 use ShoppingCart\Command\Order\Application\OrderCreatorCommand;
 use ShoppingCart\Command\Order\Domain\Address;
 use ShoppingCart\Command\Order\Domain\Name;
-use ShoppingCart\Command\Order\Domain\NumberItems;
 use ShoppingCart\Command\Order\Domain\Order;
 use ShoppingCart\Command\Order\Domain\OrderId;
 use ShoppingCart\Command\Order\Domain\Product;
 use ShoppingCart\Command\Order\Domain\ProductCollection;
 use ShoppingCart\Command\Order\Domain\Status;
-use ShoppingCart\Command\Order\Domain\TotalAmount;
 use ShoppingCart\Shared\Domain\Models\CartId;
+use ShoppingCart\Shared\Domain\Models\Timestamps;
 use ShoppingCart\Tests\Shared\Domain\Models\CartIdObjectMother;
 
 final class OrderObjectMother
@@ -23,20 +22,22 @@ final class OrderObjectMother
         ?Name $name = null,
         ?Address $address = null,
         ?CartId $cartId = null,
-        ?NumberItems $numberItems = null,
-        ?TotalAmount $totalAmount = null,
         ?ProductCollection $productItems = null,
+        ?Timestamps $timestamps = null,
     ): Order {
         $faker = Factory::create();
+        $productItems = $productItems ?? ProductCollectionOrderMother::make($faker->numberBetween(1, 5));
+
         return new Order(
             $orderId ?? OrderIdObjectMother::make(),
             Status::PENDING_PAYMENT,
             $name ?? NameObjectMother::make(),
             $address ?? AddressObjectMother::make(),
             $cartId ?? CartIdObjectMother::make(),
-            $numberItems ?? NumberItemsObjectMother::make(),
-            $totalAmount ?? TotalAmountObjectMother::make(),
-            $productItems ?? ProductCollectionOrderMother::make($faker->numberBetween(1, 5))
+            NumberItemsObjectMother::make($productItems->totalQuantity()),
+            TotalAmountObjectMother::make($productItems->totalAmount()),
+            $productItems,
+            $timestamps ?? Timestamps::init(),
         );
     }
 
@@ -57,8 +58,6 @@ final class OrderObjectMother
             new Name($command->name),
             new Address($command->address),
             new CartId($command->cartId),
-            new NumberItems($products->totalQuantity()),
-            new TotalAmount($products->totalAmount()),
             $products,
         );
     }

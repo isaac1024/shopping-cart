@@ -29,6 +29,8 @@ final class Version20230709160509 extends AbstractMigration
                 number_items INTEGER NOT NULL,
                 total_amount INTEGER NOT NULL,
                 product_items JSON NOT NULL,
+                created_at TIMESTAMP NOT NULL,
+                updated_at TIMESTAMP NOT NULL,
                 PRIMARY KEY(id)
             ) DEFAULT CHARACTER SET utf8 COLLATE `utf8_unicode_ci` ENGINE = InnoDB;
         SQL);

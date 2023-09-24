@@ -5,7 +5,6 @@ namespace ShoppingCart\Tests\Query\Cart\Domain;
 use ShoppingCart\Query\Cart\Application\CartFinderQuery;
 use ShoppingCart\Query\Cart\Domain\Cart;
 use ShoppingCart\Query\Cart\Domain\ProductCollection;
-use ShoppingCart\Shared\Domain\Models\CartId;
 use ShoppingCart\Shared\Domain\Models\UuidUtils;
 
 final class CartObjectMother

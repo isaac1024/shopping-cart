@@ -15,8 +15,7 @@ use ShoppingCart\Command\Order\Domain\ProductException;
 use ShoppingCart\Shared\Domain\Bus\EventBus;
 use ShoppingCart\Shared\Domain\Models\CartIdException;
 use ShoppingCart\Shared\Domain\Models\UuidUtils;
-use ShoppingCart\Tests\Command\Order\Domain\OrderObjectMother;
-use ShoppingCart\Tests\Command\Order\Domain\OrderPendingToPayObjectMother;
+use ShoppingCart\Tests\Command\Order\Domain\OrderModelObjectMother;
 use ShoppingCart\Tests\Command\Order\Domain\ProductObjectMother;
 use ShoppingCart\Tests\Shared\Infrastructure\PhpUnit\UnitTestCase;
 
@@ -37,7 +36,7 @@ class OrderCreatorCommandHandlerTest extends UnitTestCase
     public function testCreateOrder(): void
     {
         $command = OrderCreatorCommandObjectMother::make();
-        $expectedOrder = OrderObjectMother::fromOrderCreatorCommand($command);
+        $expectedOrder = OrderModelObjectMother::fromOrderCreatorCommand($command);
 
         $this->orderRepository->expects($this->once())
             ->method('save')

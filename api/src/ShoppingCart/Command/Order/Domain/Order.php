@@ -4,6 +4,7 @@ namespace ShoppingCart\Command\Order\Domain;
 
 use ShoppingCart\Shared\Domain\Models\AggregateRoot;
 use ShoppingCart\Shared\Domain\Models\CartId;
+use ShoppingCart\Shared\Domain\Models\Timestamps;
 
 final class Order extends AggregateRoot
 {
@@ -16,6 +17,7 @@ final class Order extends AggregateRoot
         private readonly NumberItems $numberItems,
         private readonly TotalAmount $totalAmount,
         private readonly ProductCollection $productItems,
+        private Timestamps $timestamps,
     ) {
     }
 
@@ -46,6 +48,7 @@ final class Order extends AggregateRoot
             (new ValidNumberItems($products->totalQuantity()))->create(),
             new TotalAmount($totalAmount),
             $products,
+            Timestamps::init(),
         );
 
         return $order;
@@ -53,46 +56,19 @@ final class Order extends AggregateRoot
 
     public function save(OrderRepository $orderRepository): void
     {
-        $orderRepository->save($this);
-    }
-
-    public function orderId(): string
-    {
-        return $this->orderId->value;
-    }
-
-    public function status(): string
-    {
-        return $this->status->value;
-    }
-
-    public function name(): string
-    {
-        return $this->name->value;
-    }
-
-    public function address(): string
-    {
-        return $this->address->value;
-    }
-
-    public function cartId(): string
-    {
-        return $this->cartId->value;
-    }
-
-    public function numberItems(): int
-    {
-        return $this->numberItems->value;
-    }
-
-    public function totalAmount(): int
-    {
-        return $this->totalAmount->value;
-    }
-
-    public function productItems(): array
-    {
-        return $this->productItems->toArray();
+        $order = new OrderModel(
+            $this->orderId->value,
+            $this->status->value,
+            $this->name->value,
+            $this->address->value,
+            $this->cartId->value,
+            $this->numberItems->value,
+            $this->totalAmount->value,
+            $this->productItems->toArray(),
+            $this->timestamps->createdAt,
+            $this->timestamps->updatedAt,
+            $this->timestamps->aggregateStatus,
+        );
+        $orderRepository->save($order);
     }
 }

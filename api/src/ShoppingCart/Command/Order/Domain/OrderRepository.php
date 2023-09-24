@@ -4,5 +4,5 @@ namespace ShoppingCart\Command\Order\Domain;
 
 interface OrderRepository
 {
-    public function save(Order $order): void;
+    public function save(OrderModel $order): void;
 }

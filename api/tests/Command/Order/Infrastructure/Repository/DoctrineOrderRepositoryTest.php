@@ -4,7 +4,7 @@ namespace ShoppingCart\Tests\Command\Order\Infrastructure\Repository;
 
 use ShoppingCart\Command\Order\Domain\OrderRepository;
 use ShoppingCart\Command\Order\Infrastructure\Repository\DoctrineOrderRepository;
-use ShoppingCart\Tests\Command\Order\Domain\OrderObjectMother;
+use ShoppingCart\Tests\Command\Order\Domain\OrderModelObjectMother;
 use ShoppingCart\Tests\Shared\Infrastructure\PhpUnit\IntegrationTestCase;
 
 class DoctrineOrderRepositoryTest extends IntegrationTestCase
@@ -20,7 +20,7 @@ class DoctrineOrderRepositoryTest extends IntegrationTestCase
 
     public function testSave(): void
     {
-        $order = OrderObjectMother::make();
+        $order = OrderModelObjectMother::make();
 
         $this->repository->save($order);
 
