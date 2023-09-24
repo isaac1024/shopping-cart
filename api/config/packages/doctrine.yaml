@@ -28,11 +28,6 @@ doctrine:
                 type: xml
                 dir: '%kernel.project_dir%/src/ShoppingCart/Query/Cart/Infrastructure/Doctrine/'
                 prefix: 'ShoppingCart\Query\Cart\Domain'
-            QueryNumberItemsCart:
-                is_bundle: false
-                type: xml
-                dir: '%kernel.project_dir%/src/ShoppingCart/Query/NumberItemsCart/Infrastructure/Doctrine/'
-                prefix: 'ShoppingCart\Query\NumberItemsCart\Domain'
             CommandOrder:
                 is_bundle: false
                 type: xml

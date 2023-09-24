@@ -25,6 +25,9 @@ class NumberItemsCartFinderControllerTest extends AcceptanceTestCase
 
         $this->json('GET', sprintf("/carts/%s/items", $cartId->value));
         self::assertResponseStatusCodeSame(200);
+
+        $response = $this->response();
+        self::assertEquals(['id' => $cartId, 'numberItems' => 0], $response);
     }
     public function testNotFoundACart(): void
     {
