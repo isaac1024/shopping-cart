@@ -7,7 +7,7 @@ use ShoppingCart\Command\Cart\Application\CartProductRemoverCommandHandler;
 use ShoppingCart\Command\Cart\Domain\CartRepository;
 use ShoppingCart\Command\Cart\Domain\ProductCollection;
 use ShoppingCart\Shared\Domain\Models\CartId;
-use ShoppingCart\Shared\Domain\Models\DatabaseStatus;
+use ShoppingCart\Shared\Domain\Models\AggregateStatus;
 use ShoppingCart\Shared\Domain\Models\NotFoundCartException;
 use ShoppingCart\Shared\Domain\Models\UuidUtils;
 use ShoppingCart\Tests\Command\Cart\Domain\CartModelObjectMother;
@@ -33,7 +33,7 @@ class CartProductRemoverCommandHandlerTest extends UnitTestCase
         $product = ProductObjectMother::make();
         $productCollection = new ProductCollection($product);
         $command = CartProductRemoverCommandObjectMother::make(productId: $product->productId);
-        $cartModel = CartModelObjectMother::make($command->cartId, ProductCollection::init(), databaseStatus: DatabaseStatus::UPDATED);
+        $cartModel = CartModelObjectMother::make($command->cartId, ProductCollection::init(), aggregateStatus: AggregateStatus::UPDATED);
         $cart = CartObjectMother::fromCartProductRemoverCommand($command, $productCollection);
 
         $this->cartRepository->expects($this->once())
@@ -55,7 +55,7 @@ class CartProductRemoverCommandHandlerTest extends UnitTestCase
         $thirdProduct = ProductObjectMother::make();
         $productCollection = new ProductCollection($firstProduct, $secondProduct, $thirdProduct);
         $command = CartProductRemoverCommandObjectMother::make(productId: $firstProduct->productId);
-        $cartModel = CartModelObjectMother::make($command->cartId, new ProductCollection($secondProduct, $thirdProduct), databaseStatus: DatabaseStatus::UPDATED);
+        $cartModel = CartModelObjectMother::make($command->cartId, new ProductCollection($secondProduct, $thirdProduct), aggregateStatus: AggregateStatus::UPDATED);
         $cart = CartObjectMother::fromCartProductRemoverCommand($command, $productCollection);
 
         $this->cartRepository->expects($this->once())
@@ -75,7 +75,7 @@ class CartProductRemoverCommandHandlerTest extends UnitTestCase
         $product = ProductObjectMother::make();
         $productCollection = new ProductCollection($product);
         $command = CartProductRemoverCommandObjectMother::make(productId: UuidUtils::random());
-        $cartModel = CartModelObjectMother::make($command->cartId, $productCollection, databaseStatus: DatabaseStatus::UPDATED);
+        $cartModel = CartModelObjectMother::make($command->cartId, $productCollection, aggregateStatus: AggregateStatus::UPDATED);
         $cart = CartObjectMother::fromCartProductRemoverCommand($command, $productCollection);
 
         $this->cartRepository->expects($this->once())

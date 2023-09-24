@@ -2,9 +2,9 @@
 
 namespace ShoppingCart\Shared\Domain\Models;
 
-enum DatabaseStatus
+enum AggregateStatus
 {
-    case DATABASE_LOADED;
+    case LOADED;
     case CREATED;
     case UPDATED;
 }

@@ -5,7 +5,7 @@ namespace ShoppingCart\Tests\Command\Cart\Domain;
 use DateTimeImmutable;
 use ShoppingCart\Command\Cart\Domain\CartModel;
 use ShoppingCart\Command\Cart\Domain\ProductCollection;
-use ShoppingCart\Shared\Domain\Models\DatabaseStatus;
+use ShoppingCart\Shared\Domain\Models\AggregateStatus;
 use ShoppingCart\Shared\Domain\Models\DateTimeUtils;
 use ShoppingCart\Tests\Shared\Domain\Models\CartIdObjectMother;
 
@@ -16,7 +16,7 @@ final class CartModelObjectMother
         ?ProductCollection $productCollection = null,
         ?DateTimeImmutable $createdAt = null,
         ?DateTimeImmutable $updatedAt = null,
-        ?DatabaseStatus $databaseStatus = null,
+        ?AggregateStatus   $aggregateStatus = null,
     ): CartModel {
         $productCollection = $productCollection ?? ProductCollection::init();
         $now = DateTimeUtils::now();
@@ -27,7 +27,7 @@ final class CartModelObjectMother
             $productCollection->toArray(),
             $createdAt ?? $now,
             $updatedAt ?? $now,
-            $databaseStatus ?? DatabaseStatus::DATABASE_LOADED,
+            $aggregateStatus ?? AggregateStatus::LOADED,
         );
     }
 }

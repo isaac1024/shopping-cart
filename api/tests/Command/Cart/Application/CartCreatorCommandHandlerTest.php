@@ -6,7 +6,7 @@ use PHPUnit\Framework\MockObject\MockObject;
 use ShoppingCart\Command\Cart\Application\CartCreatorCommandHandler;
 use ShoppingCart\Command\Cart\Domain\CartRepository;
 use ShoppingCart\Shared\Domain\Models\CartIdException;
-use ShoppingCart\Shared\Domain\Models\DatabaseStatus;
+use ShoppingCart\Shared\Domain\Models\AggregateStatus;
 use ShoppingCart\Tests\Command\Cart\Domain\CartModelObjectMother;
 use ShoppingCart\Tests\Shared\Infrastructure\PhpUnit\UnitTestCase;
 
@@ -26,7 +26,7 @@ class CartCreatorCommandHandlerTest extends UnitTestCase
     public function testCreateANewCart(): void
     {
         $command = CartCreatorCommandObjectMother::make();
-        $cartModel = CartModelObjectMother::make($command->cartId, databaseStatus: DatabaseStatus::CREATED);
+        $cartModel = CartModelObjectMother::make($command->cartId, aggregateStatus: AggregateStatus::CREATED);
 
         $this->cartRepository->expects($this->once())
             ->method('save')

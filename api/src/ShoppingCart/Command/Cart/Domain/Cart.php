@@ -37,7 +37,7 @@ final class Cart extends AggregateRoot
             $this->productItems->toArray(),
             $this->timestamps->createdAt,
             $this->timestamps->updatedAt,
-            $this->timestamps->databaseStatus,
+            $this->timestamps->aggregateStatus,
         );
         $cartRepository->save($model);
     }

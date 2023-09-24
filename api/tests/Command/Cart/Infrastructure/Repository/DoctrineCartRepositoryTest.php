@@ -5,7 +5,7 @@ namespace ShoppingCart\Tests\Command\Cart\Infrastructure\Repository;
 use ShoppingCart\Command\Cart\Domain\CartRepository;
 use ShoppingCart\Command\Cart\Domain\ProductCollection;
 use ShoppingCart\Command\Cart\Infrastructure\Repository\DoctrineCartRepository;
-use ShoppingCart\Shared\Domain\Models\DatabaseStatus;
+use ShoppingCart\Shared\Domain\Models\AggregateStatus;
 use ShoppingCart\Shared\Domain\Models\DateTimeUtils;
 use ShoppingCart\Shared\Domain\Models\UuidUtils;
 use ShoppingCart\Tests\Command\Cart\Domain\CartModelObjectMother;
@@ -31,7 +31,7 @@ class DoctrineCartRepositoryTest extends IntegrationTestCase
         $now = DateTimeUtils::now();
         $productCollection = ProductCollectionOrderMother::make(2);
         $cartId = UuidUtils::random();
-        $cart = CartModelObjectMother::make($cartId, $productCollection, $now, $now, DatabaseStatus::CREATED);
+        $cart = CartModelObjectMother::make($cartId, $productCollection, $now, $now, AggregateStatus::CREATED);
 
         $this->repository->save($cart);
 
@@ -54,7 +54,7 @@ class DoctrineCartRepositoryTest extends IntegrationTestCase
         ]);
 
         $updatedProductCollection = ProductCollectionOrderMother::make(2);
-        $cart = CartModelObjectMother::make($cartId->value, $updatedProductCollection, $now, $now, DatabaseStatus::UPDATED);
+        $cart = CartModelObjectMother::make($cartId->value, $updatedProductCollection, $now, $now, AggregateStatus::UPDATED);
 
         $this->repository->save($cart);
 
@@ -66,7 +66,7 @@ class DoctrineCartRepositoryTest extends IntegrationTestCase
         $now = DateTimeUtils::now();
         $cartId = CartIdObjectMother::make();
         $productCollection = ProductCollectionOrderMother::make(2);
-        $expectedCart = CartObjectMother::make($cartId, $productCollection, timestamps: TimestampsObjectMother::make($now, $now, DatabaseStatus::DATABASE_LOADED));
+        $expectedCart = CartObjectMother::make($cartId, $productCollection, timestamps: TimestampsObjectMother::make($now, $now, AggregateStatus::LOADED));
 
         $this->prepareRecord('carts', [
             'id' => $cartId->value,

@@ -10,7 +10,7 @@ use ShoppingCart\Command\Cart\Domain\ProductCollection;
 use ShoppingCart\Command\Cart\Domain\ProductCollectionException;
 use ShoppingCart\Command\Cart\Domain\ProductException;
 use ShoppingCart\Shared\Domain\Models\CartId;
-use ShoppingCart\Shared\Domain\Models\DatabaseStatus;
+use ShoppingCart\Shared\Domain\Models\AggregateStatus;
 use ShoppingCart\Shared\Domain\Models\NotFoundCartException;
 use ShoppingCart\Tests\Command\Cart\Domain\CartModelObjectMother;
 use ShoppingCart\Tests\Command\Cart\Domain\CartObjectMother;
@@ -36,7 +36,7 @@ class CartProductSetterCommandHandlerTest extends UnitTestCase
         $command = CartProductSetterCommandObjectMother::make(productId:  $product->productId);
         $cart = CartObjectMother::fromCartProductSetterCommand($command, ProductCollection::init());
         $productCollection = new ProductCollection($product->addQuantity($command->quantity));
-        $cartModel = CartModelObjectMother::make($command->cartId, $productCollection, databaseStatus: DatabaseStatus::UPDATED);
+        $cartModel = CartModelObjectMother::make($command->cartId, $productCollection, aggregateStatus: AggregateStatus::UPDATED);
 
         $this->cartRepository->expects($this->once())
             ->method('search')
@@ -61,7 +61,7 @@ class CartProductSetterCommandHandlerTest extends UnitTestCase
         $command = CartProductSetterCommandObjectMother::make(productId: $product->productId, quantity: 1);
         $cart = CartObjectMother::fromCartProductSetterCommand($command, new ProductCollection($product));
         $productCollection = new ProductCollection($product->addQuantity($command->quantity));
-        $cartModel = CartModelObjectMother::make($command->cartId, $productCollection, databaseStatus: DatabaseStatus::UPDATED);
+        $cartModel = CartModelObjectMother::make($command->cartId, $productCollection, aggregateStatus: AggregateStatus::UPDATED);
 
         $this->cartRepository->expects($this->once())
             ->method('search')
@@ -86,7 +86,7 @@ class CartProductSetterCommandHandlerTest extends UnitTestCase
         $command = CartProductSetterCommandObjectMother::make(productId: $secondProduct->productId, quantity: 1);
         $cart = CartObjectMother::fromCartProductSetterCommand($command, new ProductCollection($firstProduct, $secondProduct, $thirdProduct));
         $productCollection = new ProductCollection($secondProduct->addQuantity(1), $firstProduct, $thirdProduct);
-        $cartModel = CartModelObjectMother::make($command->cartId, $productCollection, databaseStatus: DatabaseStatus::UPDATED);
+        $cartModel = CartModelObjectMother::make($command->cartId, $productCollection, aggregateStatus: AggregateStatus::UPDATED);
 
         $this->cartRepository->expects($this->once())
             ->method('search')

@@ -11,7 +11,7 @@ use ShoppingCart\Command\Cart\Domain\Product;
 use ShoppingCart\Command\Cart\Domain\ProductCollection;
 use ShoppingCart\Command\Cart\Domain\TotalAmount;
 use ShoppingCart\Shared\Domain\Models\CartId;
-use ShoppingCart\Shared\Domain\Models\DatabaseStatus;
+use ShoppingCart\Shared\Domain\Models\AggregateStatus;
 use ShoppingCart\Shared\Domain\Models\DateTimeUtils;
 use ShoppingCart\Shared\Domain\Models\Timestamps;
 
@@ -23,12 +23,12 @@ final readonly class DoctrineCartRepository implements CartRepository
 
     public function save(CartModel $cart): void
     {
-        $sql = match ($cart->databaseStatus) {
-            DatabaseStatus::CREATED => <<<SQL
+        $sql = match ($cart->aggregateStatus) {
+            AggregateStatus::CREATED => <<<SQL
                 INSERT INTO carts (id, number_items, total_amount, product_items, created_at, updated_at)
                 VALUES (:id, :number_items, :total_amount, :product_items, :created_at, :updated_at)
             SQL,
-            DatabaseStatus::UPDATED => <<<SQL
+            AggregateStatus::UPDATED => <<<SQL
                 UPDATE carts
                 SET number_items = :number_items,
                     total_amount = :total_amount,
@@ -36,7 +36,7 @@ final readonly class DoctrineCartRepository implements CartRepository
                     updated_at = :updated_at
                 WHERE id = :id
             SQL,
-            DatabaseStatus::DATABASE_LOADED => null,
+            AggregateStatus::LOADED => null,
         };
         if (!$sql) {
             return;
