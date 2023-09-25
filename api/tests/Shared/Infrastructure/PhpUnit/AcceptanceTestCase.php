@@ -4,10 +4,13 @@ declare(strict_types=1);
 
 namespace ShoppingCart\Tests\Shared\Infrastructure\PhpUnit;
 
+use App\Service\AmqpMessage;
 use Doctrine\DBAL\Connection;
+use ShoppingCart\Shared\Domain\Bus\Event;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\Messenger\Bridge\Amqp\Transport\AmqpStamp;
+use Symfony\Component\Messenger\Envelope;
 use Zenstruck\Messenger\Test\InteractsWithMessenger;
 
 abstract class AcceptanceTestCase extends WebTestCase
@@ -53,6 +56,11 @@ abstract class AcceptanceTestCase extends WebTestCase
         }
 
         self::assertEquals($expected, $routings);
+    }
+
+    protected function sendEvent(array $event): void
+    {
+        $this->transport('event')->send($event);
     }
 
     protected function prepareRecord(string $table, array $data): void

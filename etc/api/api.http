@@ -47,7 +47,7 @@ POST {{url}}/carts/{{cart_uuid}}/product_delete
 Content-Type: application/json
 
 {
-  "productId": "824ee66a-42c2-48d2-99af-0be1653c51ef"
+  "productId": "307028d4-8a2f-4441-a3ac-0c904c12bf86"
 }
 
 ### Create order
@@ -64,3 +64,7 @@ Content-Type: application/json
     "cvv": "000"
   }
 }
+
+### Get mercure
+GET {{url}}/.well-known/mercure?topic=shopping_cart.v1.cart.updated.{{cart_uuid}}
+Host: localhost:8000

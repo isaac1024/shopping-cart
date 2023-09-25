@@ -34,8 +34,8 @@ framework:
                         name: shop_events
                         type: topic
                     queues:
-                        shopping_cart.payment.pay:
-                            binding_keys: ['shopping_cart.order.pending_to_pay']
+                        shopping_cart.mercury_publisher.notify_on_cart_updated:
+                            binding_keys: ['shopping_cart.v1.cart.updated']
             event_retry:
                 dsn: '%env(MESSENGER_TRANSPORT_DSN)%'
                 serializer: App\Service\JsonAmqpSerializer
@@ -44,12 +44,12 @@ framework:
                         name: shop_events_retry
                         type: topic
                     queues:
-                        shopping_cart.payment.pay.retry:
+                        shopping_cart.mercury_publisher.notify_on_cart_updated.retry:
                             arguments:
                                 x-dead-letter-exchange: shop_events
-                                x-dead-letter-routing-key: shopping_cart.order.pending_to_pay
+                                x-dead-letter-routing-key: shopping_cart.cart.updated
                                 x-message-ttl: 10000
-                            binding_keys: [ 'shopping_cart.order.pending_to_pay.retry' ]
+                            binding_keys: [ 'shopping_cart.v1.cart.updated.retry' ]
             event_failed:
                 dsn: '%env(MESSENGER_TRANSPORT_DSN)%'
                 serializer: App\Service\JsonAmqpSerializer
@@ -58,8 +58,8 @@ framework:
                         name: shop_events_failed
                         type: topic
                     queues:
-                        shopping_cart.payment.pay.failed:
-                            binding_keys: [ 'shopping_cart.order.pending_to_pay.failed' ]
+                        shopping_cart.mercury_publisher.notify_on_cart_updated.failed:
+                            binding_keys: [ 'shopping_cart.v1.cart.updated.failed' ]
         routing:
             'ShoppingCart\Shared\Domain\Bus\Command': command
             'ShoppingCart\Shared\Domain\Bus\Query': query

@@ -4,6 +4,7 @@ namespace ShoppingCart\Command\Cart\Domain;
 
 use DateTimeImmutable;
 use ShoppingCart\Shared\Domain\Bus\DomainEvent;
+use ShoppingCart\Shared\Domain\Models\DateTimeUtils;
 
 final readonly class CartUpdated extends DomainEvent
 {
@@ -29,8 +30,8 @@ final readonly class CartUpdated extends DomainEvent
             'numberItems' => $this->numberItems,
             'totalAmount' => $this->totalAmount,
             'productItems' => $this->productItems,
-            'createdAt' => $this->createdAt,
-            'updatedAt' => $this->updatedAt,
+            'createdAt' => DateTimeUtils::format($this->createdAt),
+            'updatedAt' => DateTimeUtils::format($this->updatedAt),
         ];
     }
 }
