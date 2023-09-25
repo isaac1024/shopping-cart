@@ -47,7 +47,7 @@ final class CartCreatedObjectMother
         ));
 
         return CartCreatedObjectMother::make(
-            CartIdObjectMother::make($cart->cartId),
+            $cart->cartId,
             $productCollection,
             $cart->createdAt,
             $cart->updatedAt,

@@ -29,7 +29,7 @@ final class Cart extends AggregateRoot
         );
 
         $cart->registerNewEvent(new CartCreated(
-            $cart->cartId,
+            $cart->cartId->value,
             $cart->numberItems->value,
             $cart->totalAmount->value,
             $cart->productItems->toArray(),
@@ -69,7 +69,7 @@ final class Cart extends AggregateRoot
         $this->timestamps = $this->timestamps->update();
 
         $this->registerNewEvent(new CartUpdated(
-            $this->cartId,
+            $this->cartId->value,
             $this->numberItems->value,
             $this->totalAmount->value,
             $this->productItems->toArray(),
@@ -98,7 +98,7 @@ final class Cart extends AggregateRoot
         $this->timestamps = $this->timestamps->update();
 
         $this->registerNewEvent(new CartUpdated(
-            $this->cartId,
+            $this->cartId->value,
             $this->numberItems->value,
             $this->totalAmount->value,
             $this->productItems->toArray(),
