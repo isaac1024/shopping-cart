@@ -36,6 +36,8 @@ class CartProductRemoverControllerTest extends AcceptanceTestCase
             'id' => $cartId->value,
             'number_items' => 0,
         ]);
+
+        $this->assertSendEvents(['shopping_cart.v1.cart.updated']);
     }
 
     public function testRemoveProductFromCartNotExistOnCollection(): void
@@ -65,6 +67,8 @@ class CartProductRemoverControllerTest extends AcceptanceTestCase
             'id' => $cartId->value,
             'number_items' => $prduct->quantity,
         ]);
+
+        $this->assertSendEvents(['shopping_cart.v1.cart.updated']);
     }
 
     public function testCartNotFound(): void

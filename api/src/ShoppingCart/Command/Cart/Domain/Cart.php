@@ -2,6 +2,7 @@
 
 namespace ShoppingCart\Command\Cart\Domain;
 
+use ShoppingCart\Shared\Domain\Bus\EventBus;
 use ShoppingCart\Shared\Domain\Models\AggregateRoot;
 use ShoppingCart\Shared\Domain\Models\CartId;
 use ShoppingCart\Shared\Domain\Models\Timestamps;
@@ -19,16 +20,27 @@ final class Cart extends AggregateRoot
 
     public static function new(string $cartId): Cart
     {
-        return new Cart(
+        $cart = new Cart(
             CartId::create($cartId),
             NumberItems::init(),
             TotalAmount::init(),
             ProductCollection::init(),
             Timestamps::init(),
         );
+
+        $cart->registerNewEvent(new CartCreated(
+            $cart->cartId,
+            $cart->numberItems->value,
+            $cart->totalAmount->value,
+            $cart->productItems->toArray(),
+            $cart->timestamps->createdAt,
+            $cart->timestamps->updatedAt,
+        ));
+
+        return $cart;
     }
 
-    public function save(CartRepository $cartRepository): void
+    public function save(CartRepository $cartRepository, EventBus $eventBus): void
     {
         $model = new CartModel(
             $this->cartId->value,
@@ -40,6 +52,7 @@ final class Cart extends AggregateRoot
             $this->timestamps->aggregateStatus,
         );
         $cartRepository->save($model);
+        $this->publishEvents($eventBus);
     }
 
     public function updateProduct(string $productId, int $quantity, CartRepository $cartRepository): Cart
@@ -54,6 +67,15 @@ final class Cart extends AggregateRoot
         $this->updateNumberItems();
         $this->updateTotalAmount();
         $this->timestamps = $this->timestamps->update();
+
+        $this->registerNewEvent(new CartUpdated(
+            $this->cartId,
+            $this->numberItems->value,
+            $this->totalAmount->value,
+            $this->productItems->toArray(),
+            $this->timestamps->createdAt,
+            $this->timestamps->updatedAt,
+        ));
 
         return $this;
     }
@@ -74,6 +96,15 @@ final class Cart extends AggregateRoot
         $this->updateNumberItems();
         $this->updateTotalAmount();
         $this->timestamps = $this->timestamps->update();
+
+        $this->registerNewEvent(new CartUpdated(
+            $this->cartId,
+            $this->numberItems->value,
+            $this->totalAmount->value,
+            $this->productItems->toArray(),
+            $this->timestamps->createdAt,
+            $this->timestamps->updatedAt,
+        ));
 
         return $this;
     }

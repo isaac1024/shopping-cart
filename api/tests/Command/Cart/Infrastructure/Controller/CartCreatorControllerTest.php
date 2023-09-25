@@ -14,5 +14,7 @@ class CartCreatorControllerTest extends AcceptanceTestCase
         $id = $this->response()['id'] ?? null;
         self::assertIsString($id);
         $this->assertHasDatabase('carts', ['id' => $id]);
+
+        $this->assertSendEvents(['shopping_cart.v1.cart.created']);
     }
 }

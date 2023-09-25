@@ -4,11 +4,12 @@ namespace ShoppingCart\Command\Cart\Application;
 
 use ShoppingCart\Command\Cart\Domain\CartRepository;
 use ShoppingCart\Shared\Domain\Bus\CommandHandler;
+use ShoppingCart\Shared\Domain\Bus\EventBus;
 use ShoppingCart\Shared\Domain\Models\NotFoundCartException;
 
 final readonly class CartProductSetterCommandHandler implements CommandHandler
 {
-    public function __construct(private CartRepository $cartRepository)
+    public function __construct(private CartRepository $cartRepository, private EventBus $eventBus)
     {
     }
 
@@ -20,6 +21,6 @@ final readonly class CartProductSetterCommandHandler implements CommandHandler
         }
 
         $cart->updateProduct($command->productId, $command->quantity, $this->cartRepository)
-            ->save($this->cartRepository);
+            ->save($this->cartRepository, $this->eventBus);
     }
 }

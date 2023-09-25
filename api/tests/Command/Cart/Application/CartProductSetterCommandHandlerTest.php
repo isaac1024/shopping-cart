@@ -9,11 +9,13 @@ use ShoppingCart\Command\Cart\Domain\CartRepository;
 use ShoppingCart\Command\Cart\Domain\ProductCollection;
 use ShoppingCart\Command\Cart\Domain\ProductCollectionException;
 use ShoppingCart\Command\Cart\Domain\ProductException;
+use ShoppingCart\Shared\Domain\Bus\EventBus;
 use ShoppingCart\Shared\Domain\Models\CartId;
 use ShoppingCart\Shared\Domain\Models\AggregateStatus;
 use ShoppingCart\Shared\Domain\Models\NotFoundCartException;
 use ShoppingCart\Tests\Command\Cart\Domain\CartModelObjectMother;
 use ShoppingCart\Tests\Command\Cart\Domain\CartObjectMother;
+use ShoppingCart\Tests\Command\Cart\Domain\CartUpdatedObjectMother;
 use ShoppingCart\Tests\Command\Cart\Domain\ProductObjectMother;
 use ShoppingCart\Tests\Shared\Infrastructure\PhpUnit\UnitTestCase;
 
@@ -21,13 +23,15 @@ class CartProductSetterCommandHandlerTest extends UnitTestCase
 {
     private CartRepository&MockObject $cartRepository;
     private CartProductSetterCommandHandler $cartProductSetterCommandHandler;
+    private EventBus&MockObject $eventBus;
 
     protected function setUp(): void
     {
         parent::setUp();
 
         $this->cartRepository = $this->getMockBuilder(CartRepository::class)->getMock();
-        $this->cartProductSetterCommandHandler = new CartProductSetterCommandHandler($this->cartRepository);
+        $this->eventBus = $this->getMockBuilder(EventBus::class)->getMock();
+        $this->cartProductSetterCommandHandler = new CartProductSetterCommandHandler($this->cartRepository, $this->eventBus);
     }
 
     public function testAddNewProduct(): void
@@ -37,6 +41,7 @@ class CartProductSetterCommandHandlerTest extends UnitTestCase
         $cart = CartObjectMother::fromCartProductSetterCommand($command, ProductCollection::init());
         $productCollection = new ProductCollection($product->addQuantity($command->quantity));
         $cartModel = CartModelObjectMother::make($command->cartId, $productCollection, aggregateStatus: AggregateStatus::UPDATED);
+        $cartUpdatedEvent = CartUpdatedObjectMother::fromCartModel($cartModel);
 
         $this->cartRepository->expects($this->once())
             ->method('search')
@@ -52,6 +57,10 @@ class CartProductSetterCommandHandlerTest extends UnitTestCase
             ->method('save')
             ->with($cartModel);
 
+        $this->eventBus->expects($this->once())
+            ->method('publish')
+            ->with($cartUpdatedEvent);
+
         $this->cartProductSetterCommandHandler->dispatch($command);
     }
 
@@ -62,6 +71,7 @@ class CartProductSetterCommandHandlerTest extends UnitTestCase
         $cart = CartObjectMother::fromCartProductSetterCommand($command, new ProductCollection($product));
         $productCollection = new ProductCollection($product->addQuantity($command->quantity));
         $cartModel = CartModelObjectMother::make($command->cartId, $productCollection, aggregateStatus: AggregateStatus::UPDATED);
+        $cartUpdatedEvent = CartUpdatedObjectMother::fromCartModel($cartModel);
 
         $this->cartRepository->expects($this->once())
             ->method('search')
@@ -74,6 +84,10 @@ class CartProductSetterCommandHandlerTest extends UnitTestCase
         $this->cartRepository->expects($this->once())
             ->method('save')
             ->with($cartModel);
+
+        $this->eventBus->expects($this->once())
+            ->method('publish')
+            ->with($cartUpdatedEvent);
 
         $this->cartProductSetterCommandHandler->dispatch($command);
     }
@@ -87,6 +101,7 @@ class CartProductSetterCommandHandlerTest extends UnitTestCase
         $cart = CartObjectMother::fromCartProductSetterCommand($command, new ProductCollection($firstProduct, $secondProduct, $thirdProduct));
         $productCollection = new ProductCollection($secondProduct->addQuantity(1), $firstProduct, $thirdProduct);
         $cartModel = CartModelObjectMother::make($command->cartId, $productCollection, aggregateStatus: AggregateStatus::UPDATED);
+        $cartUpdatedEvent = CartUpdatedObjectMother::fromCartModel($cartModel);
 
         $this->cartRepository->expects($this->once())
             ->method('search')
@@ -99,6 +114,10 @@ class CartProductSetterCommandHandlerTest extends UnitTestCase
         $this->cartRepository->expects($this->once())
             ->method('save')
             ->with($cartModel);
+
+        $this->eventBus->expects($this->once())
+            ->method('publish')
+            ->with($cartUpdatedEvent);
 
         $this->cartProductSetterCommandHandler->dispatch($command);
     }
@@ -123,6 +142,9 @@ class CartProductSetterCommandHandlerTest extends UnitTestCase
 
         $this->cartRepository->expects($this->never())
             ->method('save');
+
+        $this->eventBus->expects($this->never())
+            ->method('publish');
 
         $this->cartProductSetterCommandHandler->dispatch($command);
     }
@@ -149,6 +171,9 @@ class CartProductSetterCommandHandlerTest extends UnitTestCase
         $this->cartRepository->expects($this->never())
             ->method('save');
 
+        $this->eventBus->expects($this->never())
+            ->method('publish');
+
         $this->cartProductSetterCommandHandler->dispatch($command);
     }
 
@@ -174,6 +199,9 @@ class CartProductSetterCommandHandlerTest extends UnitTestCase
         $this->cartRepository->expects($this->never())
             ->method('save');
 
+        $this->eventBus->expects($this->never())
+            ->method('publish');
+
         $this->cartProductSetterCommandHandler->dispatch($command);
     }
 
@@ -190,6 +218,9 @@ class CartProductSetterCommandHandlerTest extends UnitTestCase
 
         $this->cartRepository->expects($this->never())
             ->method('save');
+
+        $this->eventBus->expects($this->never())
+            ->method('publish');
 
         $this->cartProductSetterCommandHandler->dispatch($command);
     }

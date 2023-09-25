@@ -34,6 +34,8 @@ class CartProductSetterControllerTest extends AcceptanceTestCase
             'id' => $cartId->value,
             'number_items' => $productCollection->totalQuantity() + 3,
         ]);
+
+        $this->assertSendEvents(['shopping_cart.v1.cart.updated']);
     }
 
     public function testCartNotFound(): void
@@ -141,5 +143,7 @@ class CartProductSetterControllerTest extends AcceptanceTestCase
             'id' => $cartId->value,
             'number_items' => $productCollection->totalQuantity() + 6,
         ]);
+
+        $this->assertSendEvents(['shopping_cart.v1.cart.updated', 'shopping_cart.v1.cart.updated']);
     }
 }
